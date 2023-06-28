@@ -2,11 +2,76 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppLayoutComponent } from './layout/app.layout.component';
 import { HomePageComponent } from './modules/home-page/home-page/home-page.component';
+import { AuthRoutes, ModuleRoutes } from './shared/enums/routes.enum';
+import { LoadedComponent } from './shared/types/general.types';
+
 const routes: Routes = [
   {
     path: '',
     component: AppLayoutComponent,
     children: [
+      {
+        path: ModuleRoutes.Auth,
+        children: [
+          {
+            path: AuthRoutes.Login,
+            loadComponent: () =>
+              import('./modules/auth/components/login/login.component').then(
+                (x: LoadedComponent) => x.LoginComponent
+              ),
+          },
+          {
+            path: AuthRoutes.AccessDenied,
+            loadComponent: () =>
+              import(
+                './modules/auth/components/accessdenied/accessdenied.component'
+              ).then((x: LoadedComponent) => x.AccessdeniedComponent),
+          },
+          {
+            path: AuthRoutes.Error,
+            loadComponent: () =>
+              import('./modules/auth/components/error/error.component').then(
+                (x: LoadedComponent) => x.ErrorComponent
+              ),
+          },
+          {
+            path: AuthRoutes.ForgotPassword,
+            loadComponent: () =>
+              import(
+                './modules/auth/components/forgotpassword/forgotpassword.component'
+              ).then((x: LoadedComponent) => x.ForgotPasswordComponent),
+          },
+          {
+            path: AuthRoutes.LockScreen,
+            loadComponent: () =>
+              import(
+                './modules/auth/components/lockscreen/lockscreen.component'
+              ).then((x: LoadedComponent) => x.LockScreenComponent),
+          },
+          {
+            path: AuthRoutes.NewPassword,
+            loadComponent: () =>
+              import(
+                './modules/auth/components/newpassword/newpassword.component'
+              ).then((x: LoadedComponent) => x.NewPasswordComponent),
+          },
+          {
+            path: AuthRoutes.Register,
+            loadComponent: () =>
+              import(
+                './modules/auth/components/register/register.component'
+              ).then((x: LoadedComponent) => x.RegisterComponent),
+          },
+          {
+            path: AuthRoutes.Verification,
+            loadComponent: () =>
+              import(
+                './modules/auth/components/verification/verification.component'
+              ).then((x: LoadedComponent) => x.VerificationComponent),
+          },
+        ],
+      },
+
       {
         path: 'home-page',
         component: HomePageComponent,

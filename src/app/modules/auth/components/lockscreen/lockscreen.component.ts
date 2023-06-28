@@ -1,18 +1,16 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CheckboxModule } from 'primeng/checkbox';
-import { PasswordModule } from 'primeng/password';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 import { AppConfigModule } from 'src/app/layout/config/app.config.module';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
-  templateUrl: './register.component.html',
+  templateUrl: './lockscreen.component.html',
   standalone: true,
-  imports: [RouterModule, AppConfigModule, PasswordModule, CheckboxModule],
+  imports: [RouterModule, AppConfigModule, ButtonModule, InputTextModule],
 })
-export class RegisterComponent {
-  confirmed: boolean = false;
-
+export class LockScreenComponent {
   constructor(private layoutService: LayoutService) {}
 
   get dark(): boolean {

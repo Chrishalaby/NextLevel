@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { PasswordModule } from 'primeng/password';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 import { AppConfigModule } from 'src/app/layout/config/app.config.module';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-@Component({
-  templateUrl: './newpassword.component.html',
-  standalone: true,
-  imports: [RouterModule, AppConfigModule, PasswordModule],
-})
-export class NewPasswordComponent {
-  rememberMe: boolean = false;
 
+@Component({
+  templateUrl: './forgotpassword.component.html',
+  standalone: true,
+  imports: [RouterModule, AppConfigModule, InputTextModule, ButtonModule],
+})
+export class ForgotPasswordComponent {
   constructor(private layoutService: LayoutService) {}
 
   get dark(): boolean {
