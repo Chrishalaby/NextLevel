@@ -5,6 +5,7 @@ import { HomePageComponent } from './modules/home-page/home-page/home-page.compo
 import {
   AuthRoutes,
   ModuleRoutes,
+  NutritionalGuidanceRoutes,
   TrainerProfileRoutes,
 } from './shared/enums/routes.enum';
 import { LoadedComponent } from './shared/types/general.types';
@@ -91,6 +92,18 @@ const routes: Routes = [
               import(
                 './modules/trainer-profile/components/showing-profile/aboutus/aboutus.component'
               ).then((x: LoadedComponent) => x.AboutUsComponent),
+          },
+        ],
+      },
+      {
+        path: ModuleRoutes.nutritionalGuidance,
+        children: [
+          {
+            path: NutritionalGuidanceRoutes.MealPlan,
+            loadComponent: () =>
+              import(
+                './modules/nutritional-guidance/components/meal-plan/meal-plan.component'
+              ).then((x: LoadedComponent) => x.MealPlanComponent),
           },
         ],
       },

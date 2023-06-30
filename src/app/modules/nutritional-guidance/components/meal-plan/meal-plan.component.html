@@ -1,0 +1,186 @@
+<section>
+  <p-tabView>
+    <p-tabPanel header="Chef I" [formGroup]="mealPlanFormChefI">
+      <div class="card p-fluid">
+        <div class="card col-12 md:col-6">
+          <div class="field">
+            <label htmlFor="name1">Meal Period</label>
+            <p-dropdown
+              id="name1"
+              formControlName="meal_period"
+              optionLabel="label"
+              optionValue="value"
+              [options]="mealPeriodOptions"
+            ></p-dropdown>
+          </div>
+          <div class="field">
+            <label htmlFor="name2">Dietary Preference</label>
+            <p-multiSelect
+              id="name2"
+              optionLabel="label"
+              optionValue="value"
+              formControlName="dietary_preference"
+              [options]="dairyPreferencesOptions"
+            ></p-multiSelect>
+          </div>
+          <div class="field">
+            <label htmlFor="name3">Restrictions</label>
+            <p-multiSelect
+              id="name3"
+              optionLabel="label"
+              optionValue="value"
+              formControlName="restrictions"
+              [options]="restrictionsOptions"
+            ></p-multiSelect>
+          </div>
+          <button
+            class="mt-2 w-6rem"
+            pButton
+            label="Submit"
+            (click)="submitMealPlan()"
+          ></button>
+        </div>
+        <div class="card col-12 md:col-6">
+          <!-- I NEED TO ADD THE RESPONSE, BUT NOT SURE HOW THE DATA WILL LOOK LIKE -->
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Chef II" [formGroup]="mealPlanFormChefII">
+      <div class="card p-fluid">
+        <div class="card col-12 md:col-6">
+          <div class="field">
+            <label htmlFor="name1">Meal Period</label>
+            <p-dropdown
+              id="name1"
+              optionLabel="label"
+              optionValue="value"
+              formControlName="meal_period"
+              [options]="mealPeriodOptions"
+            ></p-dropdown>
+          </div>
+          <div class="field">
+            <label htmlFor="name2">Intolerances</label>
+            <p-multiSelect
+              id="name2"
+              optionLabel="label"
+              optionValue="value"
+              formControlName="intolerances"
+              [options]="intolerancesOptions"
+            ></p-multiSelect>
+          </div>
+          <div class="field">
+            <label htmlFor="name3">Diet</label>
+            <p-multiSelect
+              id="name3"
+              optionLabel="label"
+              optionValue="value"
+              formControlName="diet"
+              [options]="dietOptions"
+            ></p-multiSelect>
+          </div>
+          <div class="field">
+            <label htmlFor="name4">Protein</label>
+            <div class="flex gap-2">
+              <div class="field">
+                <label htmlFor="name4">Min</label>
+                <input
+                  id="name4"
+                  type="number"
+                  formControlName="protein_min"
+                  pInputText
+                />
+              </div>
+              <div class="field">
+                <label htmlFor="name4">Max</label>
+                <input
+                  id="name4"
+                  type="number"
+                  formControlName="protein_max"
+                  pInputText
+                />
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label htmlFor="name5">Fat</label>
+            <div class="flex gap-2">
+              <div class="field">
+                <label htmlFor="name5">Min</label>
+                <input
+                  id="name5"
+                  type="number"
+                  formControlName="fat_min"
+                  pInputText
+                />
+              </div>
+              <div class="field">
+                <label htmlFor="name5">Max</label>
+                <input
+                  id="name5"
+                  type="number"
+                  formControlName="fat_max"
+                  pInputText
+                />
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label htmlFor="name6">Carbs</label>
+            <div class="flex gap-2">
+              <div class="field">
+                <label htmlFor="name6">Min</label>
+                <input
+                  id="name6"
+                  type="number"
+                  formControlName="carbs_min"
+                  pInputText
+                />
+              </div>
+              <div class="field">
+                <label htmlFor="name6">Max</label>
+                <input
+                  id="name6"
+                  type="number"
+                  formControlName="carbs_max"
+                  pInputText
+                />
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label htmlFor="name7">Calories</label>
+            <div class="flex gap-2">
+              <div class="field">
+                <label htmlFor="name7">Min</label>
+                <input
+                  id="name7"
+                  type="number"
+                  formControlName="calories_min"
+                  pInputText
+                />
+              </div>
+              <div class="field">
+                <label htmlFor="name7">Max</label>
+                <input
+                  id="name7"
+                  type="number"
+                  formControlName="calories_max"
+                  pInputText
+                />
+              </div>
+            </div>
+          </div>
+          <button
+            class="mt-2 w-6rem"
+            pButton
+            label="Submit"
+            (click)="submitMealPlan()"
+          ></button>
+        </div>
+        <div class="card col-12 md:col-6">
+          <!-- I NEED TO ADD THE RESPONSE, BUT NOT SURE HOW THE DATA WILL LOOK LIKE -->
+        </div>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
+</section>

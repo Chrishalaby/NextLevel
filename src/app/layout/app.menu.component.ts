@@ -14,6 +14,17 @@ export class AppMenuComponent implements OnInit {
         icon: 'pi pi-fw pi-briefcase',
         items: [
           {
+            label: 'Nutritional Guidance',
+            icon: 'pi pi-fw pi-user',
+            items: [
+              {
+                label: 'Meal Plan',
+                icon: 'pi pi-fw pi-user-edit',
+                routerLink: ['/nutritional-guidance/meal-plan'],
+              },
+            ],
+          },
+          {
             label: 'Profile',
             icon: 'pi pi-fw pi-user',
             items: [
