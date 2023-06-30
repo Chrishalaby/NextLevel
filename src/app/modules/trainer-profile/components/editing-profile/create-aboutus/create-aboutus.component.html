@@ -1,0 +1,160 @@
+<section class="grid" [formGroup]="profileForm">
+  <div class="col-12 md:col-6">
+    <div class="card p-fluid">
+      <div class="flex flex-row justify-content-between">
+        <h5>Personal Information</h5>
+
+        <p-avatar
+          *ngIf="profileForm.controls['profilePicture'].value"
+          [image]="profileForm.controls['profilePicture'].value"
+          size="large"
+          shape="circle"
+        ></p-avatar>
+      </div>
+      <div class="field">
+        <label htmlFor="name1">Full Name</label>
+        <input pInputText id="name1" type="text" formControlName="fullName" />
+      </div>
+      <div class="field">
+        <label htmlFor="bio1">Brief Bio</label>
+        <textarea
+          rows="5"
+          id="bio1"
+          cols="30"
+          pInputTextarea
+          [autoResize]="true"
+          formControlName="briefBio"
+        ></textarea>
+      </div>
+      <h5>Profile Picture</h5>
+      <p-fileUpload
+        mode="basic"
+        name="demo[]"
+        url="./upload.php"
+        accept="image/*"
+        [maxFileSize]="1000000"
+        (onSelect)="onSelectProfilePicture($event)"
+      ></p-fileUpload>
+
+      <!-- FILE UPLOAD NEEDS TO BE FIXED THE WAY WE ARE UPLOADING THE PIC -->
+      <!-- ADD AN IMG TO SHOW THE PROFILE PIC ONCE UPLOADED -->
+    </div>
+    <div class="card p-fluid">
+      <h5>Specialties</h5>
+      <p class="text-xs mb-1">
+        Hint: enter each speciality (e.g.. muscle building) and then click Enter
+      </p>
+      <p-chips formControlName="specialities"></p-chips>
+    </div>
+  </div>
+  <div class="col-12 md:col-6">
+    <div class="card p-fluid">
+      <h5>Qualifications</h5>
+      <div class="field">
+        <label htmlFor="name2">Educational Background</label>
+        <p-autoComplete
+          formControlName="educationalBackground"
+          [suggestions]="filterdUniversities"
+          (completeMethod)="filterUniversities($event)"
+          field="name"
+          [dropdown]="true"
+        >
+        </p-autoComplete>
+      </div>
+
+      <div class="field">
+        <label htmlFor="name3">Certifications</label>
+        <p-fileUpload
+          name="demo[]"
+          url="./upload.php"
+          (onUpload)="onUploadCertifications($event)"
+          [multiple]="true"
+          accept="image/*"
+          [maxFileSize]="1000000"
+        >
+          <ng-template pTemplate="content">
+            <ul *ngIf="uploadedCertifications.length">
+              <li *ngFor="let file of uploadedCertifications">
+                {{ file.name }} - {{ file.size }} bytes
+              </li>
+            </ul>
+          </ng-template>
+        </p-fileUpload>
+        <!-- FILE UPLOAD NEEDS TO BE FIXED THE WAY WE ARE UPLOADING THE CERTIFICATIONS -->
+      </div>
+    </div>
+    <div class="card p-fluid">
+      <h5>Contact Information</h5>
+      <div class="field">
+        <label htmlFor="name4">Phone Number</label>
+        <input
+          pInputText
+          id="name4"
+          type="text"
+          formControlName="phoneNumber"
+        />
+      </div>
+      <div class="field">
+        <label htmlFor="name4">Email</label>
+        <input pInputText id="name4" type="text" formControlName="email" />
+      </div>
+      <h5>Social Media Username</h5>
+      <div class="grid formgrid">
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+          <label htmlFor="name5"
+            >Tiktok
+            <a
+              *ngIf="profileForm.get('tiktok')?.value"
+              href="https://www.tiktok.com/@{{
+                profileForm.get('tiktok')?.value
+              }}"
+              target="_blank"
+              >VERIFY
+            </a>
+          </label>
+          <input pInputText id="name5" type="text" formControlName="tiktok" />
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+          <label htmlFor="name6"
+            >Instagram
+            <a
+              *ngIf="profileForm.get('instagram')?.value"
+              href="https://www.instagram.com/{{
+                profileForm.get('instagram')?.value
+              }}/?hl=en"
+              target="_blank"
+              >VERIFY
+            </a>
+          </label>
+          <input
+            pInputText
+            id="name6"
+            type="text"
+            formControlName="instagram"
+          />
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+          <label htmlFor="name8"
+            >LinkedIn
+            <a
+              *ngIf="profileForm.get('linkedin')?.value"
+              href="https://www.linkedin.com/in/{{
+                profileForm.get('linkedin')?.value
+              }}"
+              target="_blank"
+              >VERIFY
+            </a>
+          </label>
+          <input pInputText id="name8" type="text" formControlName="linkedin" />
+        </div>
+      </div>
+
+      <button
+        class="mt-2 w-6rem"
+        pButton
+        label="Submit"
+        (click)="submitProfile()"
+      ></button>
+    </div>
+  </div>
+</section>

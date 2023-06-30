@@ -2,7 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppLayoutComponent } from './layout/app.layout.component';
 import { HomePageComponent } from './modules/home-page/home-page/home-page.component';
-import { AuthRoutes, ModuleRoutes } from './shared/enums/routes.enum';
+import {
+  AuthRoutes,
+  ModuleRoutes,
+  TrainerProfileRoutes,
+} from './shared/enums/routes.enum';
 import { LoadedComponent } from './shared/types/general.types';
 
 const routes: Routes = [
@@ -71,7 +75,25 @@ const routes: Routes = [
           },
         ],
       },
-
+      {
+        path: ModuleRoutes.TrainerProfile,
+        children: [
+          {
+            path: TrainerProfileRoutes.CreateAboutUs,
+            loadComponent: () =>
+              import(
+                './modules/trainer-profile/components/editing-profile/create-aboutus/create-aboutus.component'
+              ).then((x: LoadedComponent) => x.CreateAboutusComponent),
+          },
+          {
+            path: TrainerProfileRoutes.ShowAboutUs,
+            loadComponent: () =>
+              import(
+                './modules/trainer-profile/components/showing-profile/aboutus/aboutus.component'
+              ).then((x: LoadedComponent) => x.AboutUsComponent),
+          },
+        ],
+      },
       {
         path: 'home-page',
         component: HomePageComponent,

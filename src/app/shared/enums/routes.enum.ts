@@ -1,5 +1,6 @@
 export enum ModuleRoutes {
   Auth = 'auth',
+  TrainerProfile = 'trainer-profile',
 }
 
 export enum AuthRoutes {
@@ -12,4 +13,10 @@ export enum AuthRoutes {
   NewPassword = 'new-password',
   Register = 'register',
   Verification = 'verification',
+}
+
+export enum TrainerProfileRoutes {
+  Empty = '',
+  CreateAboutUs = 'create-aboutus',
+  ShowAboutUs = 'show-aboutus',
 }

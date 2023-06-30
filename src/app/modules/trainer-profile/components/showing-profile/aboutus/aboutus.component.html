@@ -1,0 +1,73 @@
+<div class="card px-4 py-8 md:px-6 lg:px-8">
+  <div class="flex flex-wrap mb-4">
+    <div class="w-full lg:w-6 pl-0 lg:pr-4">
+      <!-- <img
+        src="assets/demo/images/blocks/about/about-1.png"
+        alt="Image"
+        class="w-full border-round"
+      /> -->
+    </div>
+    <div class="w-full lg:w-6 pr-0 lg:pl-4 mt-3 lg:mt-0">
+      <div class="font-bold text-4xl mb-4 text-900">
+        {{ trainerProfile.fullName }}
+      </div>
+      <p class="line-height-3 mt-0 mb-3 p-0">
+        {{ trainerProfile.briefBio }}
+      </p>
+    </div>
+  </div>
+  <div>
+    <div class="flex flex-wrap mb-4">
+      <div class="w-full lg:w-6 pl-0 lg:pr-4">
+        <div class="font-bold text-2xl mb-4 text-900">Specialities</div>
+        <div class="flex flex-wrap">
+          <div
+            class="w-full lg:w-6 pr-0 lg:pl-4 mt-3 lg:mt-0"
+            *ngFor="let speciality of trainerProfile.specialities"
+          >
+            <div class="font-bold text-2xl mb-4 text-900">
+              {{ speciality }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-wrap mb-4">
+      <div class="w-full lg:w-6 pl-0 lg:pr-4">
+        <div class="font-bold text-2xl mb-4 text-900">
+          Educational Background
+        </div>
+        <div class="flex flex-wrap">
+          {{ trainerProfile.educationalBackground }}
+        </div>
+      </div>
+    </div>
+    <div class="w-full lg:w-6 pl-0 lg:pr-4">
+      <div class="font-bold text-2xl mb-4 text-900">Certifications</div>
+      <div class="flex flex-wrap">
+        <div
+          class="w-full lg:w-6 pr-0 lg:pl-4 mt-3 lg:mt-0"
+          *ngFor="let certification of trainerProfile.certifications"
+        >
+          <div class="font-bold text-2xl mb-4 text-900">
+            {{ certification }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <a
+      href="https://www.tiktok.com/@{{ trainerProfile.tiktok }}"
+      target="_blank"
+    ></a>
+    <a
+      href="https://www.instagram.com/{{ trainerProfile.instagram }}"
+      target="_blank"
+    >
+      <i class="pi pi-instagram"></i>
+    </a>
+    <a
+      href="https://www.linkedin.com/in/{{ trainerProfile.linkedin }}"
+      target="_blank"
+    ></a>
+  </div>
+</div>
