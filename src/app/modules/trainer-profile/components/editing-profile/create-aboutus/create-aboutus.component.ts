@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -15,7 +14,6 @@ import { ChipsModule } from 'primeng/chips';
 import { FileUploadModule } from 'primeng/fileupload';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { Subscription } from 'rxjs';
 import { TrainerService } from '../../../shared/services/trainer.service';
 
 @Component({
@@ -37,7 +35,7 @@ import { TrainerService } from '../../../shared/services/trainer.service';
   providers: [MessageService],
 })
 export class CreateAboutusComponent implements OnInit {
-  private subscription!: Subscription;
+  // private subscription!: Subscription;
 
   universities: any[] = [];
   filterdUniversities: any[] = [];
@@ -50,8 +48,7 @@ export class CreateAboutusComponent implements OnInit {
   constructor(
     private messageService: MessageService,
     private readonly trainerService: TrainerService,
-    private readonly formBuilder: FormBuilder,
-    private http: HttpClient
+    private readonly formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -123,7 +120,7 @@ export class CreateAboutusComponent implements OnInit {
     this.trainerService.updateTrainerProfile(profile);
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+  // ngOnDestroy(): void {
+  //   this.subscription.unsubscribe();
+  // }
 }

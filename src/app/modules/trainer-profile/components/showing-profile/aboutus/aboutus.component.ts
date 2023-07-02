@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { Trainer } from '../../../shared/models/trainer.model';
 import { TrainerService } from '../../../shared/services/trainer.service';
 
@@ -10,7 +9,7 @@ import { TrainerService } from '../../../shared/services/trainer.service';
   imports: [CommonModule],
 })
 export class AboutUsComponent implements OnInit {
-  private subscription!: Subscription;
+  // private subscription!: Subscription;
 
   visibleMember: number = -1;
   trainerProfile: Trainer = {
