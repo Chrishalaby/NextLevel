@@ -7,6 +7,7 @@ import {
   ModuleRoutes,
   NutritionalGuidanceRoutes,
   TrainerProfileRoutes,
+  WorkoutPlanRoutes,
 } from './shared/enums/routes.enum';
 import { LoadedComponent } from './shared/types/general.types';
 
@@ -104,6 +105,18 @@ const routes: Routes = [
               import(
                 './modules/nutritional-guidance/components/meal-plan/meal-plan.component'
               ).then((x: LoadedComponent) => x.MealPlanComponent),
+          },
+        ],
+      },
+      {
+        path: ModuleRoutes.WorkoutPlan,
+        children: [
+          {
+            path: WorkoutPlanRoutes.AiCustomWorkout,
+            loadComponent: () =>
+              import(
+                './modules/workout-plan/components/ai-custom-workout/ai-custom-workout.component'
+              ).then((x: LoadedComponent) => x.AiCustomWorkoutComponent),
           },
         ],
       },

@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
-import { InputTextModule } from 'primeng/inputtext';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TabViewModule } from 'primeng/tabview';
 import { NutritionService } from '../../shared/services/nutrition.service';
+
 @Component({
   selector: 'app-meal-plan',
   templateUrl: './meal-plan.component.html',
@@ -17,7 +18,7 @@ import { NutritionService } from '../../shared/services/nutrition.service';
     DropdownModule,
     MultiSelectModule,
     ButtonModule,
-    InputTextModule,
+    InputNumberModule,
   ],
 })
 export class MealPlanComponent implements OnInit {

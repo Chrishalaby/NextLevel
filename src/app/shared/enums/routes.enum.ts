@@ -2,6 +2,7 @@ export enum ModuleRoutes {
   Auth = 'auth',
   TrainerProfile = 'trainer-profile',
   nutritionalGuidance = 'nutritional-guidance',
+  WorkoutPlan = 'workout-plan',
 }
 
 export enum AuthRoutes {
@@ -25,4 +26,9 @@ export enum TrainerProfileRoutes {
 export enum NutritionalGuidanceRoutes {
   Empty = '',
   MealPlan = 'meal-plan',
+}
+
+export enum WorkoutPlanRoutes {
+  Empty = '',
+  AiCustomWorkout = 'ai-custom-workout',
 }

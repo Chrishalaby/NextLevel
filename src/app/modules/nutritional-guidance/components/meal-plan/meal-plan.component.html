@@ -1,53 +1,61 @@
 <section>
   <p-tabView>
     <p-tabPanel header="Chef I" [formGroup]="mealPlanFormChefI">
-      <div class="card p-fluid">
-        <div class="card col-12 md:col-6">
-          <div class="field">
-            <label htmlFor="name1">Meal Period</label>
-            <p-dropdown
-              id="name1"
-              formControlName="meal_period"
-              optionLabel="label"
-              optionValue="value"
-              [options]="mealPeriodOptions"
-            ></p-dropdown>
+      <div class="grid">
+        <div class="col-12 md:col-6">
+          <div class="card p-fluid">
+            <h5>Meal Plan</h5>
+            <div class="field">
+              <label htmlFor="name1">Meal Period</label>
+              <p-dropdown
+                id="name1"
+                formControlName="meal_period"
+                optionLabel="label"
+                optionValue="value"
+                [options]="mealPeriodOptions"
+              ></p-dropdown>
+            </div>
+            <div class="field">
+              <label htmlFor="name2">Dietary Preference</label>
+              <p-multiSelect
+                id="name2"
+                optionLabel="label"
+                optionValue="value"
+                formControlName="dietary_preference"
+                [options]="dairyPreferencesOptions"
+              ></p-multiSelect>
+            </div>
+            <div class="field">
+              <label htmlFor="name3">Restrictions</label>
+              <p-multiSelect
+                id="name3"
+                optionLabel="label"
+                optionValue="value"
+                formControlName="restrictions"
+                [options]="restrictionsOptions"
+              ></p-multiSelect>
+            </div>
+            <button
+              class="mt-2 w-6rem"
+              pButton
+              label="Submit"
+              (click)="submitMealPlan()"
+            ></button>
           </div>
-          <div class="field">
-            <label htmlFor="name2">Dietary Preference</label>
-            <p-multiSelect
-              id="name2"
-              optionLabel="label"
-              optionValue="value"
-              formControlName="dietary_preference"
-              [options]="dairyPreferencesOptions"
-            ></p-multiSelect>
-          </div>
-          <div class="field">
-            <label htmlFor="name3">Restrictions</label>
-            <p-multiSelect
-              id="name3"
-              optionLabel="label"
-              optionValue="value"
-              formControlName="restrictions"
-              [options]="restrictionsOptions"
-            ></p-multiSelect>
-          </div>
-          <button
-            class="mt-2 w-6rem"
-            pButton
-            label="Submit"
-            (click)="submitMealPlan()"
-          ></button>
         </div>
-        <div class="card col-12 md:col-6">
-          <!-- I NEED TO ADD THE RESPONSE, BUT NOT SURE HOW THE DATA WILL LOOK LIKE -->
+        <div class="col-12 md:col-6">
+          <div class="card p-fluid">
+            <h5>Meal Plan</h5>
+            <!-- I NEED TO ADD THE RESPONSE, BUT NOT SURE HOW THE DATA WILL LOOK LIKE -->
+          </div>
         </div>
       </div>
     </p-tabPanel>
     <p-tabPanel header="Chef II" [formGroup]="mealPlanFormChefII">
-      <div class="card p-fluid">
-        <div class="card col-12 md:col-6">
+      <div class="col-12 md:col-6">
+        <div class="card p-fluid">
+          <h5>Meal Plan</h5>
+
           <div class="field">
             <label htmlFor="name1">Meal Period</label>
             <p-dropdown
@@ -79,94 +87,102 @@
             ></p-multiSelect>
           </div>
           <div class="field">
-            <label htmlFor="name4">Protein</label>
+            <label htmlFor="name4" class="font-semibold">Protein</label>
             <div class="flex gap-2">
               <div class="field">
                 <label htmlFor="name4">Min</label>
-                <input
+                <p-inputNumber
                   id="name4"
-                  type="number"
+                  [min]="0"
+                  [max]="300"
+                  [useGrouping]="false"
                   formControlName="protein_min"
-                  pInputText
-                />
+                ></p-inputNumber>
               </div>
               <div class="field">
                 <label htmlFor="name4">Max</label>
-                <input
+                <p-inputNumber
                   id="name4"
-                  type="number"
+                  [min]="0"
+                  [max]="300"
+                  [useGrouping]="false"
                   formControlName="protein_max"
-                  pInputText
-                />
+                ></p-inputNumber>
               </div>
             </div>
           </div>
           <div class="field">
-            <label htmlFor="name5">Fat</label>
+            <label htmlFor="name5" class="font-semibold">Fat</label>
             <div class="flex gap-2">
               <div class="field">
                 <label htmlFor="name5">Min</label>
-                <input
+                <p-inputNumber
                   id="name5"
-                  type="number"
+                  [min]="0"
+                  [max]="300"
+                  [useGrouping]="false"
                   formControlName="fat_min"
-                  pInputText
-                />
+                ></p-inputNumber>
               </div>
               <div class="field">
                 <label htmlFor="name5">Max</label>
-                <input
+                <p-inputNumber
                   id="name5"
-                  type="number"
+                  [min]="0"
+                  [max]="300"
+                  [useGrouping]="false"
                   formControlName="fat_max"
-                  pInputText
-                />
+                ></p-inputNumber>
               </div>
             </div>
           </div>
           <div class="field">
-            <label htmlFor="name6">Carbs</label>
+            <label htmlFor="name6" class="font-semibold">Carbs</label>
             <div class="flex gap-2">
               <div class="field">
                 <label htmlFor="name6">Min</label>
-                <input
+                <p-inputNumber
                   id="name6"
-                  type="number"
+                  [min]="0"
+                  [max]="300"
+                  [useGrouping]="false"
                   formControlName="carbs_min"
-                  pInputText
-                />
+                ></p-inputNumber>
               </div>
               <div class="field">
                 <label htmlFor="name6">Max</label>
-                <input
+                <p-inputNumber
                   id="name6"
-                  type="number"
+                  [min]="0"
+                  [max]="300"
+                  [useGrouping]="false"
                   formControlName="carbs_max"
-                  pInputText
-                />
+                ></p-inputNumber>
               </div>
             </div>
           </div>
           <div class="field">
-            <label htmlFor="name7">Calories</label>
+            <label htmlFor="name7" class="font-semibold">Calories</label>
             <div class="flex gap-2">
               <div class="field">
                 <label htmlFor="name7">Min</label>
-                <input
+                <p-inputNumber
                   id="name7"
-                  type="number"
+                  [min]="0"
+                  [max]="300"
+                  [useGrouping]="false"
                   formControlName="calories_min"
-                  pInputText
-                />
+                ></p-inputNumber>
               </div>
               <div class="field">
                 <label htmlFor="name7">Max</label>
-                <input
+                <p-inputNumber
                   id="name7"
-                  type="number"
+                  [min]="0"
+                  [max]="300"
+                  [useGrouping]="false"
                   formControlName="calories_max"
-                  pInputText
-                />
+                ></p-inputNumber>
               </div>
             </div>
           </div>
@@ -177,9 +193,10 @@
             (click)="submitMealPlan()"
           ></button>
         </div>
-        <div class="card col-12 md:col-6">
-          <!-- I NEED TO ADD THE RESPONSE, BUT NOT SURE HOW THE DATA WILL LOOK LIKE -->
-        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <!-- I NEED TO ADD THE RESPONSE, BUT NOT SURE HOW THE DATA WILL LOOK LIKE -->
       </div>
     </p-tabPanel>
   </p-tabView>

@@ -14,6 +14,17 @@ export class AppMenuComponent implements OnInit {
         icon: 'pi pi-fw pi-briefcase',
         items: [
           {
+            label: 'Workout Plan',
+            icon: 'pi pi-fw pi-user',
+            items: [
+              {
+                label: 'Create Workout Plan',
+                icon: 'pi pi-fw pi-user-edit',
+                routerLink: ['/workout-plan/ai-custom-workout'],
+              },
+            ],
+          },
+          {
             label: 'Nutritional Guidance',
             icon: 'pi pi-fw pi-user',
             items: [

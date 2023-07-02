@@ -1,0 +1,233 @@
+<section>
+  <p-tabView>
+    <p-tabPanel header="Trainer I" [formGroup]="workoutPlanTrainerIForm">
+      <div class="grid">
+        <div class="col-12 md:col-6">
+          <div class="card p-fluid" formGroupName="fitnessGoals">
+            <h5>Fitness Goals</h5>
+            <div class="field">
+              <label>Primary Goal</label>
+
+              <p-dropdown
+                [options]="fitnessGoals"
+                [(ngModel)]="selectedGoal"
+                optionLabel="label"
+                optionValue="value"
+                [pTooltip]="selectedGoal?.info"
+                formControlName="primaryGoal"
+                [autoDisplayFirst]="false"
+              >
+                <ng-template let-option pTemplate="item">
+                  <div pTooltip="{{ option.info }}" tooltipPosition="right">
+                    {{ option.label }}
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="card p-fluid" formGroupName="availability">
+            <h5>Availability</h5>
+            <div class="field">
+              <label>Days Per Week</label>
+
+              <p-dropdown
+                [options]="daysPerWeek"
+                optionLabel="label"
+                optionValue="value"
+                formControlName="daysPerWeek"
+                [autoDisplayFirst]="false"
+              >
+              </p-dropdown>
+            </div>
+            <div class="field">
+              <label>Session Duration</label>
+
+              <p-dropdown
+                [options]="sessionDuration"
+                optionLabel="label"
+                optionValue="value"
+                formControlName="sessionDuration"
+                [autoDisplayFirst]="false"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 md:col-6">
+          <div class="card p-fluid">
+            <h5>Trainer's Response</h5>
+            <!-- Need to add the response -->
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Trainer II" [formGroup]="workoutPlanTrainerIIForm">
+      <div class="grid">
+        <div class="col-12 md:col-6">
+          <div class="card p-fluid" formGroupName="fitnessGoals">
+            <h5>Fitness Goals</h5>
+            <div class="field">
+              <label>Primary Goal</label>
+
+              <p-dropdown
+                [options]="fitnessGoals"
+                [(ngModel)]="selectedGoal"
+                optionLabel="label"
+                optionValue="value"
+                [pTooltip]="selectedGoal?.info"
+                formControlName="primaryGoal"
+                [autoDisplayFirst]="false"
+              >
+                <ng-template let-option pTemplate="item">
+                  <div pTooltip="{{ option.info }}" tooltipPosition="right">
+                    {{ option.label }}
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+            <div class="field">
+              <label>Secondary Goals</label>
+
+              <p-multiSelect
+                [options]="fitnessGoals"
+                [(ngModel)]="selectedGoal"
+                optionLabel="label"
+                optionValue="value"
+                [pTooltip]="selectedGoal?.info"
+                formControlName="secondaryGoals"
+              >
+                <ng-template let-option pTemplate="item">
+                  <div pTooltip="{{ option.info }}" tooltipPosition="right">
+                    {{ option.label }}
+                  </div>
+                </ng-template>
+              </p-multiSelect>
+            </div>
+          </div>
+          <div class="card p-fluid" formGroupName="currentFitnessLevel">
+            <h5>Current Fitness Level</h5>
+            <div class="field" formGroupName="currentRoutine">
+              <label htmlFor="1">Days Per Week</label>
+              <p-dropdown
+                id="1"
+                [options]="daysPerWeek"
+                optionLabel="label"
+                optionValue="value"
+                formControlName="daysPerWeek"
+                [autoDisplayFirst]="false"
+              >
+              </p-dropdown>
+            </div>
+            <div class="field" formGroupName="currentRoutine">
+              <label htmlFor="2">Fitness Level</label>
+              <p-dropdown
+                id="2"
+                [options]="fitnessLevel"
+                optionLabel="label"
+                optionValue="value"
+                formControlName="fitnessLevel"
+                [autoDisplayFirst]="false"
+              >
+              </p-dropdown>
+            </div>
+            <div class="field" formGroupName="physicalStats">
+              <label htmlFor="3">Height in centimeters </label>
+              <p-inputNumber
+                id="3"
+                formControlName="height"
+                [min]="0"
+                [max]="300"
+                [useGrouping]="false"
+              >
+              </p-inputNumber>
+            </div>
+            <div class="field" formGroupName="physicalStats">
+              <label htmlFor="4">Weight in kilograms</label>
+              <p-inputNumber
+                id="4"
+                formControlName="weight"
+                [min]="0"
+                [max]="300"
+                [useGrouping]="false"
+              >
+              </p-inputNumber>
+            </div>
+            <div class="field" formGroupName="physicalStats">
+              <label htmlFor="5">Body Fat Percentage</label>
+              <p-inputNumber
+                id="5"
+                formControlName="bodyFatPercentage"
+                [min]="0"
+                [max]="100"
+                [useGrouping]="false"
+                suffix="%"
+              >
+              </p-inputNumber>
+            </div>
+          </div>
+          <div class="card p-fluid" formGroupName="availability">
+            <h5>Availability</h5>
+            <div class="field">
+              <label>Days Per Week</label>
+
+              <p-dropdown
+                [options]="daysPerWeek"
+                optionLabel="label"
+                optionValue="value"
+                formControlName="daysPerWeek"
+                [autoDisplayFirst]="false"
+              >
+              </p-dropdown>
+            </div>
+            <div class="field">
+              <label>Session Duration</label>
+
+              <p-dropdown
+                [options]="sessionDuration"
+                optionLabel="label"
+                optionValue="value"
+                formControlName="sessionDuration"
+                [autoDisplayFirst]="false"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="card p-fluid" formGroupName="preferencesAndConstraints">
+            <div class="field">
+              <label>Exercice Preferences</label>
+              <p-multiSelect
+                [options]="exercisePreferences"
+                optionLabel="label"
+                optionValue="value"
+                formControlName="exercisePreferences"
+              >
+              </p-multiSelect>
+            </div>
+            <div class="field">
+              <label>Access To Gym</label>
+              <p-toggleButton
+                formControlName="accessToGym"
+                onLabel="Yes"
+                offLabel="No"
+              ></p-toggleButton>
+            </div>
+            <div class="field">
+              <label>Workout Alone</label>
+              <p-toggleButton
+                formControlName="accessToGym"
+                onLabel="Yes"
+                offLabel="No"
+              ></p-toggleButton>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 md:col-6">
+          <div class="card p-fluid">
+            <h5>Trainer's Response</h5>
+            <!-- Need to add the response -->
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
+</section>
