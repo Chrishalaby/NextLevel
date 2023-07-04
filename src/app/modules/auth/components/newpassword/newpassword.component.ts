@@ -2,12 +2,11 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
-import { AppConfigModule } from 'src/app/layout/config/app.config.module';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 @Component({
   templateUrl: './newpassword.component.html',
   standalone: true,
-  imports: [RouterModule, AppConfigModule, PasswordModule, ButtonModule],
+  imports: [RouterModule, PasswordModule, ButtonModule],
 })
 export class NewPasswordComponent {
   rememberMe: boolean = false;

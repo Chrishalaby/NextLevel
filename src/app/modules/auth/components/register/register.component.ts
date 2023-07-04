@@ -4,7 +4,6 @@ import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { AppConfigModule } from 'src/app/layout/config/app.config.module';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
@@ -12,7 +11,6 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
   standalone: true,
   imports: [
     RouterModule,
-    AppConfigModule,
     PasswordModule,
     CheckboxModule,
     InputTextModule,
