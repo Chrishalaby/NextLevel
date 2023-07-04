@@ -94,6 +94,13 @@ const routes: Routes = [
                 './modules/trainer-profile/components/showing-profile/aboutus/aboutus.component'
               ).then((x: LoadedComponent) => x.AboutUsComponent),
           },
+          {
+            path: TrainerProfileRoutes.Calendar,
+            loadComponent: () =>
+              import(
+                './modules/trainer-profile/components/calendar/calendar.app.component'
+              ).then((x: LoadedComponent) => x.CalendarAppComponent),
+          },
         ],
       },
       {
