@@ -15,7 +15,6 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
 import { EventService } from '../../shared/services/event.service';
-
 @Component({
   templateUrl: './calendar.app.component.html',
   styleUrls: ['./calendar.app.component.scss'],
@@ -37,6 +36,13 @@ import { EventService } from '../../shared/services/event.service';
 })
 export class CalendarAppComponent implements OnInit {
   events: any[] = [];
+
+  clients: any[] = [
+    { name: 'Client 1', id: 'C1' },
+    { name: 'Client 2', id: 'C2' },
+    { name: 'Client 3', id: 'C3' },
+    { name: 'Client 4', id: 'C4' },
+  ];
 
   today: string = '';
 
@@ -107,7 +113,7 @@ export class CalendarAppComponent implements OnInit {
     this.showDialog = true;
     this.changedEvent = {
       ...e,
-      title: null,
+      client: null,
       description: null,
       location: null,
       backgroundColor: null,
@@ -167,5 +173,9 @@ export class CalendarAppComponent implements OnInit {
   validate() {
     let { start, end } = this.changedEvent;
     return start && end;
+  }
+
+  addNewClient() {
+    console.log('add new client');
   }
 }
