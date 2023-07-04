@@ -1,1 +1,97 @@
-<p>home-page works!</p>
+<section class="d-flex jc-center ai-center hero">
+  <div class="text-center">
+    <h1>Connecting You With the Perfect Personal Trainer</h1>
+    <div class="d-flex jc-center">
+      <p-button label="Join as a Trainer" class="mr-2"></p-button>
+      <p-button label="Find Your Trainer" class="button-secondary"></p-button>
+    </div>
+  </div>
+</section>
+<section class="grid mt-4 md:m-1">
+  <div class="col-12 md:col-6">
+    <div class="card">
+      <h2>For Trainers</h2>
+      <ul>
+        <li>
+          <strong>Increased Exposure:</strong> Gain access to a wider audience
+          and increase your reach beyond local clientele.
+        </li>
+        <li>
+          <strong>Time Management:</strong> Easily schedule and manage
+          appointments, so you can optimize your time and focus on training.
+        </li>
+        <li>
+          <strong>Client Tracking:</strong> Keep track of each client's
+          progress, goals, and plans, all in one place.
+        </li>
+        <li>
+          <strong>Brand Building:</strong> Build your personal brand by
+          showcasing your skills, success stories, and customer testimonials.
+        </li>
+        <li>
+          <strong>Diverse Income Streams:</strong> Create various income streams
+          by offering personalized programs, group sessions, or online training.
+        </li>
+        <li>
+          <strong>Professional Development:</strong> Gain access to resources
+          and a community that can contribute to your growth and development as
+          a trainer.
+        </li>
+        <li>
+          <strong>Reduced Operational Costs:</strong> Minimize the costs
+          associated with a physical location by offering services online.
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-12 md:col-6">
+    <div class="card">
+      <h2>For Clients</h2>
+      <ul>
+        <li>
+          <strong>Convenience:</strong> Easily find and book personal trainers
+          from the comfort of your home.
+        </li>
+        <li>
+          <strong>Personalized Training:</strong> Get customized training plans
+          tailored to your goals and preferences.
+        </li>
+        <li>
+          <strong>Track Progress:</strong> Keep track of your fitness journey
+          and monitor your improvements over time.
+        </li>
+        <li>
+          <strong>Diverse Selection of Trainers:</strong> Choose from a wide
+          range of trainers with various specializations and expertise.
+        </li>
+        <li>
+          <strong>Community Support:</strong> Be a part of a community that
+          encourages and supports each other in achieving fitness goals.
+        </li>
+        <li>
+          <strong>Accessible Resources:</strong> Gain access to a library of
+          workouts, nutritional advice, and other fitness-related content.
+        </li>
+        <li>
+          <strong>Motivation and Accountability:</strong> Having a personal
+          trainer helps maintain motivation and keeps you accountable for your
+          fitness routine.
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="card">
+      <h2>How It Works</h2>
+      <div class="grid">
+        <div class="col-6 md:col-3" *ngFor="let event of howItWorks">
+          <div class="card">
+            <h5>{{ event.status }}</h5>
+            <p>{{ event.info }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
