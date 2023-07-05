@@ -1,5 +1,8 @@
-<div class="card">
-  <full-calendar [options]="calendarOptions"></full-calendar>
+<section class="card">
+  <full-calendar
+    (touchend)="onDateSelect($event)"
+    [options]="calendarOptions"
+  ></full-calendar>
 
   <p-dialog
     #dd
@@ -186,4 +189,4 @@
       ></button>
     </ng-template>
   </p-dialog>
-</div>
+</section>
