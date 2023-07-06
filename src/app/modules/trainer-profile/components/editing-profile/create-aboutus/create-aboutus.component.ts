@@ -99,7 +99,8 @@ export class CreateAboutusComponent implements OnInit {
 
   createForm() {
     this.profileForm = this.formBuilder.group({
-      fullName: [''],
+      firstName: [''],
+      lastName: [''],
       briefBio: [''],
       profilePicture: [''],
       // specialities array of strings

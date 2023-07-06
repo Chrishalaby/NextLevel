@@ -1,0 +1,18 @@
+<section class="grid">
+  <div class="col-12" [formGroup]="clientForm">
+    <div class="card p-fluid">
+      <h5>Add Client</h5>
+      <div class="field">
+        <label htmlFor="name4">Client Name</label>
+        <input pInputText id="name4" type="text" formControlName="firstName" />
+      </div>
+      <div class="field">
+        <label htmlFor="name4">Client Last Name</label>
+        <input pInputText id="name4" type="text" formControlName="lastName" />
+      </div>
+      <div class="field">
+        <button pButton label="Next" (click)="addNewClient()"></button>
+      </div>
+    </div>
+  </div>
+</section>

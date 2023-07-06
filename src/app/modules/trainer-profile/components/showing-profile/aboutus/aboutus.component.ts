@@ -14,7 +14,8 @@ export class AboutUsComponent implements OnInit {
   visibleMember: number = -1;
   trainerProfile: Trainer = {
     id: 0,
-    fullName: 'chris chris',
+    firstName: 'chris ',
+    lastName: 'chris ',
     briefBio: 'this is a brief bio',
     profilePicture: 'https://picsum.photos/200',
 

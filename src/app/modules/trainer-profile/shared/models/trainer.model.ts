@@ -1,6 +1,7 @@
 export interface Trainer {
   id: number;
-  fullName: string;
+  firstName: string;
+  lastName: string;
   briefBio: string;
   profilePicture: string;
   specialities: string[];

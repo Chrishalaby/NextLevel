@@ -1,9 +1,16 @@
 <section class="d-flex jc-center ai-center hero">
   <div class="text-center">
     <h1>Connecting You With the Perfect Personal Trainer</h1>
-    <div class="d-flex jc-center">
-      <p-button label="Join as a Trainer" class="mr-2"></p-button>
-      <p-button label="Find Your Trainer" class="button-secondary"></p-button>
+    <div class="flex justify-content-center gap-3">
+      <p-button
+        label="Join as a Trainer"
+        (click)="register('trainer')"
+      ></p-button>
+      <p-button
+        label="Find Your Trainer"
+        class="button-secondary"
+        (click)="register('client')"
+      ></p-button>
     </div>
   </div>
 </section>

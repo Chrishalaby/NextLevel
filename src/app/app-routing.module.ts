@@ -101,6 +101,20 @@ const routes: Routes = [
                 './modules/trainer-profile/components/calendar/calendar.app.component'
               ).then((x: LoadedComponent) => x.CalendarAppComponent),
           },
+          {
+            path: TrainerProfileRoutes.AddClient,
+            loadComponent: () =>
+              import(
+                './modules/trainer-profile/components/add-client/add-client.component'
+              ).then((x: LoadedComponent) => x.AddClientComponent),
+          },
+          {
+            path: TrainerProfileRoutes.addBunle,
+            loadComponent: () =>
+              import(
+                './modules/trainer-profile/components/add-bundle/add-bundle.component'
+              ).then((x: LoadedComponent) => x.AddBundleComponent),
+          },
         ],
       },
       {

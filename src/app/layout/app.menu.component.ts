@@ -54,6 +54,16 @@ export class AppMenuComponent implements OnInit {
                 icon: 'pi pi-fw pi-user-edit',
                 routerLink: ['/trainer-profile/calendar'],
               },
+              {
+                label: 'Add Client',
+                icon: 'pi pi-fw pi-user-edit',
+                routerLink: ['/trainer-profile/add-client'],
+              },
+              {
+                label: 'Add Bundle',
+                icon: 'pi pi-fw pi-user-edit',
+                routerLink: ['/trainer-profile/add-bundle'],
+              },
             ],
           },
           {

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { TimelineModule } from 'primeng/timeline';
 
@@ -23,5 +24,11 @@ export class HomePageComponent {
     },
     { status: '4. Get Fit', info: 'Get fit and stay fit with your trainer.' },
   ];
-  constructor() {}
+  constructor(private readonly router: Router) {}
+
+  register(userType: string) {
+    this.router.navigate(['/auth/register'], {
+      queryParams: { userType: userType },
+    });
+  }
 }

@@ -22,6 +22,8 @@ export enum TrainerProfileRoutes {
   CreateAboutUs = 'create-aboutus',
   ShowAboutUs = 'show-aboutus',
   Calendar = 'calendar',
+  AddClient = 'add-client',
+  addBunle = 'add-bundle',
 }
 
 export enum NutritionalGuidanceRoutes {

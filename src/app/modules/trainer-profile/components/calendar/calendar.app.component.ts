@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 // @fullcalendar plugins
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -10,10 +15,13 @@ import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
+import { Client } from '../../shared/models/client.model';
 import { EventService } from '../../shared/services/event.service';
 @Component({
   templateUrl: './calendar.app.component.html',
@@ -31,18 +39,27 @@ import { EventService } from '../../shared/services/event.service';
     DropdownModule,
     ToastModule,
     RippleModule,
+    OverlayPanelModule,
+    InputNumberModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [EventService],
 })
 export class CalendarAppComponent implements OnInit {
   events: any[] = [];
 
-  clients: any[] = [
-    { name: 'Client 1', id: 'C1' },
-    { name: 'Client 2', id: 'C2' },
-    { name: 'Client 3', id: 'C3' },
-    { name: 'Client 4', id: 'C4' },
-  ];
+  clients: Client[] = [
+    { firstName: 'Client', lastName: '1', id: 1, phoneNumber: '1234567890' },
+    { firstName: 'Client', lastName: '2', id: 2, phoneNumber: '1234567890' },
+    { firstName: 'Client', lastName: '3', id: 3, phoneNumber: '1234567890' },
+    { firstName: 'Client', lastName: '4', id: 4, phoneNumber: '1234567890' },
+  ].map((client) => ({
+    ...client,
+    fullName: `${client.firstName} ${client.lastName}`,
+  }));
+
+  clientForm!: FormGroup;
 
   today: string = '';
 
@@ -64,7 +81,10 @@ export class CalendarAppComponent implements OnInit {
 
   changedEvent: any;
 
-  constructor(private eventService: EventService) {}
+  constructor(
+    private eventService: EventService,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.today = new Date().toISOString().split('T')[0];
@@ -90,6 +110,8 @@ export class CalendarAppComponent implements OnInit {
       eventClick: (e: MouseEvent) => this.onEventClick(e),
       select: (e: MouseEvent) => this.onDateSelect(e),
     };
+
+    this.createClientForm();
   }
 
   onEventClick(e: any) {
@@ -175,7 +197,25 @@ export class CalendarAppComponent implements OnInit {
     return start && end;
   }
 
+  createClientForm() {
+    this.clientForm = this.formBuilder.group({
+      id: '',
+      firstName: '',
+      lastName: '',
+      fullName: '',
+      phoneNumber: [null],
+    });
+  }
+
   addNewClient() {
-    console.log('add new client');
+    const newClient = {
+      ...this.clientForm.value,
+      fullName: `${this.clientForm.value.firstName} ${this.clientForm.value.lastName}`,
+    };
+
+    this.clients = [...this.clients, newClient];
+    this.changedEvent.client = this.clients[this.clients.length - 1];
+
+    this.clientForm.reset();
   }
 }

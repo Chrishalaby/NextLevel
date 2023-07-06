@@ -1,0 +1,42 @@
+<section class="grid">
+  <div class="col-12" [formGroup]="bundleForm">
+    <div class="card p-fluid">
+      <h5>Create Bundle</h5>
+      <div class="field">
+        <label htmlFor="name1">Client</label>
+        <p-dropdown
+          id="name1"
+          formControlName="clientId"
+          optionLabel="label"
+          optionValue="value"
+          [options]="clients"
+        ></p-dropdown>
+      </div>
+      <div class="field">
+        <label htmlFor="name4">Session Amount</label>
+        <p-inputNumber
+          id="name4"
+          [min]="0"
+          [max]="100"
+          [useGrouping]="false"
+          formControlName="sessionAmount"
+        ></p-inputNumber>
+      </div>
+      <div class="field">
+        <label htmlFor="name4">Bundle Price</label>
+        <p-inputNumber
+          id="name4"
+          [min]="0"
+          mode="currency"
+          currency="USD"
+          [max]="1000"
+          [useGrouping]="false"
+          formControlName="bundlePrice"
+        ></p-inputNumber>
+      </div>
+      <div class="field">
+        <button pButton label="Create Bundle" (click)="addNewBundle()"></button>
+      </div>
+    </div>
+  </div>
+</section>

@@ -11,9 +11,20 @@
           shape="circle"
         ></p-avatar>
       </div>
-      <div class="field">
-        <label htmlFor="name1">Full Name</label>
-        <input pInputText id="name1" type="text" formControlName="fullName" />
+      <div class="grid">
+        <div class="field col-12 md:col-6">
+          <label htmlFor="name1">First Name</label>
+          <input
+            pInputText
+            id="name1"
+            type="text"
+            formControlName="firstName"
+          />
+        </div>
+        <div class="field col-12 md:col-6">
+          <label htmlFor="name1">Last Name</label>
+          <input pInputText id="name1" type="text" formControlName="lastName" />
+        </div>
       </div>
       <div class="field">
         <label htmlFor="bio1">Brief Bio</label>
@@ -30,7 +41,6 @@
       <p-fileUpload
         mode="basic"
         name="demo[]"
-        url="./upload.php"
         accept="image/*"
         [maxFileSize]="1000000"
         (onSelect)="onSelectProfilePicture($event)"
