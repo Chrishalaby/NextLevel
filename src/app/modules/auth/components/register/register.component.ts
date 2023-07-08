@@ -15,6 +15,7 @@ import { PasswordModule } from 'primeng/password';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { ProxyService, Role } from 'src/app/shared/services/proxy.service';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   templateUrl: './register.component.html',
@@ -29,7 +30,7 @@ import { ProxyService, Role } from 'src/app/shared/services/proxy.service';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [ProxyService, CommonService],
+  providers: [ProxyService, CommonService, AuthService],
 })
 export class RegisterComponent implements OnInit {
   confirmed: boolean = false;
@@ -43,7 +44,8 @@ export class RegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private readonly proxyService: ProxyService,
     private activatedRoute: ActivatedRoute,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly authService: AuthService
   ) {}
 
   get dark(): boolean {
@@ -53,18 +55,18 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.getUserType();
     this.createRegisterForm();
-
-    this.registerForm.get('role_id')?.valueChanges.subscribe((value) => {
-      console.log('value is ', value);
-    });
   }
 
   register() {
     console.log('register form is ', this.registerForm.value);
-    this.proxyService.Edit_User(this.registerForm.value).subscribe((data) => {
-      console.log('data is ', data);
-      this.router.navigate(['/auth/verification']);
-    });
+    this.proxyService
+      .Edit_User(this.registerForm.value)
+      .subscribe((data: any) => {
+        console.log('data is ', data);
+        this.authService.setLocalUserId(data.User_Id);
+        this.authService.setLocalUserMail(data.Email);
+        this.router.navigate(['/auth/verification']);
+      });
   }
 
   getUserType() {
@@ -94,6 +96,7 @@ export class RegisterComponent implements OnInit {
       password: ['', [Validators.required]],
       role_id: ['', [Validators.required]],
       is_guest: false,
+      USER_TYPE_CODE: ['ADMIN'],
     });
   }
 }

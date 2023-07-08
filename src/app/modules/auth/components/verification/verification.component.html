@@ -26,7 +26,10 @@
     d="M1397.5 154.8c47.2-10.6 93.6-25.3 138.6-43.8c21.7-8.9 43-18.8 63.9-29.5V0H643.4c62.9 41.7 129.7 78.2 202.1 107.4C1020.4 178.1 1214.2 196.1 1397.5 154.8z"
   />
 </svg>
-<div class="px-5 min-h-screen flex justify-content-center align-items-center">
+<div
+  class="px-5 min-h-screen flex justify-content-center align-items-center"
+  [formGroup]="verficationForm"
+>
   <div
     class="border-1 surface-border surface-card border-round py-7 px-4 md:px-7 z-1"
   >
@@ -35,7 +38,7 @@
       <span class="text-600 font-medium">We have sent code to you email:</span>
       <div class="flex align-items-center mt-1">
         <i class="pi pi-envelope text-600"></i>
-        <span class="text-900 font-bold ml-2">dm**@gmail.com</span>
+        <span class="text-900 font-bold ml-2">{{ userMail }}</span>
       </div>
     </div>
     <div class="flex flex-column">
@@ -44,7 +47,15 @@
       >
         <input
           pInputText
-          (ngModel)="(val1)"
+          pKeyFilter="num"
+          class="w-3rem text-center"
+          maxlength="1"
+          formControlName="val1"
+          (keyup)="onDigitInput($event)"
+        />
+        <input
+          pInputText
+          formControlName="val2"
           pKeyFilter="num"
           class="w-3rem text-center"
           maxlength="1"
@@ -52,7 +63,7 @@
         />
         <input
           pInputText
-          (ngModel)="(val2)"
+          formControlName="val3"
           pKeyFilter="num"
           class="w-3rem text-center"
           maxlength="1"
@@ -60,15 +71,7 @@
         />
         <input
           pInputText
-          (ngModel)="(val3)"
-          pKeyFilter="num"
-          class="w-3rem text-center"
-          maxlength="1"
-          (keyup)="onDigitInput($event)"
-        />
-        <input
-          pInputText
-          (ngModel)="(val4)"
+          formControlName="val4"
           pKeyFilter="num"
           class="w-3rem text-center"
           maxlength="1"
@@ -89,7 +92,7 @@
           pRipple
           label="Verify"
           class="flex-auto"
-          [routerLink]="['/']"
+          (click)="onVerify()"
         ></button>
       </div>
     </div>

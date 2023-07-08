@@ -48,13 +48,6 @@ const routes: Routes = [
               ).then((x: LoadedComponent) => x.ForgotPasswordComponent),
           },
           {
-            path: AuthRoutes.LockScreen,
-            loadComponent: () =>
-              import(
-                './modules/auth/components/lockscreen/lockscreen.component'
-              ).then((x: LoadedComponent) => x.LockScreenComponent),
-          },
-          {
             path: AuthRoutes.NewPassword,
             loadComponent: () =>
               import(

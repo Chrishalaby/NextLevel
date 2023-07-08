@@ -105,11 +105,6 @@ export class AppMenuComponent implements OnInit {
                 icon: 'pi pi-fw pi-envelope',
                 routerLink: ['/auth/verification'],
               },
-              {
-                label: 'Lock Screen',
-                icon: 'pi pi-fw pi-eye-slash',
-                routerLink: ['/auth/lock-screen'],
-              },
             ],
           },
         ],

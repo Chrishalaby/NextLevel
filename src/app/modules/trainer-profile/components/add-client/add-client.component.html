@@ -3,12 +3,13 @@
     <div class="card p-fluid">
       <h5>Add Client</h5>
       <div class="field">
-        <label htmlFor="name4">Client Name</label>
-        <input pInputText id="name4" type="text" formControlName="firstName" />
-      </div>
-      <div class="field">
-        <label htmlFor="name4">Client Last Name</label>
-        <input pInputText id="name4" type="text" formControlName="lastName" />
+        <label htmlFor="name4">Client Username</label>
+        <input
+          pInputText
+          id="name4"
+          type="text"
+          formControlName="client_user_name"
+        />
       </div>
       <div class="field">
         <button pButton label="Next" (click)="addNewClient()"></button>
