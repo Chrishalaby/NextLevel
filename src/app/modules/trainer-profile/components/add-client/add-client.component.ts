@@ -44,12 +44,14 @@ export class AddClientComponent implements OnInit {
 
   createClientForm() {
     this.clientForm = this.formBuilder.group({
-      client_user_name: [''],
+      client_first_name: [''],
+      client_last_name: [''],
       trainer_id: [this.authService.getUserId()],
     });
   }
 
   addNewClient() {
+    console.log(this.clientForm.value);
     this.proxyService
       .Add_Guest_Client(this.clientForm.value)
       .subscribe((res) => {

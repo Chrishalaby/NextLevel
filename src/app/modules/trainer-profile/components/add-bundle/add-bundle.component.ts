@@ -9,7 +9,9 @@ import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
-import { Client } from '../../shared/models/client.model';
+import { AuthService } from 'src/app/modules/auth/shared/services/auth.service';
+import { CommonService } from 'src/app/shared/services/common.service';
+import { ProxyService } from 'src/app/shared/services/proxy.service';
 
 @Component({
   selector: 'app-add-bundle',
@@ -24,14 +26,19 @@ import { Client } from '../../shared/models/client.model';
     InputNumberModule,
     DropdownModule,
   ],
+  providers: [ProxyService, AuthService, CommonService],
 })
 export class AddBundleComponent implements OnInit {
-  clients!: Client[];
+  clients: any;
   bundleForm!: FormGroup;
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private readonly proxyService: ProxyService,
+    private readonly authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    // get clients to show in dropdown
+    this.getTrainerClients();
     this.createBundleForm();
   }
 
@@ -43,4 +50,15 @@ export class AddBundleComponent implements OnInit {
     });
   }
   addNewBundle() {}
+
+  getTrainerClients() {
+    this.proxyService
+      .Get_Guest_password_By_TRAINER_ID_Adv({
+        TRAINER_ID: this.authService.getUserId(),
+      })
+      .subscribe((res) => {
+        this.clients = res;
+        console.log(this.clients);
+      });
+  }
 }

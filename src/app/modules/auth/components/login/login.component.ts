@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -37,7 +37,8 @@ export class LoginComponent implements OnInit {
     private layoutService: LayoutService,
     private readonly formBuilder: FormBuilder,
     private readonly proxyService: ProxyService,
-    private readonly messageService: MessageService
+    private readonly messageService: MessageService,
+    private readonly router: Router
   ) {}
 
   get dark(): boolean {
@@ -65,6 +66,8 @@ export class LoginComponent implements OnInit {
           summary: 'Error',
           detail: 'Invalid username or password',
         });
+      } else {
+        this.router.navigate(['/']);
       }
     });
   }
