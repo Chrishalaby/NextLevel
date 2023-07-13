@@ -46,16 +46,6 @@
               <span>{{ changedEvent.location }}</span>
             </p>
           </div>
-          <div class="col-12">
-            <div class="text-900 font-semibold mb-2">Color</div>
-            <p class="flex align-items-center m-0">
-              <span
-                class="inline-flex flex-shrink-0 w-1rem h-1rem mr-2 border-circle"
-                [style.backgroundColor]="changedEvent.tag.color"
-              ></span>
-              <span>{{ changedEvent.tag.name }}</span>
-            </p>
-          </div>
         </div>
       </div>
       <div *ngIf="view !== 'display'">
@@ -66,9 +56,9 @@
               <span class="p-input-icon-left flex-grow">
                 <p-dropdown
                   [options]="clients"
-                  [(ngModel)]="changedEvent.client"
+                  [formControl]="chosenClient"
                   optionLabel="fullName"
-                  optionValue="id"
+                  optionValue="user_id"
                   [filter]="true"
                   filterBy="name"
                   [showClear]="true"
@@ -77,46 +67,7 @@
                 </p-dropdown>
               </span>
               <div>
-                <p-button
-                  icon="pi pi-plus"
-                  (click)="op.toggle($event)"
-                ></p-button>
-                <p-overlayPanel #op [formGroup]="clientForm">
-                  <ng-template pTemplate="content">
-                    <div class="field">
-                      <input
-                        type="text"
-                        pInputText
-                        placeholder="First Name"
-                        formControlName="firstName"
-                      />
-                    </div>
-                    <div class="field">
-                      <input
-                        type="text"
-                        pInputText
-                        placeholder="Last Name"
-                        formControlName="lastName"
-                      />
-                    </div>
-                    <div class="field">
-                      <p-inputNumber
-                        mode="decimal"
-                        [useGrouping]="false"
-                        placeholder="Phone ex: 71234568"
-                        formControlName="phoneNumber"
-                      >
-                      </p-inputNumber>
-                    </div>
-                    <div class="field">
-                      <button
-                        pButton
-                        label="Add Client"
-                        (click)="addNewClient(); op.hide()"
-                      ></button>
-                    </div>
-                  </ng-template>
-                </p-overlayPanel>
+                <p-button icon="pi pi-plus" (click)="addNewClient()"></p-button>
               </div>
             </div>
           </div>
@@ -138,7 +89,7 @@
           </div>
           <div class="col-12 field">
             <label for="description" class="text-900 font-semibold"
-              >Event Description</label
+              >Description</label
             >
             <textarea
               id="description"
@@ -173,37 +124,6 @@
               inputId="end"
               [(ngModel)]="changedEvent.end"
             ></p-calendar>
-          </div>
-          <div class="col-12 field">
-            <label for="company-color" class="text-900 font-semibold"
-              >Color</label
-            >
-            <p-dropdown
-              inputId="company-color"
-              [appendTo]="dd"
-              [options]="tags"
-              [(ngModel)]="changedEvent.tag"
-              optionLabel="name"
-            >
-              <ng-template pTemplate="selectedItem">
-                <div *ngIf="changedEvent.tag" class="flex align-items-center">
-                  <div
-                    class="flex-shrink-0 w-1rem h-1rem mr-2 border-circle"
-                    [style.backgroundColor]="changedEvent.tag.color"
-                  ></div>
-                  <div>{{ changedEvent.tag.name }}</div>
-                </div>
-              </ng-template>
-              <ng-template let-tag pTemplate="item">
-                <div class="flex align-items-center">
-                  <div
-                    class="flex-shrink-0 w-1rem h-1rem mr-2 border-circle"
-                    [style.backgroundColor]="tag.color"
-                  ></div>
-                  <div>{{ tag.name }}</div>
-                </div>
-              </ng-template>
-            </p-dropdown>
           </div>
         </div>
       </div>

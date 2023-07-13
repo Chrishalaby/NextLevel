@@ -4,6 +4,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -44,8 +45,8 @@ export class AddClientComponent implements OnInit {
 
   createClientForm() {
     this.clientForm = this.formBuilder.group({
-      client_first_name: [''],
-      client_last_name: [''],
+      client_first_name: ['', Validators.required],
+      client_last_name: ['', Validators.required],
       trainer_id: [this.authService.getUserId()],
     });
   }

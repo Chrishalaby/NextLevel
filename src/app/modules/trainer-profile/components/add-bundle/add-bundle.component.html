@@ -3,27 +3,31 @@
     <div class="card p-fluid">
       <h5>Create Bundle</h5>
       <div class="field">
-        <label htmlFor="name1">Client</label>
+        <label htmlFor="name1" class="text-900 font-semibold">Client</label>
         <p-dropdown
           id="name1"
-          formControlName="clientId"
-          optionLabel="label"
-          optionValue="value"
+          formControlName="client_id"
+          optionLabel="fullName"
+          optionValue="user_id"
           [options]="clients"
         ></p-dropdown>
       </div>
       <div class="field">
-        <label htmlFor="name4">Session Amount</label>
+        <label htmlFor="name4" class="text-900 font-semibold"
+          >Session Amount</label
+        >
         <p-inputNumber
           id="name4"
           [min]="0"
           [max]="100"
           [useGrouping]="false"
-          formControlName="sessionAmount"
+          formControlName="sessions_number"
         ></p-inputNumber>
       </div>
       <div class="field">
-        <label htmlFor="name4">Bundle Price</label>
+        <label htmlFor="name4" class="text-900 font-semibold"
+          >Bundle Price</label
+        >
         <p-inputNumber
           id="name4"
           [min]="0"
@@ -31,11 +35,29 @@
           currency="USD"
           [max]="1000"
           [useGrouping]="false"
-          formControlName="bundlePrice"
+          formControlName="total_price"
         ></p-inputNumber>
       </div>
       <div class="field">
-        <button pButton label="Create Bundle" (click)="addNewBundle()"></button>
+        <label for="description" class="text-900 font-semibold"
+          >Bundle Description (if any)</label
+        >
+        <textarea
+          id="description"
+          type="text"
+          pInputTextarea
+          [rows]="5"
+          style="resize: none"
+          formControlName="description"
+        ></textarea>
+      </div>
+      <div class="field">
+        <button
+          pButton
+          label="Create Bundle"
+          [disabled]="!bundleForm.valid"
+          (click)="addNewBundle()"
+        ></button>
       </div>
     </div>
   </div>

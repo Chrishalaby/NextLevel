@@ -21,7 +21,12 @@
         />
       </div>
       <div class="field">
-        <button pButton label="Next" (click)="addNewClient()"></button>
+        <button
+          pButton
+          label="Next"
+          [disabled]="!clientForm.valid"
+          (click)="addNewClient()"
+        ></button>
       </div>
     </div>
   </div>
