@@ -9,7 +9,6 @@ import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { CommonService } from 'src/app/shared/services/common.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
 import { AuthService } from '../../shared/services/auth.service';
 
@@ -23,7 +22,7 @@ import { AuthService } from '../../shared/services/auth.service';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [ProxyService, CommonService],
+  providers: [ProxyService],
 })
 export class VerificationComponent implements OnInit {
   verficationForm!: FormGroup;

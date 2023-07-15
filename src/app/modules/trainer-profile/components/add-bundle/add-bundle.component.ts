@@ -13,7 +13,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { AuthService } from 'src/app/modules/auth/shared/services/auth.service';
-import { CommonService } from 'src/app/shared/services/common.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
 
 @Component({
@@ -30,7 +29,7 @@ import { ProxyService } from 'src/app/shared/services/proxy.service';
     DropdownModule,
     InputTextareaModule,
   ],
-  providers: [ProxyService, AuthService, CommonService],
+  providers: [ProxyService],
 })
 export class AddBundleComponent implements OnInit {
   clients: any;
@@ -45,6 +44,12 @@ export class AddBundleComponent implements OnInit {
   ngOnInit(): void {
     this.getTrainerClients();
     this.createBundleForm();
+    // this.proxyService
+    //   .Get_Sessions_bundle_By_TRAINER_ID_Adv({
+    //     TRAINER_ID: this.authService.getUserId(),
+    //   })
+    //   .subscribe((res: any) => {
+    //   });
   }
 
   createBundleForm() {
@@ -76,7 +81,6 @@ export class AddBundleComponent implements OnInit {
           fullName: client.First_Name + ' ' + client.Last_Name,
           user_id: client.User_Id,
         }));
-        console.log(this.clients);
       });
   }
 }

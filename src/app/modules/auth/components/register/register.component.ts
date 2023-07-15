@@ -13,7 +13,6 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { CommonService } from 'src/app/shared/services/common.service';
 import { ProxyService, Role } from 'src/app/shared/services/proxy.service';
 import { AuthService } from '../../shared/services/auth.service';
 
@@ -30,7 +29,7 @@ import { AuthService } from '../../shared/services/auth.service';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [ProxyService, CommonService, AuthService],
+  providers: [ProxyService],
 })
 export class RegisterComponent implements OnInit {
   confirmed: boolean = false;

@@ -419,6 +419,31 @@ export class ProxyService {
         })
       );
   }
+  Get_Sessions_bundle_By_TRAINER_ID_Adv(
+    i_Params_Get_Sessions_bundle_By_TRAINER_ID: Params_Get_Sessions_bundle_By_TRAINER_ID
+  ): Observable<Sessions_bundle[]> {
+    this.url =
+      this.APIBaseUrl +
+      '/Get_Sessions_bundle_By_TRAINER_ID_Adv?Ticket=' +
+      this.common.ticket;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      ticket: this.common.ticket,
+    });
+    const options = { headers: headers };
+    return this.api
+      .post<Result_Get_Sessions_bundle_By_TRAINER_ID>(
+        this.url,
+        JSON.stringify(i_Params_Get_Sessions_bundle_By_TRAINER_ID),
+        options
+      )
+      .pipe(
+        map((response) => {
+          this.common.Handle_Exception(response.ExceptionMsg);
+          return response.My_Result;
+        })
+      );
+  }
   Get_Sessions_bundle_By_SESSIONS_BUNDLE_ID_Adv(
     i_Params_Get_Sessions_bundle_By_SESSIONS_BUNDLE_ID: Params_Get_Sessions_bundle_By_SESSIONS_BUNDLE_ID
   ): Observable<Sessions_bundle> {

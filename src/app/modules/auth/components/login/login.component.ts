@@ -15,6 +15,7 @@ import { ToastModule } from 'primeng/toast';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
+import { AuthService } from '../../shared/services/auth.service';
 @Component({
   templateUrl: './login.component.html',
   standalone: true,
@@ -27,7 +28,7 @@ import { ProxyService } from 'src/app/shared/services/proxy.service';
     ReactiveFormsModule,
     ToastModule,
   ],
-  providers: [ProxyService, CommonService, MessageService],
+  providers: [ProxyService, MessageService],
 })
 export class LoginComponent implements OnInit {
   rememberMe: boolean = false;
@@ -38,7 +39,9 @@ export class LoginComponent implements OnInit {
     private readonly formBuilder: FormBuilder,
     private readonly proxyService: ProxyService,
     private readonly messageService: MessageService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly authService: AuthService,
+    private readonly commonService: CommonService
   ) {}
 
   get dark(): boolean {
@@ -57,18 +60,22 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.proxyService.Authenticate(this.loginForm.value).subscribe((res) => {
-      console.log('res', res);
-      console.log('form', this.loginForm.value);
-      if (res == null) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Invalid username or password',
-        });
-      } else {
-        this.router.navigate(['/']);
-      }
-    });
+    this.proxyService
+      .Authenticate(this.loginForm.value)
+      .subscribe((res: any) => {
+        console.log('res', res);
+        console.log('form', this.loginForm.value);
+        if (res == null) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Invalid username or password',
+          });
+        } else {
+          this.authService.setLocalUserId(res.Userid);
+          this.commonService.setTicket(res.Ticket);
+          this.router.navigate(['/']);
+        }
+      });
   }
 }

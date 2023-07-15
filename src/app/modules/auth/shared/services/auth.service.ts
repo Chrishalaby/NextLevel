@@ -4,19 +4,22 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class AuthService {
+  userMail: string = '';
+  userId: number = 0;
+
   getUserMail() {
-    return localStorage.getItem('userMail');
+    return this.userMail;
   }
 
   getUserId() {
-    return parseInt(localStorage.getItem('userId') || '2');
+    return this.userId;
   }
 
   setLocalUserId(userId: number) {
-    localStorage.setItem('userId', userId.toString());
+    this.userId = userId;
   }
 
   setLocalUserMail(userMail: string) {
-    localStorage.setItem('userMail', userMail);
+    this.userMail = userMail;
   }
 }

@@ -12,7 +12,6 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { AuthService } from 'src/app/modules/auth/shared/services/auth.service';
-import { CommonService } from 'src/app/shared/services/common.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
 @Component({
   selector: 'app-add-client',
@@ -26,7 +25,7 @@ import { ProxyService } from 'src/app/shared/services/proxy.service';
     ButtonModule,
     ToastModule,
   ],
-  providers: [ProxyService, MessageService, CommonService],
+  providers: [ProxyService, MessageService],
 })
 export class AddClientComponent implements OnInit {
   clientForm!: FormGroup;

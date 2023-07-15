@@ -23,7 +23,6 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
 import { AuthService } from 'src/app/modules/auth/shared/services/auth.service';
-import { CommonService } from 'src/app/shared/services/common.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
 import { Client } from '../../shared/models/client.model';
 import { EventService } from '../../shared/services/event.service';
@@ -47,7 +46,7 @@ import { EventService } from '../../shared/services/event.service';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [EventService, ProxyService, AuthService, CommonService],
+  providers: [EventService, ProxyService],
 })
 export class CalendarAppComponent implements OnInit {
   events: any[] = [];
