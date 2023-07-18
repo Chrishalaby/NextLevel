@@ -30,10 +30,16 @@
         ></button>
       </li> -->
       <li class="topbar-profile">
-        <button type="button" class="p-link" (click)="onProfileButtonClick()">
+        <!-- <button type="button" class="p-link" (click)="onProfileButtonClick()">
           <img src="assets/layout/images/avatar.png" alt="Profile" />
-        </button>
+        </button> -->
       </li>
+      <button
+        pButton
+        pRipple
+        label="login"
+        [routerLink]="'/auth/login'"
+      ></button>
     </ul>
   </div>
 </div>

@@ -11,11 +11,11 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TabViewModule } from 'primeng/tabview';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
-
 @Component({
   selector: 'app-ai-custom-workout',
   templateUrl: './ai-custom-workout.component.html',
@@ -33,6 +33,7 @@ import { ProxyService } from 'src/app/shared/services/proxy.service';
     ToggleButtonModule,
     InputNumberModule,
     InputTextModule,
+    ProgressSpinnerModule,
   ],
   providers: [ProxyService],
 })
@@ -42,6 +43,7 @@ export class AiCustomWorkoutComponent implements OnInit {
 
   trainer1Response: any;
   trainer2Response: any;
+  submitted = false;
 
   selectedGoal: any;
   fitnessGoals: any[] = [];
@@ -219,17 +221,27 @@ export class AiCustomWorkoutComponent implements OnInit {
   }
 
   submitTrainer1() {
+    this.submitted = true;
     this.proxyService
       .Simple_Generated_Workout_Plan(this.workoutPlanTrainerIForm.value)
       .subscribe((res: any) => {
-        this.trainer1Response = res;
+        this.submitted = false;
+        this.trainer1Response = res.Simplegeneratedworkoutplanresponse.replace(
+          /\n/g,
+          '<br>'
+        );
       });
   }
   submitTrainer2() {
+    this.submitted = true;
     this.proxyService
       .Complicated_Generated_Workout_Plan(this.workoutPlanTrainerIIForm.value)
       .subscribe((res: any) => {
-        this.trainer2Response = res;
+        this.submitted = false;
+        this.trainer2Response = res.Complexgeneratedworkoutplanresponse.replace(
+          /\n/g,
+          '<br>'
+        );
       });
   }
 }

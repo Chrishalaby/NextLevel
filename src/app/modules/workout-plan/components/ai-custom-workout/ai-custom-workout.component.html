@@ -92,7 +92,14 @@
         <div class="col-12 md:col-6">
           <div class="card p-fluid">
             <h5>Trainer's Response</h5>
-            <p>{{ trainer1Response }}</p>
+            <p-progressSpinner
+              *ngIf="submitted"
+              styleClass="w-4rem h-4rem"
+              strokeWidth="8"
+              fill="var(--surface-ground)"
+              animationDuration=".5s"
+            ></p-progressSpinner>
+            <p [innerHTML]="trainer1Response"></p>
           </div>
         </div>
       </div>

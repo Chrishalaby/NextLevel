@@ -7,14 +7,37 @@ import {
   ofType,
 } from '@ngrx/effects';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { CommonService } from 'src/app/shared/services/common.service';
 import { LogInProps, LogInSuccessProps } from '../models/auth-props.model';
 import { AuthResponse } from '../models/auth-response.model';
 import { AccessTokenService } from '../services/access-token.service';
 import { AuthRepository } from '../services/auth.repository';
+import { AuthService } from '../services/auth.service';
 import { AuthActions } from './auth.actions';
 
 @Injectable()
 export class AuthEffects {
+  // public logIn$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(AuthActions.login),
+  //     switchMap(({ logInDetails }: LogInProps) =>
+  //       this.authRepository.logIn(logInDetails).pipe(
+  //         map((response: any) => {
+  //           const modifiedResponse = {
+  //             ...response,
+  //             accessToken: response.Ticket,
+  //           };
+  //           delete modifiedResponse.Ticket;
+
+  //           return modifiedResponse;
+  //         })
+  //       )
+  //     ),
+  //     map((authResponse: AuthResponse) =>
+  //       AuthActions.loginSuccess({ accessToken: authResponse.accessToken })
+  //     )
+  //   )
+  // );
   public logIn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
@@ -25,6 +48,9 @@ export class AuthEffects {
               ...response,
               accessToken: response.Ticket,
             };
+            // Add these lines
+            this.authService.setLocalUserId(response.Userid);
+            this.commonService.setTicket(response.Ticket);
             delete modifiedResponse.Ticket;
 
             return modifiedResponse;
@@ -59,6 +85,8 @@ export class AuthEffects {
     private readonly actions$: Actions,
     private readonly authRepository: AuthRepository,
     private readonly router: Router,
-    private readonly accessTokenService: AccessTokenService
+    private readonly accessTokenService: AccessTokenService,
+    private readonly authService: AuthService,
+    private readonly commonService: CommonService
   ) {}
 }
