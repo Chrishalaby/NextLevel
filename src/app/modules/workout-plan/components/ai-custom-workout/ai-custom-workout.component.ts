@@ -219,7 +219,6 @@ export class AiCustomWorkoutComponent implements OnInit {
   }
 
   submitTrainer1() {
-    console.log(this.workoutPlanTrainerIForm.value);
     this.proxyService
       .Simple_Generated_Workout_Plan(this.workoutPlanTrainerIForm.value)
       .subscribe((res: any) => {

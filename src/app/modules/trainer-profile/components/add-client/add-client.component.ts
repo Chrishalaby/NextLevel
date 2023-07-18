@@ -51,7 +51,6 @@ export class AddClientComponent implements OnInit {
   }
 
   addNewClient() {
-    console.log(this.clientForm.value);
     this.proxyService
       .Add_Guest_Client(this.clientForm.value)
       .subscribe((res) => {

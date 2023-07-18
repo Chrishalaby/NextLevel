@@ -42,8 +42,6 @@ export class VerificationComponent implements OnInit {
 
     this.userMail = this.authService.getUserMail() || 'tefe7';
     this.userId = this.authService.getUserId() || 2;
-    console.log('user mail', this.userMail);
-    console.log('user id', this.userId);
   }
 
   get dark(): boolean {
@@ -74,7 +72,6 @@ export class VerificationComponent implements OnInit {
         VALIDATION_CODE: code,
       })
       .subscribe((response) => {
-        console.log(response);
         this.router.navigate(['/auth/login']);
       });
   }

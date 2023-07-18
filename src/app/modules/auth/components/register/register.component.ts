@@ -57,11 +57,9 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    console.log('register form is ', this.registerForm.value);
     this.proxyService
       .Edit_User(this.registerForm.value)
       .subscribe((data: any) => {
-        console.log('data is ', data);
         this.authService.setLocalUserId(data.User_Id);
         this.authService.setLocalUserMail(data.Email);
         this.router.navigate(['/auth/verification']);
