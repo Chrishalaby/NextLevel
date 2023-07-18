@@ -48,7 +48,6 @@ export class AuthEffects {
               ...response,
               accessToken: response.Ticket,
             };
-            // Add these lines
             this.authService.setLocalUserId(response.Userid);
             this.commonService.setTicket(response.Ticket);
             delete modifiedResponse.Ticket;

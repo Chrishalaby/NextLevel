@@ -1,14 +1,7 @@
-import { ActionCreatorProps, createActionGroup, props } from '@ngrx/store';
-import { ActionGroup } from '@ngrx/store/src/action_group_creator_models';
+import { createActionGroup, props } from '@ngrx/store';
 import { LogInProps, LogInSuccessProps } from '../models/auth-props.model';
 
-export const AuthActions: ActionGroup<
-  'Auth',
-  {
-    Login: ActionCreatorProps<LogInProps>;
-    'Login Success': ActionCreatorProps<LogInSuccessProps>;
-  }
-> = createActionGroup({
+export const AuthActions = createActionGroup({
   source: 'Auth',
   events: {
     Login: props<LogInProps>(),

@@ -1,6 +1,5 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 
-import { Feature } from '../types/ngrx.types';
 import { AuthActions } from './auth.actions';
 import { AuthState } from './auth.state';
 
@@ -9,11 +8,7 @@ export const authInitialState: AuthState = {
   authPending: false,
 };
 
-export const authFeature: Feature<
-  Record<string, any>,
-  'auth',
-  AuthState
-> = createFeature({
+export const authFeature = createFeature({
   name: 'auth',
   reducer: createReducer(
     authInitialState,
@@ -34,10 +29,5 @@ export const authFeature: Feature<
   ),
 });
 
-export const {
-  name,
-  reducer,
-  selectAuthState,
-  selectUser,
-  selectAuthPending,
-}: Feature<Record<string, any>, 'auth', AuthState> = authFeature;
+export const { name, reducer, selectAuthState, selectUser, selectAuthPending } =
+  authFeature;
