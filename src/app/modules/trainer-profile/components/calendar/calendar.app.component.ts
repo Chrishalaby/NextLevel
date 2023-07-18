@@ -91,34 +91,29 @@ export class CalendarAppComponent implements OnInit {
       .GetSessionsByTrainerId({
         TRAINER_ID: this.authService.getUserId(),
       })
-      .subscribe(
-        (response: any) => {
-          console.log(response);
-          this.events = response.Sessions.map((item: any) => {
-            return {
-              id: item.Sessions_Bundle_Session_Id,
-              // title: 'wow', set the title as client name
-              start: item.Start_Date_Time1,
-              end: item.End_Date_Time,
-              // tag: { color: '#D2D6FF', name: 'Company C' }, set a default color
-              sessions_number: item.Sessions_Number,
-              description: item.Description,
-            };
-          });
-
-          this.calendarOptions = {
-            ...this.calendarOptions,
-            events: this.events,
+      .subscribe((response: any) => {
+        this.events = response.Sessions.map((item: any) => {
+          return {
+            id: item.Sessions_Bundle_Session_Id,
+            sessionId: item.Sessions_Bundle_Id,
+            title: item.Client_Firstname + ' ' + item.Client_Lastname,
+            start: item.Start_Date_Time1,
+            end: item.End_Date_Time,
+            sessions_number: item.Sessions_Number,
+            description: item.Description,
           };
+        });
 
-          this.tags = this.events.map((item) => item.tag);
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
+        this.calendarOptions = {
+          ...this.calendarOptions,
+          events: this.events,
+        };
+
+        this.tags = this.events.map((item) => item.tag);
+      });
 
     this.calendarOptions = {
+      ...this.calendarOptions,
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
       height: 720,
       initialDate: this.today,
@@ -133,6 +128,34 @@ export class CalendarAppComponent implements OnInit {
       dayMaxEvents: true,
       eventClick: (e: MouseEvent) => this.onEventClick(e),
       select: (e: MouseEvent) => this.onDateSelect(e),
+      eventDrop: (info: any) => {
+        let startDateTime = info.event.start;
+        let endDateTime = info.event.end;
+
+        let startDateTimeString = startDateTime
+          .toLocaleString('sv-SE')
+          .replace(' ', 'T')
+          .slice(0, 19);
+        let endDateTimeString = endDateTime
+          .toLocaleString('sv-SE')
+          .replace(' ', 'T')
+          .slice(0, 19);
+
+        let eventDescription = info.event.extendedProps.description;
+        let eventLocation = info.event.extendedProps.location;
+        let sessionId = info.event.extendedProps.sessionId;
+
+        let sessionBundleId = info.event.id;
+
+        this.submitEventWhenDragged(
+          startDateTimeString,
+          endDateTimeString,
+          eventDescription,
+          eventLocation,
+          sessionBundleId,
+          sessionId
+        );
+      },
     };
   }
 
@@ -236,7 +259,6 @@ export class CalendarAppComponent implements OnInit {
           sessionsLeft: client.Sessions_Number,
           description: client.Description,
         }));
-        console.log(this.clients);
       });
   }
 
@@ -265,9 +287,7 @@ export class CalendarAppComponent implements OnInit {
         this.changedEvent.location +
         this.changedEvent.description,
     };
-    this.proxyService
-      .Edit_Sessions_bundle_session(event)
-      .subscribe((res: any) => {});
+    this.proxyService.Edit_Sessions_bundle_session(event).subscribe();
   }
 
   onClientChange(event: any) {
@@ -276,5 +296,23 @@ export class CalendarAppComponent implements OnInit {
       sessions_bundle_id: this.chosenClient.bundle_id,
       description: this.chosenClient.description,
     });
+  }
+  submitEventWhenDragged(
+    startDateTime: string,
+    endDateTime: string,
+    description: string,
+    location: string,
+    sessionBundleId: number,
+    sessionId: number
+  ) {
+    const event = {
+      sessions_bundle_session_id: sessionBundleId,
+      sessions_bundle_id: sessionId,
+      done: this.sessionForm.value.done,
+      start_date_time1: startDateTime,
+      end_date_time: endDateTime,
+      description: 'Location: ' + location + description,
+    };
+    this.proxyService.Edit_Sessions_bundle_session(event).subscribe();
   }
 }

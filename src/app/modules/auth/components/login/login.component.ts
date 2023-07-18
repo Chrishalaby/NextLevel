@@ -63,8 +63,6 @@ export class LoginComponent implements OnInit {
     this.proxyService
       .Authenticate(this.loginForm.value)
       .subscribe((res: any) => {
-        console.log('res', res);
-        console.log('form', this.loginForm.value);
         if (res == null) {
           this.messageService.add({
             severity: 'error',

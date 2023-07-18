@@ -10,7 +10,6 @@
 
               <p-dropdown
                 [options]="fitnessGoals"
-                [(ngModel)]="selectedGoal"
                 optionLabel="label"
                 optionValue="value"
                 [pTooltip]="selectedGoal?.info"
@@ -52,11 +51,48 @@
               </p-dropdown>
             </div>
           </div>
+          <div class="card p-fluid" formGroupName="basicInformation">
+            <h5>Basic Information</h5>
+            <div class="field">
+              <label>Name</label>
+              <input pInputText formControlName="name" />
+            </div>
+            <div class="field">
+              <label>Age</label>
+              <p-inputNumber
+                formControlName="age"
+                [min]="8"
+                [max]="100"
+                [useGrouping]="false"
+              >
+              </p-inputNumber>
+            </div>
+            <div class="field">
+              <label>Gender</label>
+              <p-dropdown
+                [options]="genderOptions"
+                optionLabel="label"
+                optionValue="value"
+                formControlName="gender"
+                [autoDisplayFirst]="false"
+              >
+              </p-dropdown>
+            </div>
+            <div class="field">
+              <button
+                pButton
+                pRipple
+                label="Submit"
+                class="flex-auto"
+                (click)="submitTrainer1()"
+              ></button>
+            </div>
+          </div>
         </div>
         <div class="col-12 md:col-6">
           <div class="card p-fluid">
             <h5>Trainer's Response</h5>
-            <!-- Need to add the response -->
+            <p>{{ trainer1Response }}</p>
           </div>
         </div>
       </div>
@@ -71,7 +107,6 @@
 
               <p-dropdown
                 [options]="fitnessGoals"
-                [(ngModel)]="selectedGoal"
                 optionLabel="label"
                 optionValue="value"
                 [pTooltip]="selectedGoal?.info"
@@ -90,7 +125,6 @@
 
               <p-multiSelect
                 [options]="fitnessGoals"
-                [(ngModel)]="selectedGoal"
                 optionLabel="label"
                 optionValue="value"
                 [pTooltip]="selectedGoal?.info"
@@ -221,11 +255,65 @@
               ></p-toggleButton>
             </div>
           </div>
+          <div class="card p-fluid" formGroupName="medicalHistory">
+            <h5>Medical History</h5>
+            <div class="field">
+              <label>Conditions</label>
+              <input pInputText formControlName="conditions" />
+            </div>
+            <div class="field">
+              <label>Current Injuries</label>
+              <p-multiSelect
+                [options]="injuryOptions"
+                optionLabel="label"
+                optionValue="value"
+                formControlName="injuries"
+              >
+              </p-multiSelect>
+            </div>
+          </div>
+          <div class="card p-fluid" formGroupName="basicInformation">
+            <h5>Basic Information</h5>
+            <div class="field">
+              <label>Name</label>
+              <input pInputText formControlName="name" />
+            </div>
+            <div class="field">
+              <label>Age</label>
+              <p-inputNumber
+                formControlName="age"
+                [min]="0"
+                [max]="100"
+                [useGrouping]="false"
+              >
+              </p-inputNumber>
+            </div>
+            <div class="field">
+              <label>Gender</label>
+              <p-dropdown
+                [options]="genderOptions"
+                optionLabel="label"
+                optionValue="value"
+                formControlName="gender"
+                [autoDisplayFirst]="false"
+              >
+              </p-dropdown>
+            </div>
+            <div class="field">
+              <button
+                pButton
+                pRipple
+                label="Submit"
+                class="flex-auto"
+                (click)="submitTrainer2()"
+              ></button>
+            </div>
+          </div>
         </div>
         <div class="col-12 md:col-6">
           <div class="card p-fluid">
             <h5>Trainer's Response</h5>
-            <!-- Need to add the response -->
+            {{ trainer2Response }}
           </div>
         </div>
       </div>

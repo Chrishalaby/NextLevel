@@ -854,13 +854,149 @@ export class ProxyService {
         })
       );
   }
+  Simple_Generated_Workout_Plan(
+    i_Params_Simple_Generated_Workout_Plan: Params_Simple_Generated_Workout_Plan
+  ): Observable<oSimple_Generated_Workout_Plan> {
+    this.url =
+      this.APIBaseUrl +
+      '/Simple_Generated_Workout_Plan?Ticket=' +
+      this.common.ticket;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      ticket: this.common.ticket,
+    });
+    const options = { headers: headers };
+    return this.api
+      .post<Result_Simple_Generated_Workout_Plan>(
+        this.url,
+        JSON.stringify(i_Params_Simple_Generated_Workout_Plan),
+        options
+      )
+      .pipe(
+        map((response) => {
+          this.common.Handle_Exception(response.ExceptionMsg);
+          return response.My_Result;
+        })
+      );
+  }
+
+  Complicated_Generated_Workout_Plan(
+    i_Params_Complicated_Generated_Workout_Plan: Params_Complicated_Generated_Workout_Plan
+  ): Observable<oComplicated_Generated_Workout_Plan> {
+    this.url =
+      this.APIBaseUrl +
+      '/Complicated_Generated_Workout_Plan?Ticket=' +
+      this.common.ticket;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      ticket: this.common.ticket,
+    });
+    const options = { headers: headers };
+    return this.api
+      .post<Result_Complicated_Generated_Workout_Plan>(
+        this.url,
+        JSON.stringify(i_Params_Complicated_Generated_Workout_Plan),
+        options
+      )
+      .pipe(
+        map((response) => {
+          this.common.Handle_Exception(response.ExceptionMsg);
+          return response.My_Result;
+        })
+      );
+  }
+}
+
+export interface Params_Simple_Generated_Workout_Plan {
+  BasicInformation: BasicInformation;
+  FitnessGoals: FitnessGoals;
+  Availability: Availability;
+}
+
+export interface oSimple_Generated_Workout_Plan {
+  SimpleGeneratedWorkoutPlanResponse: string;
+}
+export interface Result_Simple_Generated_Workout_Plan extends Action_Result {
+  My_Result: oSimple_Generated_Workout_Plan;
+  My_Params_Simple_Generated_Workout_Plan: Params_Simple_Generated_Workout_Plan;
+}
+export interface Params_Complicated_Generated_Workout_Plan {
+  BasicInformation: BasicInformation;
+  MedicalHistory: MedicalHistory;
+  FitnessGoals: FitnessGoals;
+  CurrentFitnessLevel: CurrentFitnessLevel;
+  Availability: Availability;
+  PreferencesAndConstraints: PreferencesAndConstraints;
+}
+
+export interface CurrentFitnessLevel {
+  CurrentRoutine: string;
+  PhysicalStats: PhysicalStats;
+}
+
+export interface PhysicalStats {
+  Weight: number;
+  Height: number;
+  BodyFatPercentage: number;
+}
+export interface MedicalHistory {
+  Conditions: string[];
+  CurrentMedications: string[];
+  Injuries: string[];
+}
+export interface PreferencesAndConstraints {
+  ExercisePreferences: string[];
+  AccessToGym: boolean;
+  WorkoutAlone: boolean;
+  Budget: number;
+}
+export interface BasicInformation {
+  Name: string;
+  Age: number;
+  Gender: string;
+}
+export interface FitnessGoals {
+  PrimaryGoal: string;
+  SecondaryGoals: string[];
+}
+export interface Availability {
+  DaysPerWeek: number;
+  SessionDuration: number;
+}
+export interface oSimple_Generated_Workout_Plan {
+  SimpleGeneratedWorkoutPlanResponse: string;
+}
+export interface oComplicated_Generated_Workout_Plan {
+  ComplicatedGeneratedWorkoutPlanResponse: string;
+}
+export interface Result_Complicated_Generated_Workout_Plan
+  extends Action_Result {
+  My_Result: oComplicated_Generated_Workout_Plan;
+  My_Params_Complicated_Generated_Workout_Plan: Params_Complicated_Generated_Workout_Plan;
 }
 export interface Params_GetSessionsByTrainerId {
   TRAINER_ID: number;
 }
 export interface GetSessionsByTrainerId_Response {
-  Sessions: Sessions_bundle_session[];
+  Sessions: UPC_GET_SESSIONS_BUNDLE_SESSION_BY_TRAINER_ID[];
 }
+export interface UPC_GET_SESSIONS_BUNDLE_SESSION_BY_TRAINER_ID {
+  SESSIONS_BUNDLE_SESSION_ID: number;
+  TRAINER_ID: number;
+  CLIENT_ID: number;
+  SESSION_NUMBER: number;
+  START_DATE_TIME1: string;
+  END_DATE_TIME: string;
+  PRICE: number;
+  ENTRY_USER_ID: number;
+  DONE: boolean;
+  ENTRY_DATE: string;
+  OWNER_ID: number;
+  DESCRIPTION: string;
+  CLIENT_FIRSTNAME: string;
+  CLIENT_LASTNAME: string;
+}
+
 export interface Result_GetSessionsByTrainerId extends Action_Result {
   My_Result: GetSessionsByTrainerId_Response;
   My_Params_GetSessionsByTrainerId: Params_GetSessionsByTrainerId;
@@ -1006,6 +1142,8 @@ export interface Sessions_bundle_session {
   OWNER_ID?: number;
   DESCRIPTION: string;
   My_Sessions_bundle: Sessions_bundle;
+  CLIENT_FIRSTNAME: string;
+  CLIENT_LASTNAME: string;
 }
 export interface Trainer_specialty {
   TRAINER_SPECIALTY_ID?: number;
