@@ -2,11 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -52,9 +50,8 @@ export class CalendarAppComponent implements OnInit {
   events: any[] = [];
 
   clients!: Client[];
-  chosenClient: FormControl = new FormControl('');
+  chosenClient: any = null;
 
-  sessions: any[] = [];
   sessionForm!: FormGroup;
 
   today: string = '';
@@ -90,11 +87,36 @@ export class CalendarAppComponent implements OnInit {
     this.getTrainerClients();
     this.createSessionForm();
 
-    this.eventService.getEvents().then((events) => {
-      this.events = events;
-      this.calendarOptions = { ...this.calendarOptions, ...{ events: events } };
-      this.tags = this.events.map((item) => item.tag);
-    });
+    this.proxyService
+      .GetSessionsByTrainerId({
+        TRAINER_ID: this.authService.getUserId(),
+      })
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          this.events = response.Sessions.map((item: any) => {
+            return {
+              id: item.Sessions_Bundle_Session_Id,
+              // title: 'wow', set the title as client name
+              start: item.Start_Date_Time1,
+              end: item.End_Date_Time,
+              // tag: { color: '#D2D6FF', name: 'Company C' }, set a default color
+              sessions_number: item.Sessions_Number,
+              description: item.Description,
+            };
+          });
+
+          this.calendarOptions = {
+            ...this.calendarOptions,
+            events: this.events,
+          };
+
+          this.tags = this.events.map((item) => item.tag);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
 
     this.calendarOptions = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -145,37 +167,37 @@ export class CalendarAppComponent implements OnInit {
     };
   }
 
-  handleSave() {
-    if (!this.validate()) {
-      return;
-    } else {
-      this.showDialog = false;
-      this.clickedEvent = {
-        ...this.changedEvent,
-        backgroundColor: this.changedEvent.tag.color,
-        borderColor: this.changedEvent.tag.color,
-        textColor: '#212121',
-      };
+  // handleSave() {
+  //   if (!this.validate()) {
+  //     return;
+  //   } else {
+  //     this.showDialog = false;
+  //     this.clickedEvent = {
+  //       ...this.changedEvent,
+  //       backgroundColor: this.changedEvent.tag.color,
+  //       borderColor: this.changedEvent.tag.color,
+  //       textColor: '#212121',
+  //     };
 
-      if (this.clickedEvent.hasOwnProperty('id')) {
-        this.events = this.events.map((i) =>
-          i.id.toString() === this.clickedEvent.id.toString()
-            ? (i = this.clickedEvent)
-            : i
-        );
-      } else {
-        this.events = [
-          ...this.events,
-          { ...this.clickedEvent, id: Math.floor(Math.random() * 10000) },
-        ];
-      }
-      this.calendarOptions = {
-        ...this.calendarOptions,
-        ...{ events: this.events },
-      };
-      this.clickedEvent = null;
-    }
-  }
+  //     if (this.clickedEvent.hasOwnProperty('id')) {
+  //       this.events = this.events.map((i) =>
+  //         i.id.toString() === this.clickedEvent.id.toString()
+  //           ? (i = this.clickedEvent)
+  //           : i
+  //       );
+  //     } else {
+  //       this.events = [
+  //         ...this.events,
+  //         { ...this.clickedEvent, id: Math.floor(Math.random() * 10000) },
+  //       ];
+  //     }
+  //     this.calendarOptions = {
+  //       ...this.calendarOptions,
+  //       ...{ events: this.events },
+  //     };
+  //     this.clickedEvent = null;
+  //   }
+  // }
 
   onEditClick() {
     this.view = 'edit';
@@ -203,13 +225,16 @@ export class CalendarAppComponent implements OnInit {
 
   getTrainerClients() {
     this.proxyService
-      .GetClientsByTrainerId({
+      .GetBundlesAndClientsByTrainerId({
         TRAINER_ID: this.authService.getUserId(),
       })
       .subscribe((res: any) => {
-        this.clients = res.Trainer_Clients.map((client: any) => ({
-          fullName: client.First_Name + ' ' + client.Last_Name,
-          user_id: client.User_Id,
+        this.clients = res.Bundlesandclients.map((client: any) => ({
+          fullName: client.Client_Firstname + ' ' + client.Client_Lastname,
+          user_id: client.Client_Id,
+          bundle_id: client.Sessions_Bundle_Id,
+          sessionsLeft: client.Sessions_Number,
+          description: client.Description,
         }));
         console.log(this.clients);
       });
@@ -218,21 +243,12 @@ export class CalendarAppComponent implements OnInit {
   createSessionForm() {
     this.sessionForm = this.formBuilder.group({
       sessions_bundle_session_id: [-1],
+      done: [-1],
       sessions_bundle_id: [null],
-      start_date_time1: [null, Validators.required],
-      end_date_time: [null, Validators.required],
-      description: [null],
-      chosenClient: [null],
-      location: [null],
-    });
-
-    this.chosenClient.valueChanges.subscribe((value) => {
-      this.proxyService
-        .Get_Sessions_bundle_By_CLIENT_ID({ CLIENT_ID: value })
-        .subscribe((res: any) => {
-          this.sessions = res;
-          console.log(this.sessions);
-        });
+      // start_date_time1: [null, Validators.required],
+      // end_date_time: [null, Validators.required],
+      description: ' ',
+      location: ' ',
     });
   }
 
@@ -240,16 +256,25 @@ export class CalendarAppComponent implements OnInit {
     const event = {
       sessions_bundle_session_id:
         this.sessionForm.value.sessions_bundle_session_id,
+      done: this.sessionForm.value.done,
       sessions_bundle_id: this.sessionForm.value.sessions_bundle_id,
-      start_date_time1: this.sessionForm.value.start_date_time1,
-      end_date_time: this.sessionForm.value.end_date_time,
+      start_date_time1: this.changedEvent.start,
+      end_date_time: this.changedEvent.end,
       description:
         'Location: ' +
-        this.sessionForm.value.location +
-        this.sessionForm.value.description,
+        this.changedEvent.location +
+        this.changedEvent.description,
     };
     this.proxyService
       .Edit_Sessions_bundle_session(event)
       .subscribe((res: any) => {});
+  }
+
+  onClientChange(event: any) {
+    this.chosenClient = event.value;
+    this.sessionForm.patchValue({
+      sessions_bundle_id: this.chosenClient.bundle_id,
+      description: this.chosenClient.description,
+    });
   }
 }

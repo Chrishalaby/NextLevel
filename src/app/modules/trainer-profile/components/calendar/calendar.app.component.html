@@ -56,13 +56,12 @@
               <span class="p-input-icon-left flex-grow">
                 <p-dropdown
                   [options]="clients"
-                  [formControl]="chosenClient"
                   optionLabel="fullName"
-                  optionValue="user_id"
                   [filter]="true"
                   filterBy="name"
                   [showClear]="true"
                   placeholder="Client"
+                  (onChange)="onClientChange($event)"
                 >
                 </p-dropdown>
               </span>
@@ -87,6 +86,15 @@
               />
             </span>
           </div>
+          <div class="col-12 field" *ngIf="chosenClient">
+            <input
+              type="text"
+              pInputText
+              placeholder="Sessions Left: {{ chosenClient.sessionsLeft }}"
+              disabled="true"
+            />
+          </div>
+
           <div class="col-12 field">
             <label for="description" class="text-900 font-semibold"
               >Description</label
@@ -142,7 +150,7 @@
         *ngIf="view === 'new' || view === 'edit'"
         label="Save"
         icon="pi pi-check"
-        (click)="handleSave()"
+        (click)="submitEvent()"
         [disabled]="!changedEvent.start || !changedEvent.end"
       ></button>
     </ng-template>

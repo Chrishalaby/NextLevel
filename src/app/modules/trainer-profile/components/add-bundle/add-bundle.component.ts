@@ -44,12 +44,6 @@ export class AddBundleComponent implements OnInit {
   ngOnInit(): void {
     this.getTrainerClients();
     this.createBundleForm();
-    // this.proxyService
-    //   .Get_Sessions_bundle_By_TRAINER_ID_Adv({
-    //     TRAINER_ID: this.authService.getUserId(),
-    //   })
-    //   .subscribe((res: any) => {
-    //   });
   }
 
   createBundleForm() {

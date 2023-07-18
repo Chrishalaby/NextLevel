@@ -60,6 +60,32 @@ export class ProxyService {
         })
       );
   }
+  GetBundlesAndClientsByTrainerId(
+    i_Params_GetBundlesAndClientsByTrainerId: Params_GetBundlesAndClientsByTrainerId
+  ): Observable<GetBundlesAndClientsByTrainerId_Response> {
+    this.url =
+      this.APIBaseUrl +
+      '/GetBundlesAndClientsByTrainerId?Ticket=' +
+      this.common.ticket;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      ticket: this.common.ticket,
+    });
+    const options = { headers: headers };
+    return this.api
+      .post<Result_GetBundlesAndClientsByTrainerId>(
+        this.url,
+        JSON.stringify(i_Params_GetBundlesAndClientsByTrainerId),
+        options
+      )
+      .pipe(
+        map((response) => {
+          this.common.Handle_Exception(response.ExceptionMsg);
+          return response.My_Result;
+        })
+      );
+  }
+
   Add_Guest_Client(
     i_Params_Add_Guest_Client: Params_Add_Guest_Client
   ): Observable<Guest_password> {
@@ -805,7 +831,41 @@ export class ProxyService {
         })
       );
   }
+  GetSessionsByTrainerId(
+    i_Params_GetSessionsByTrainerId: Params_GetSessionsByTrainerId
+  ): Observable<GetSessionsByTrainerId_Response> {
+    this.url =
+      this.APIBaseUrl + '/GetSessionsByTrainerId?Ticket=' + this.common.ticket;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      ticket: this.common.ticket,
+    });
+    const options = { headers: headers };
+    return this.api
+      .post<Result_GetSessionsByTrainerId>(
+        this.url,
+        JSON.stringify(i_Params_GetSessionsByTrainerId),
+        options
+      )
+      .pipe(
+        map((response) => {
+          this.common.Handle_Exception(response.ExceptionMsg);
+          return response.My_Result;
+        })
+      );
+  }
 }
+export interface Params_GetSessionsByTrainerId {
+  TRAINER_ID: number;
+}
+export interface GetSessionsByTrainerId_Response {
+  Sessions: Sessions_bundle_session[];
+}
+export interface Result_GetSessionsByTrainerId extends Action_Result {
+  My_Result: GetSessionsByTrainerId_Response;
+  My_Params_GetSessionsByTrainerId: Params_GetSessionsByTrainerId;
+}
+
 export interface Params_Get_User_By_USER_ID {
   USER_ID?: number;
 }
@@ -1222,4 +1282,32 @@ export interface Result_Delete_Uploaded_file extends Action_Result {
 export interface Result_Delete_Uploaded_file_By_REL_ENTITY_REL_KEY_REL_FIELD
   extends Action_Result {
   My_Params_Delete_Uploaded_file_By_REL_ENTITY_REL_KEY_REL_FIELD: Params_Delete_Uploaded_file_By_REL_ENTITY_REL_KEY_REL_FIELD;
+}
+
+export interface Params_GetBundlesAndClientsByTrainerId {
+  TRAINER_ID: number;
+}
+
+export interface GetBundlesAndClientsByTrainerId_Response {
+  BundlesAndClients: UPC_GET_SESSIONS_BUNDLE_AND_CLIENTS_BY_TRAINER_ID[];
+}
+
+export interface UPC_GET_SESSIONS_BUNDLE_AND_CLIENTS_BY_TRAINER_ID {
+  SESSIONS_BUNDLE_ID: number;
+  TRAINER_ID: number;
+  CLIENT_ID: number;
+  SESSIONS_NUMBER: number;
+  TOTAL_PRICE: number;
+  CURRENCY_ID: number;
+  ENTRY_USER_ID: number;
+  OWNER_ID: number;
+  ENTRY_DATE: string;
+  DESCRIPTION: string;
+  CLIENT_FIRSTNAME: string;
+  CLIENT_LASTNAME: string;
+  IS_GUEST: boolean;
+}
+export interface Result_GetBundlesAndClientsByTrainerId extends Action_Result {
+  My_Result: GetBundlesAndClientsByTrainerId_Response;
+  My_Params_GetBundlesAndClientsByTrainerId: Params_GetBundlesAndClientsByTrainerId;
 }

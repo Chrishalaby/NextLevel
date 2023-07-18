@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class CommonService {
-  public APIUrl = 'http://16.171.148.224/api/data';
+  public APIUrl = 'http://16.171.151.92/api/data';
   public ticket = '';
 
   constructor() {}
