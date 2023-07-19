@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { AccessTokenService } from './access-token.service';
 
 @Injectable({
   providedIn: 'root',
@@ -6,6 +8,14 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   userMail: string = '';
   userId: number = 0;
+  private isLoggedInSubject: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+
+  constructor(private accessTokenService: AccessTokenService) {
+    this.isLoggedInSubject = new BehaviorSubject<boolean>(
+      this.accessTokenService.isLoggedIn()
+    );
+  }
 
   getUserMail() {
     return this.userMail;
@@ -21,5 +31,11 @@ export class AuthService {
 
   setLocalUserMail(userMail: string) {
     this.userMail = userMail;
+  }
+  isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
+
+  // Update the login status
+  updateLoginStatus(): void {
+    this.isLoggedInSubject.next(this.accessTokenService.isLoggedIn());
   }
 }

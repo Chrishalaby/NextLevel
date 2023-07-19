@@ -10,7 +10,6 @@ import { Observable } from 'rxjs';
 import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
 import { environment } from 'src/environments/envonment.prod';
 import { HttpHeaders } from '../enums/http-headers.enum';
-import { ModuleRoutes } from '../enums/routes.enum';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -22,19 +21,26 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     const accessToken: string = this.accessTokenService.getAccessToken();
     const isApiRequest: boolean = request.url.includes(environment.apiUrl);
-    const isAuthRequest: boolean = request.url.includes(ModuleRoutes.Auth);
+    // const isAuthRequest: boolean = request.url.includes(ModuleRoutes.Auth);
 
-    if (!isApiRequest || isAuthRequest || !accessToken) {
-      return next.handle(request);
-    }
+    // if (!isApiRequest || isAuthRequest || !accessToken) {
+    //   return next.handle(request);
+    // }
 
-    const authReq: HttpRequest<typeof HttpHeaders> = request.clone({
-      headers: request.headers.set(
-        HttpHeaders.Authorization,
-        `Bearer ${accessToken}`
-      ),
+    // const authReq: HttpRequest<typeof HttpHeaders> = request.clone({
+    //   headers: request.headers.set(
+    //     HttpHeaders.Authorization,
+    //     `Bearer ${accessToken}`
+    //   ),
+    // });
+    const authReq: HttpRequest<any> = request.clone({
+      setParams: {
+        Ticket: accessToken,
+      },
+      headers: request.headers
+        .set('Content-Type', 'application/json')
+        .set('ticket', accessToken),
     });
-
     return next.handle(authReq);
   }
 }

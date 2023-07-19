@@ -35,10 +35,18 @@
         </button> -->
       </li>
       <button
+        *ngIf="isLoggedIn$ | async"
         pButton
         pRipple
-        label="login"
+        label="Login"
         [routerLink]="'/auth/login'"
+      ></button>
+      <button
+        *ngIf="!(isLoggedIn$ | async)"
+        pButton
+        pRipple
+        label="Logout"
+        (click)="logout()"
       ></button>
     </ul>
   </div>

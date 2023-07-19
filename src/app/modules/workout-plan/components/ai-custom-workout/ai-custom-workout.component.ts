@@ -96,7 +96,6 @@ export class AiCustomWorkoutComponent implements OnInit {
         name: ['', Validators.required],
         age: ['', Validators.required],
         gender: ['', Validators.required],
-        contactInformation: [''],
       }),
       medicalHistory: this.formBuilder.group({
         conditions: [''],
@@ -115,7 +114,7 @@ export class AiCustomWorkoutComponent implements OnInit {
         physicalStats: this.formBuilder.group({
           weight: [''],
           height: [''],
-          bodyFatPercentage: [''],
+          bodyFatPercentage: [null],
         }),
       }),
       availability: this.formBuilder.group({
@@ -124,8 +123,8 @@ export class AiCustomWorkoutComponent implements OnInit {
       }),
       preferencesAndConstraints: this.formBuilder.group({
         exercisePreferences: [''],
-        accessToGym: [''],
-        workoutAlone: [''],
+        accessToGym: [false],
+        workoutAlone: [false],
         // budget: [''],
       }),
       // nutritionalInformation: this.formBuilder.group({
