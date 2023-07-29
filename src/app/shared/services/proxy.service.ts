@@ -119,15 +119,13 @@ export class ProxyService {
         })
       );
   }
-  Get_Country_By_OWNER_ID(
-    i_Params_Get_Country_By_OWNER_ID: Params_Get_Country_By_OWNER_ID
-  ): Observable<Country[]> {
+  Get_Country_By_OWNER_ID(): Observable<Country[]> {
     this.url = this.APIBaseUrl + '/Get_Country_By_OWNER_ID';
 
     return this.api
       .post<Result_Get_Country_By_OWNER_ID>(
         this.url,
-        JSON.stringify(i_Params_Get_Country_By_OWNER_ID)
+        JSON.stringify({ OWNER_ID: this.ownerId })
       )
       .pipe(
         map((response) => {
@@ -820,6 +818,8 @@ export interface Params_Add_Guest_Client {
   TRAINER_ID: number;
   CLIENT_FIRST_NAME: string;
   CLIENT_LAST_NAME: string;
+  PHONE_NUMBER: string;
+  PHONE_EXT: string;
 }
 export interface Guest_password {
   GUEST_PASSWORD_ID?: number;

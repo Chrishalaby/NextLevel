@@ -20,6 +20,26 @@
           formControlName="client_last_name"
         />
       </div>
+      <div class="field grid">
+        <span class="col-12 md:col-3">
+          <label>Ext</label>
+          <p-inputNumber
+            [min]="0"
+            [max]="999"
+            prefix="+"
+            [useGrouping]="false"
+            formControlName="phone_ext"
+          ></p-inputNumber>
+        </span>
+        <span class="col-12 md:col-9">
+          <label htmlFor="name4">Phone Number</label>
+          <p-inputNumber
+            id="name4"
+            [useGrouping]="false"
+            formControlName="phone_number"
+          ></p-inputNumber>
+        </span>
+      </div>
       <div class="field">
         <button
           pButton

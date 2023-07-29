@@ -9,6 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { AuthService } from 'src/app/modules/auth/shared/services/auth.service';
@@ -24,11 +25,13 @@ import { ProxyService } from 'src/app/shared/services/proxy.service';
     InputTextModule,
     ButtonModule,
     ToastModule,
+    InputNumberModule,
   ],
   providers: [ProxyService, MessageService],
 })
 export class AddClientComponent implements OnInit {
   clientForm!: FormGroup;
+  countries: any[] = [];
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -40,12 +43,15 @@ export class AddClientComponent implements OnInit {
 
   ngOnInit(): void {
     this.createClientForm();
+    this.getCountries();
   }
 
   createClientForm() {
     this.clientForm = this.formBuilder.group({
       client_first_name: ['', Validators.required],
       client_last_name: ['', Validators.required],
+      phone_number: [null, Validators.required],
+      phone_ext: ['961', Validators.required],
       trainer_id: [this.authService.getUserId()],
     });
   }
@@ -64,5 +70,12 @@ export class AddClientComponent implements OnInit {
           });
         }
       });
+  }
+
+  getCountries() {
+    this.proxyService.Get_Country_By_OWNER_ID().subscribe((data) => {
+      this.countries = data;
+      console.log(data);
+    });
   }
 }

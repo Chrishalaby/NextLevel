@@ -39,7 +39,8 @@ export class AuthInterceptor implements HttpInterceptor {
       },
       headers: request.headers
         .set('Content-Type', 'application/json')
-        .set('ticket', accessToken),
+        .set('ticket', accessToken)
+        .set('rejectUnauthorized', 'false'),
     });
     return next.handle(authReq);
   }
