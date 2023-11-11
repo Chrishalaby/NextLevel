@@ -55,17 +55,17 @@ export class AppMenuComponent implements OnInit {
               },
             ],
           },
-          // {
-          //   label: 'Nutritional Guidance',
-          //   icon: 'pi pi-fw pi-user',
-          //   items: [
-          //     {
-          //       label: 'Meal Plan',
-          //       icon: 'pi pi-fw pi-user-edit',
-          //       routerLink: ['/nutritional-guidance/meal-plan'],
-          //     },
-          //   ],
-          // },
+          {
+            label: 'Nutritional Guidance',
+            icon: 'pi pi-fw pi-user',
+            items: [
+              {
+                label: 'Meal Plan',
+                icon: 'pi pi-fw pi-user-edit',
+                routerLink: ['/nutritional-guidance/meal-plan'],
+              },
+            ],
+          },
 
           {
             label: 'Auth',

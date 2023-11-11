@@ -126,7 +126,7 @@ const routes: Routes = [
       },
       {
         path: ModuleRoutes.WorkoutPlan,
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
         children: [
           {
             path: WorkoutPlanRoutes.AiCustomWorkout,
