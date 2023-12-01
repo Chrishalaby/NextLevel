@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppLayoutComponent } from './layout/app.layout.component';
-import { AuthGuard } from './modules/auth/shared/services/auth-guard.service';
 import { HomePageComponent } from './modules/home-page/home-page/home-page.component';
 import {
   AuthRoutes,
@@ -73,7 +72,7 @@ const routes: Routes = [
       },
       {
         path: ModuleRoutes.TrainerProfile,
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
         children: [
           {
             path: TrainerProfileRoutes.CreateAboutUs,

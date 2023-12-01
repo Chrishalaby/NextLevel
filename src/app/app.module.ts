@@ -10,7 +10,6 @@ import { AppComponent } from './app.component';
 import { REDUCER_PROVIDER, getInitialState, reducerToken } from './app.store';
 import { AppLayoutModule } from './layout/app.layout.module';
 import { AuthEffects } from './modules/auth/shared/store/auth.effects';
-import { AUTH_INTERCEPTOR_PROVIDER } from './shared/interceptors/auth.interceptor';
 import { USER_PROVIDER } from './shared/providers/user.provider';
 import { ProxyService } from './shared/services/proxy.service';
 @NgModule({
@@ -22,7 +21,7 @@ import { ProxyService } from './shared/services/proxy.service';
     EffectsModule.forRoot([AuthEffects]),
   ],
   providers: [
-    AUTH_INTERCEPTOR_PROVIDER,
+    // AUTH_INTERCEPTOR_PROVIDER,
     REDUCER_PROVIDER,
     USER_PROVIDER,
     provideStore(reducerToken, { initialState: getInitialState }),

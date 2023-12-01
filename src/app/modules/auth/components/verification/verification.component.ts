@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -34,7 +35,8 @@ export class VerificationComponent implements OnInit {
     private readonly proxyService: ProxyService,
     private readonly router: Router,
     private readonly formBuilder: FormBuilder,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly httpClient: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +49,7 @@ export class VerificationComponent implements OnInit {
   get dark(): boolean {
     return this.layoutService.config.colorScheme !== 'light';
   }
+
   onDigitInput(event: any) {
     let element;
     if (event.code !== 'Backspace')
@@ -66,12 +69,23 @@ export class VerificationComponent implements OnInit {
       this.verficationForm.value.val2 +
       this.verficationForm.value.val3 +
       this.verficationForm.value.val4;
-    this.proxyService
-      .UPC_VALIDATE_VALIDATION_CODE({
-        USER_ID: this.userId,
-        VALIDATION_CODE: code,
-      })
+
+    const data = {
+      email: this.userMail,
+      code: code,
+    };
+    // this.proxyService
+    //   .UPC_VALIDATE_VALIDATION_CODE({
+    //     USER_ID: this.userId,
+    //     VALIDATION_CODE: code,
+    //   })
+    //   .subscribe((response) => {
+    //     this.router.navigate(['/auth/login']);
+    //   });
+    this.httpClient
+      .post('http://localhost:3000/users/verify', data)
       .subscribe((response) => {
+        console.log(response);
         this.router.navigate(['/auth/login']);
       });
   }

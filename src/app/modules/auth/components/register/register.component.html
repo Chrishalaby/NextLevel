@@ -37,10 +37,10 @@
       <div class="text-900 text-xl font-bold mb-2">
         Register As
         <p-dropdown
-          optionLabel="Value"
-          optionValue="Role_Id"
+          optionLabel="label"
+          optionValue="value"
           [options]="userTypes"
-          formControlName="role_id"
+          formControlName="userType"
         >
         </p-dropdown>
       </div>
@@ -55,7 +55,7 @@
           pInputText
           class="w-full md:w-25rem"
           placeholder="Username"
-          formControlName="userName"
+          formControlName="username"
         />
       </span>
       <span class="p-input-icon-left w-full mb-4">
