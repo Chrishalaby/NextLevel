@@ -15,7 +15,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
-import { AuthService } from '../../shared/services/auth.service';
+import { AccessTokenService } from '../../shared/services/access-token.service';
 
 @Component({
   templateUrl: './register.component.html',
@@ -48,7 +48,7 @@ export class RegisterComponent implements OnInit {
     // private readonly proxyService: ProxyService,
     private activatedRoute: ActivatedRoute,
     private readonly router: Router,
-    private readonly authService: AuthService,
+    private readonly accessTokenService: AccessTokenService,
     private readonly httpClient: HttpClient
   ) {}
 
@@ -74,8 +74,7 @@ export class RegisterComponent implements OnInit {
       .post('http://localhost:3000/users', this.registerForm.value)
       .subscribe((data: any) => {
         console.log(data);
-        this.authService.setLocalUserId(data.User_Id);
-        this.authService.setLocalUserMail(data.Email);
+        this.accessTokenService.setMailCookie(data.Email);
         this.router.navigate(['/auth/verification']);
       });
   }

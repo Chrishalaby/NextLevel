@@ -51,4 +51,12 @@ export class AccessTokenService {
   public getAccessToken(): string {
     return this.cookieService.get(TokenKeys.JwtCookie);
   }
+
+  public setMailCookie(mail: string): void {
+    this.cookieService.set(TokenKeys.MailCookie, mail);
+  }
+
+  public getMailCookie(): string {
+    return this.cookieService.get(TokenKeys.MailCookie);
+  }
 }

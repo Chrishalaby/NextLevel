@@ -1,3 +1,4 @@
 export enum TokenKeys {
-  JwtCookie = 'jwtTokenCookie'
+  JwtCookie = 'jwtTokenCookie',
+  MailCookie = 'mailCookie',
 }

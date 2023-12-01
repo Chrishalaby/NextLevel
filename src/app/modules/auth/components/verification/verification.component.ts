@@ -11,7 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
-import { AuthService } from '../../shared/services/auth.service';
+import { AccessTokenService } from '../../shared/services/access-token.service';
 
 @Component({
   templateUrl: './verification.component.html',
@@ -32,18 +32,18 @@ export class VerificationComponent implements OnInit {
 
   constructor(
     private layoutService: LayoutService,
-    private readonly proxyService: ProxyService,
     private readonly router: Router,
     private readonly formBuilder: FormBuilder,
-    private readonly authService: AuthService,
+    private readonly accessTokenService: AccessTokenService,
+
     private readonly httpClient: HttpClient
   ) {}
 
   ngOnInit(): void {
     this.createVerificationForm();
 
-    this.userMail = this.authService.getUserMail() || 'tefe7';
-    this.userId = this.authService.getUserId() || 2;
+    this.userMail = this.accessTokenService.getMailCookie() || 'batata';
+    // this.userId = this.authService.getUserId() || 2;
   }
 
   get dark(): boolean {
