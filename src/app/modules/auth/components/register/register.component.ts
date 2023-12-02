@@ -74,7 +74,7 @@ export class RegisterComponent implements OnInit {
       .post('http://localhost:3000/users', this.registerForm.value)
       .subscribe((data: any) => {
         console.log(data);
-        this.accessTokenService.setMailCookie(data.Email);
+        this.accessTokenService.setMailCookie(this.registerForm.value.email);
         this.router.navigate(['/auth/verification']);
       });
   }
