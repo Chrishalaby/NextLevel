@@ -53,13 +53,18 @@ export class AccessTokenService {
   }
 
   public setMailCookie(mail: string): void {
-    console.log('setMailCookie:', mail);
     this.cookieService.set(TokenKeys.MailCookie, mail);
   }
 
   public getMailCookie(): string {
-    console.log('getMailCookie');
-    console.log(this.cookieService.get(TokenKeys.MailCookie));
     return this.cookieService.get(TokenKeys.MailCookie);
+  }
+
+  public setUserIdCookie(userId: number): void {
+    this.cookieService.set(TokenKeys.UserIdCookie, userId.toString());
+  }
+
+  public getUserIdCookie(): number {
+    return parseInt(this.cookieService.get(TokenKeys.UserIdCookie));
   }
 }

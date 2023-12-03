@@ -6,8 +6,6 @@ import { AccessTokenService } from './access-token.service';
   providedIn: 'root',
 })
 export class AuthService {
-  userMail: string = '';
-  userId: number = 0;
   private isLoggedInSubject: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 
@@ -17,21 +15,6 @@ export class AuthService {
     );
   }
 
-  getUserMail() {
-    return this.userMail;
-  }
-
-  getUserId() {
-    return this.userId;
-  }
-
-  setLocalUserId(userId: number) {
-    this.userId = userId;
-  }
-
-  setLocalUserMail(userMail: string) {
-    this.userMail = userMail;
-  }
   isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
   // Update the login status

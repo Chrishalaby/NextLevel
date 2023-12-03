@@ -12,7 +12,6 @@ import { LogInProps, LogInSuccessProps } from '../models/auth-props.model';
 import { AuthResponse } from '../models/auth-response.model';
 import { AccessTokenService } from '../services/access-token.service';
 import { AuthRepository } from '../services/auth.repository';
-import { AuthService } from '../services/auth.service';
 import { AuthActions } from './auth.actions';
 
 @Injectable()
@@ -48,7 +47,7 @@ export class AuthEffects {
               ...response,
               accessToken: response.Ticket,
             };
-            this.authService.setLocalUserId(response.Userid);
+            // this.authService.setLocalUserId(response.Userid);
             this.commonService.setTicket(response.Ticket);
             delete modifiedResponse.Ticket;
 
@@ -85,7 +84,7 @@ export class AuthEffects {
     private readonly authRepository: AuthRepository,
     private readonly router: Router,
     private readonly accessTokenService: AccessTokenService,
-    private readonly authService: AuthService,
+    // private readonly authService: AuthService,
     private readonly commonService: CommonService
   ) {}
 }

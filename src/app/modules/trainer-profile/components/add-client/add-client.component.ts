@@ -12,7 +12,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
-import { AuthService } from 'src/app/modules/auth/shared/services/auth.service';
+import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
 @Component({
   selector: 'app-add-client',
@@ -37,7 +37,7 @@ export class AddClientComponent implements OnInit {
     private readonly formBuilder: FormBuilder,
     private readonly router: Router,
     private readonly proxyService: ProxyService,
-    private readonly authService: AuthService,
+    private readonly accessTokenService: AccessTokenService,
     private readonly messageService: MessageService
   ) {}
 
@@ -52,7 +52,7 @@ export class AddClientComponent implements OnInit {
       client_last_name: ['', Validators.required],
       phone_number: [null, Validators.required],
       phone_ext: ['961', Validators.required],
-      trainer_id: [this.authService.getUserId()],
+      trainer_id: [this.accessTokenService.getUserIdCookie()],
     });
   }
 

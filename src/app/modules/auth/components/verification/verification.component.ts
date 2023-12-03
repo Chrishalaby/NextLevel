@@ -84,8 +84,10 @@ export class VerificationComponent implements OnInit {
     //   });
     this.httpClient
       .post('http://localhost:3000/users/verify', data)
-      .subscribe((response) => {
+      .subscribe((response: any) => {
         console.log(response);
+        this.accessTokenService.setUserIdCookie(response.id);
+
         this.router.navigate(['/auth/login']);
       });
   }

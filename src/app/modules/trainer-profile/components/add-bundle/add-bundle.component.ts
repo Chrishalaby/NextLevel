@@ -12,7 +12,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { AuthService } from 'src/app/modules/auth/shared/services/auth.service';
+import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
 
 @Component({
@@ -37,7 +37,8 @@ export class AddBundleComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private readonly proxyService: ProxyService,
-    private readonly authService: AuthService,
+    private readonly accessTokenService: AccessTokenService,
+
     private readonly router: Router
   ) {}
 
@@ -50,7 +51,7 @@ export class AddBundleComponent implements OnInit {
     this.bundleForm = this.formBuilder.group({
       sessions_bundle_id: [-1],
       client_id: [null, Validators.required],
-      trainer_id: [this.authService.getUserId()],
+      trainer_id: [this.accessTokenService.getUserIdCookie()],
       sessions_number: [null, Validators.required],
       total_price: [null, Validators.required],
       currency_id: [1],
@@ -68,7 +69,7 @@ export class AddBundleComponent implements OnInit {
   getTrainerClients() {
     this.proxyService
       .GetClientsByTrainerId({
-        TRAINER_ID: this.authService.getUserId(),
+        TRAINER_ID: this.accessTokenService.getUserIdCookie(),
       })
       .subscribe((res: any) => {
         this.clients = res.Trainer_Clients.map((client: any) => ({

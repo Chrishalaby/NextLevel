@@ -20,7 +20,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
-import { AuthService } from 'src/app/modules/auth/shared/services/auth.service';
+import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
 import { Client } from '../../shared/models/client.model';
 import { EventService } from '../../shared/services/event.service';
@@ -78,7 +78,7 @@ export class CalendarAppComponent implements OnInit {
     private eventService: EventService,
     private formBuilder: FormBuilder,
     private readonly proxyService: ProxyService,
-    private readonly authService: AuthService,
+    private readonly accessTokenService: AccessTokenService,
     private readonly router: Router
   ) {}
 
@@ -89,7 +89,7 @@ export class CalendarAppComponent implements OnInit {
 
     this.proxyService
       .GetSessionsByTrainerId({
-        TRAINER_ID: this.authService.getUserId(),
+        TRAINER_ID: this.accessTokenService.getUserIdCookie(),
       })
       .subscribe((response: any) => {
         this.events = response.Sessions.map((item: any) => {
@@ -249,7 +249,7 @@ export class CalendarAppComponent implements OnInit {
   getTrainerClients() {
     this.proxyService
       .GetBundlesAndClientsByTrainerId({
-        TRAINER_ID: this.authService.getUserId(),
+        TRAINER_ID: this.accessTokenService.getUserIdCookie(),
       })
       .subscribe((res: any) => {
         this.clients = res.Bundlesandclients.map((client: any) => ({
