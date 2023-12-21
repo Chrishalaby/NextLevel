@@ -9,7 +9,7 @@
               <label>Primary Goal</label>
 
               <p-dropdown
-                [options]="fitnessGoals"
+                [options]="options.fitnessGoals"
                 optionLabel="label"
                 optionValue="value"
                 [pTooltip]="selectedGoal?.info"
@@ -30,7 +30,7 @@
               <label>Days Per Week</label>
 
               <p-dropdown
-                [options]="daysPerWeek"
+                [options]="options.daysPerWeek"
                 optionLabel="label"
                 optionValue="value"
                 formControlName="daysPerWeek"
@@ -42,7 +42,7 @@
               <label>Session Duration</label>
 
               <p-dropdown
-                [options]="sessionDuration"
+                [options]="options.sessionDuration"
                 optionLabel="label"
                 optionValue="value"
                 formControlName="sessionDuration"
@@ -113,7 +113,7 @@
               <label>Primary Goal</label>
 
               <p-dropdown
-                [options]="fitnessGoals"
+                [options]="options.fitnessGoals"
                 optionLabel="label"
                 optionValue="value"
                 [pTooltip]="selectedGoal?.info"
@@ -131,7 +131,7 @@
               <label>Secondary Goals</label>
 
               <p-multiSelect
-                [options]="fitnessGoals"
+                [options]="options.fitnessGoals"
                 optionLabel="label"
                 optionValue="value"
                 [pTooltip]="selectedGoal?.info"
@@ -151,7 +151,7 @@
               <label htmlFor="1">Days Per Week</label>
               <p-dropdown
                 id="1"
-                [options]="daysPerWeek"
+                [options]="options.daysPerWeek"
                 optionLabel="label"
                 optionValue="value"
                 formControlName="daysPerWeek"
@@ -163,7 +163,7 @@
               <label htmlFor="2">Fitness Level</label>
               <p-dropdown
                 id="2"
-                [options]="fitnessLevel"
+                [options]="options.fitnessLevel"
                 optionLabel="label"
                 optionValue="value"
                 formControlName="fitnessLevel"
@@ -212,7 +212,7 @@
               <label>Days Per Week</label>
 
               <p-dropdown
-                [options]="daysPerWeek"
+                [options]="options.daysPerWeek"
                 optionLabel="label"
                 optionValue="value"
                 formControlName="daysPerWeek"
@@ -224,7 +224,7 @@
               <label>Session Duration</label>
 
               <p-dropdown
-                [options]="sessionDuration"
+                [options]="options.sessionDuration"
                 optionLabel="label"
                 optionValue="value"
                 formControlName="sessionDuration"
@@ -238,7 +238,7 @@
             <div class="field">
               <label>Exercice Preferences</label>
               <p-multiSelect
-                [options]="exercisePreferences"
+                [options]="options.exercisePreferences"
                 optionLabel="label"
                 optionValue="value"
                 formControlName="exercisePreferences"

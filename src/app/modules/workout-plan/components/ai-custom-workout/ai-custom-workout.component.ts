@@ -15,6 +15,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TabViewModule } from 'primeng/tabview';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { TooltipModule } from 'primeng/tooltip';
+import { AIService } from 'src/app/shared/services/AI.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
 @Component({
   selector: 'app-ai-custom-workout',
@@ -46,11 +47,6 @@ export class AiCustomWorkoutComponent implements OnInit {
   submitted = false;
 
   selectedGoal: any;
-  fitnessGoals: any[] = [];
-  daysPerWeek: any[] = [];
-  sessionDuration: any[] = [];
-  fitnessLevel: any[] = [];
-  exercisePreferences: any[] = [];
   genderOptions: any[] = [
     {
       label: 'Male',
@@ -80,9 +76,17 @@ export class AiCustomWorkoutComponent implements OnInit {
     { label: 'Other', value: 'other' },
   ];
 
+  options: any = {
+    fitnessGoals: [],
+    daysPerWeek: [],
+    sessionDuration: [],
+    fitnessLevel: [],
+    exercisePreferences: [],
+  };
+
   constructor(
     private formBuilder: FormBuilder,
-    private readonly proxyService: ProxyService
+    private readonly AIService: AIService
   ) {}
 
   ngOnInit(): void {
@@ -156,91 +160,55 @@ export class AiCustomWorkoutComponent implements OnInit {
   }
 
   callOptions() {
-    this.getFitnessGoals();
-    this.getDaysPerWeek();
-    this.getSessionDuration();
-    this.getfitnessLevel();
-    this.getExercisePreferences();
+    this.AIService.getAllOptions().subscribe((res: any) => {
+      this.options.fitnessGoals = this.filterOptionsByType(res, 'fitnessGoals');
+      this.options.daysPerWeek = this.filterOptionsByType(res, 'daysPerWeek');
+      this.options.sessionDuration = this.filterOptionsByType(
+        res,
+        'sessionDuration'
+      );
+      this.options.fitnessLevel = this.filterOptionsByType(res, 'fitnessLevel');
+      this.options.exercisePreferences = this.filterOptionsByType(
+        res,
+        'exercisePreferences'
+      );
+    });
   }
 
-  getFitnessGoals() {
-    this.proxyService
-      .GetOptionsByOptionType({ OPTIONTYPE: 'FitnessGoals' })
-      .subscribe((res: any) => {
-        this.fitnessGoals = res.Options.map((option: any) => ({
-          value: option.Value,
-          label: option.Label,
-          info: option.Info,
-        }));
-      });
-  }
-
-  getDaysPerWeek() {
-    this.proxyService
-      .GetOptionsByOptionType({ OPTIONTYPE: 'DaysPerWeek' })
-      .subscribe((res: any) => {
-        this.daysPerWeek = res.Options.map((option: any) => ({
-          value: option.Value,
-          label: option.Label,
-        }));
-      });
-  }
-
-  getSessionDuration() {
-    this.proxyService
-      .GetOptionsByOptionType({ OPTIONTYPE: 'SessionDuration' })
-      .subscribe((res: any) => {
-        this.sessionDuration = res.Options.map((option: any) => ({
-          value: option.Value,
-          label: option.Label,
-        }));
-      });
-  }
-
-  getfitnessLevel() {
-    this.proxyService
-      .GetOptionsByOptionType({ OPTIONTYPE: 'FitnessLevel' })
-      .subscribe((res: any) => {
-        this.fitnessLevel = res.Options.map((option: any) => ({
-          value: option.Value,
-          label: option.Label,
-        }));
-      });
-  }
-
-  getExercisePreferences() {
-    this.proxyService
-      .GetOptionsByOptionType({ OPTIONTYPE: 'ExercisePreferences' })
-      .subscribe((res: any) => {
-        this.exercisePreferences = res.Options.map((option: any) => ({
-          value: option.Value,
-          label: option.Label,
-        }));
-      });
+  filterOptionsByType(options: any[], optionType: string) {
+    return options
+      .filter((option) => option.optionType === optionType)
+      .map((option) => ({
+        value: option.optionValue,
+        label: option.label,
+        info: option.info,
+      }));
   }
 
   submitTrainer1() {
     this.submitted = true;
-    this.proxyService
-      .Simple_Generated_Workout_Plan(this.workoutPlanTrainerIForm.value)
-      .subscribe((res: any) => {
-        this.submitted = false;
-        this.trainer1Response = res.Simplegeneratedworkoutplanresponse.replace(
-          /\n/g,
-          '<br>'
-        );
-      });
+    this.AIService.submitWorkoutPlanForm(
+      this.workoutPlanTrainerIForm.value
+    ).subscribe((res: any) => {
+      console.log(res);
+      this.submitted = false;
+      // this.trainer1Response = res.Simplegeneratedworkoutplanresponse.replace(
+      //   /\n/g,
+      //   '<br>'
+      // );
+    });
   }
   submitTrainer2() {
     this.submitted = true;
-    this.proxyService
-      .Complicated_Generated_Workout_Plan(this.workoutPlanTrainerIIForm.value)
-      .subscribe((res: any) => {
-        this.submitted = false;
-        this.trainer2Response = res.Complexgeneratedworkoutplanresponse.replace(
-          /\n/g,
-          '<br>'
-        );
-      });
+    this.AIService.submitWorkoutPlanForm(
+      this.workoutPlanTrainerIIForm.value
+    ).subscribe((res: any) => {
+      console.log(res);
+      this.submitted = false;
+      // this.trainer2Response = res.Complexgeneratedworkoutplanresponse.replace(
+      //   /\n/g,
+      //   '<br>'
+      // );
+    });
   }
 }
