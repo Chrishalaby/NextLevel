@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
+import { environment } from 'src/environments/envonment.prod';
 import { AccessTokenService } from '../../shared/services/access-token.service';
 
 @Component({
@@ -83,7 +84,7 @@ export class VerificationComponent implements OnInit {
     //     this.router.navigate(['/auth/login']);
     //   });
     this.httpClient
-      .post('http://localhost:3000/users/verify', data)
+      .post(environment.apiBaseUrl + '/users/verify', data)
       .subscribe((response: any) => {
         console.log(response);
         this.accessTokenService.setUserIdCookie(response.id);

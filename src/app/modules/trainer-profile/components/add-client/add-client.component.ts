@@ -13,6 +13,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
+import { ClientsTrainersService } from 'src/app/shared/services/cliens-trainers.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
 @Component({
   selector: 'app-add-client',
@@ -38,7 +39,8 @@ export class AddClientComponent implements OnInit {
     private readonly router: Router,
     private readonly proxyService: ProxyService,
     private readonly accessTokenService: AccessTokenService,
-    private readonly messageService: MessageService
+    private readonly messageService: MessageService,
+    private readonly clientstrainersService: ClientsTrainersService
   ) {}
 
   ngOnInit(): void {
@@ -48,17 +50,17 @@ export class AddClientComponent implements OnInit {
 
   createClientForm() {
     this.clientForm = this.formBuilder.group({
-      client_first_name: ['', Validators.required],
-      client_last_name: ['', Validators.required],
-      phone_number: [null, Validators.required],
-      phone_ext: ['961', Validators.required],
-      trainer_id: [this.accessTokenService.getUserIdCookie()],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      phoneNumber: [null, Validators.required],
+      // phone_ext: ['961', Validators.required],
+      trainerId: [this.accessTokenService.getUserIdCookie()],
     });
   }
 
   addNewClient() {
-    this.proxyService
-      .Add_Guest_Client(this.clientForm.value)
+    this.clientstrainersService
+      .createGhostClient(this.clientForm.value)
       .subscribe((res) => {
         if (res) {
           this.router.navigate(['/trainer-profile/add-bundle']);

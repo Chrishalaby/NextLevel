@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/envonment.prod';
 import { Trainer } from '../models/trainer.model';
 
 @Injectable({
@@ -14,12 +15,12 @@ export class TrainerService {
   }
 
   getTrainerProfile(): Observable<Trainer> {
-    return this.http.get<Trainer>('http://localhost:3000/trainer-profile');
+    return this.http.get<Trainer>(environment.apiBaseUrl + '/trainer-profile');
   }
 
   updateTrainerProfile(trainer: Trainer): Observable<Trainer> {
     return this.http.put<Trainer>(
-      'http://localhost:3000/trainer-profile',
+      environment.apiBaseUrl + '/trainer-profile',
       trainer
     );
   }
