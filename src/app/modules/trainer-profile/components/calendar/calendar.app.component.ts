@@ -24,6 +24,7 @@ import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-
 import { ProxyService } from 'src/app/shared/services/proxy.service';
 import { Client } from '../../shared/models/client.model';
 import { EventService } from '../../shared/services/event.service';
+import { ClientsTrainersService } from 'src/app/shared/services/cliens-trainers.service';
 @Component({
   templateUrl: './calendar.app.component.html',
   styleUrls: ['./calendar.app.component.scss'],
@@ -78,6 +79,7 @@ export class CalendarAppComponent implements OnInit {
     private eventService: EventService,
     private formBuilder: FormBuilder,
     private readonly proxyService: ProxyService,
+    private readonly clientstrainersService: ClientsTrainersService,
     private readonly accessTokenService: AccessTokenService,
     private readonly router: Router
   ) {}
@@ -247,19 +249,22 @@ export class CalendarAppComponent implements OnInit {
   }
 
   getTrainerClients() {
-    this.proxyService
-      .GetBundlesAndClientsByTrainerId({
-        TRAINER_ID: this.accessTokenService.getUserIdCookie(),
-      })
-      .subscribe((res: any) => {
-        this.clients = res.Bundlesandclients.map((client: any) => ({
-          fullName: client.Client_Firstname + ' ' + client.Client_Lastname,
-          user_id: client.Client_Id,
-          bundle_id: client.Sessions_Bundle_Id,
-          sessionsLeft: client.Sessions_Number,
-          description: client.Description,
-        }));
-      });
+    this.clientstrainersService.getTrainersClients(this.accessTokenService.getUserIdCookie()).subscribe((res: any) => {
+      this.clients = res;
+    });
+    // this.proxyService
+    //   .GetBundlesAndClientsByTrainerId({
+    //     TRAINER_ID: this.accessTokenService.getUserIdCookie(),
+    //   })
+    //   .subscribe((res: any) => {
+    //     this.clients = res.Bundlesandclients.map((client: any) => ({
+    //       fullName: client.Client_Firstname + ' ' + client.Client_Lastname,
+    //       user_id: client.Client_Id,
+    //       bundle_id: client.Sessions_Bundle_Id,
+    //       sessionsLeft: client.Sessions_Number,
+    //       description: client.Description,
+    //     }));
+    //   });
   }
 
   createSessionForm() {
