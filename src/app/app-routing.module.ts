@@ -22,7 +22,7 @@ const routes: Routes = [
         children: [
           {
             path: AuthRoutes.Login,
-            canActivate: [!AuthGuard],
+            canActivate: [AuthGuard],
             loadComponent: () =>
               import('./modules/auth/components/login/login.component').then(
                 (x: LoadedComponent) => x.LoginComponent

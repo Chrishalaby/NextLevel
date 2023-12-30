@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { AuthRoutes, ModuleRoutes } from 'src/app/shared/enums/routes.enum';
@@ -14,13 +19,21 @@ export class AuthGuard implements CanActivate {
     private readonly accessTokenService: AccessTokenService
   ) {}
 
-  canActivate(): Observable<boolean> | Promise<boolean> | boolean {
-    console.log('AuthGuard#canActivate called');
-    return this.checkLogin();
-  }
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
+    const isLoggedIn = this.accessTokenService.isLoggedIn();
 
-  checkLogin(): boolean {
-    if (this.accessTokenService.isLoggedIn()) {
+    if (state.url.includes('/login')) {
+      if (isLoggedIn) {
+        this.router.navigate(['/']);
+        return false;
+      } else {
+        return true;
+      }
+    }
+    if (isLoggedIn) {
       return true;
     } else {
       this.router.navigate([ModuleRoutes.Auth, AuthRoutes.Login]);
