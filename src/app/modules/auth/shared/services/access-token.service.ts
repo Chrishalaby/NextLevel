@@ -44,6 +44,9 @@ export class AccessTokenService {
 
   public deleteAccessToken(): void {
     this.cookieService.delete(TokenKeys.JwtCookie);
+    this.cookieService.delete(TokenKeys.MailCookie);
+    this.cookieService.delete(TokenKeys.UserIdCookie);
+    this.cookieService.delete(TokenKeys.UserCookie);
     this.accessTokenData = undefined;
     this.router.navigate([ModuleRoutes.Auth, AuthRoutes.Login]);
   }
