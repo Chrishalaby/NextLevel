@@ -67,4 +67,12 @@ export class AccessTokenService {
   public getUserIdCookie(): number {
     return parseInt(this.cookieService.get(TokenKeys.UserIdCookie));
   }
+
+  public setUserInfo(user: any): void {
+    this.cookieService.set(TokenKeys.UserCookie, JSON.stringify(user));
+  }
+
+  public getUserInfo(): any {
+    return JSON.parse(this.cookieService.get(TokenKeys.UserCookie));
+  }
 }

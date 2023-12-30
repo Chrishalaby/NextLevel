@@ -9,7 +9,6 @@ import {
 import { map, switchMap, tap } from 'rxjs/operators';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { LogInProps, LogInSuccessProps } from '../models/auth-props.model';
-import { AuthResponse } from '../models/auth-response.model';
 import { AccessTokenService } from '../services/access-token.service';
 import { AuthRepository } from '../services/auth.repository';
 import { AuthActions } from './auth.actions';
@@ -43,20 +42,20 @@ export class AuthEffects {
       switchMap(({ logInDetails }: LogInProps) =>
         this.authRepository.logIn(logInDetails).pipe(
           map((response: any) => {
-            const modifiedResponse = {
-              ...response,
-              accessToken: response.Ticket,
+            if (!response) {
+              throw new Error('Invalid login response');
+            }
+            // Map to LogInSuccessProps structure
+            const modifiedResponse: LogInSuccessProps = {
+              access_token: response.access_token,
+              user: response.user,
             };
-            // this.authService.setLocalUserId(response.Userid);
-            this.commonService.setTicket(response.Ticket);
-            delete modifiedResponse.Ticket;
-
             return modifiedResponse;
           })
         )
       ),
-      map((authResponse: AuthResponse) =>
-        AuthActions.loginSuccess({ accessToken: authResponse.accessToken })
+      map((authResponse: LogInSuccessProps) =>
+        AuthActions.loginSuccess(authResponse)
       )
     )
   );
@@ -65,13 +64,11 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.loginSuccess),
-        map(({ accessToken }: LogInSuccessProps) => accessToken),
-        tap((accessToken: string) =>
-          this.accessTokenService.decodeAccessToken(accessToken)
-        ),
-        tap((accessToken: string) =>
-          this.accessTokenService.setAccessToken(accessToken)
-        ),
+        tap(({ access_token, user }: LogInSuccessProps) => {
+          this.accessTokenService.decodeAccessToken(access_token);
+          this.accessTokenService.setAccessToken(access_token);
+          this.accessTokenService.setUserInfo(user);
+        }),
         tap(() => {
           this.router.navigate(['/']);
         })

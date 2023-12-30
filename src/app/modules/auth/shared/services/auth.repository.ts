@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
-import { ProxyService } from 'src/app/shared/services/proxy.service';
-import { AuthResponse } from '../models/auth-response.model';
+import { environment } from 'src/environments/envonment.prod';
+import { LogInDetails } from '../models/auth-details.model';
+import { LogInSuccessProps } from '../models/auth-props.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,20 +12,21 @@ import { AuthResponse } from '../models/auth-response.model';
 export class AuthRepository {
   constructor(
     private readonly httpClient: HttpClient,
-    private readonly proxyService: ProxyService,
     private readonly router: Router
   ) {}
 
-  logIn(logInDetails: any): Observable<AuthResponse> {
-    return this.proxyService.Authenticate(logInDetails).pipe(
-      map((res: any) => {
-        if (res == null) {
-          throw new Error('Invalid username or password');
-        } else {
-          this.router.navigate(['/']);
-          return res as AuthResponse;
-        }
-      })
-    );
+  logIn(logInDetails: LogInDetails): Observable<LogInSuccessProps> {
+    return this.httpClient
+      .post(environment.apiBaseUrl + '/auth/login', logInDetails)
+      .pipe(
+        map((res: any) => {
+          if (res == null) {
+            throw new Error('Invalid username or password');
+          } else {
+            this.router.navigate(['/']);
+            return res as LogInSuccessProps;
+          }
+        })
+      );
   }
 }
