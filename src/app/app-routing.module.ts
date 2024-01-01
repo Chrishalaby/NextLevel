@@ -74,7 +74,7 @@ const routes: Routes = [
       },
       {
         path: ModuleRoutes.TrainerProfile,
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
         children: [
           {
             path: TrainerProfileRoutes.CreateAboutUs,

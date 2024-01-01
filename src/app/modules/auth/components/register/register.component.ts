@@ -58,9 +58,12 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.getUserType();
+  
+    this.setDefaultType();
     this.createRegisterForm();
   }
+
+  
 
   register() {
     // this.proxyService
@@ -84,31 +87,27 @@ export class RegisterComponent implements OnInit {
   //   this.proxyService.Get_Role_By_OWNER_ID().subscribe((data) => {
   //     this.userTypes = data;
   //     this.setDefaultType();
-  //   });
+  //   }); 
   // }
 
   setDefaultType() {
     this.activatedRoute.queryParams.subscribe((params) => {
+      console.log("Query Params:", params);
       this.defaultType = params['userType'] || '';
 
-      if (this.defaultType == 'trainer') {
-        this.registerForm.get('userType')?.patchValue('trainer');
-      } else if (this.defaultType == 'client') {
-        this.registerForm.get('userType')?.patchValue('client');
-      }
+      console.log("Default Type:", this.defaultType);
+
+      // Set default value directly in the form
+      this.registerForm.get('userType')?.setValue(this.defaultType || 'client');
     });
   }
-
   createRegisterForm() {
     this.registerForm = this.formBuilder.group({
-      // user_id: -1,
       username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
       userType: ['', [Validators.required]],
-      // role_id: ['', [Validators.required]],
-      // is_guest: false,
-      // USER_TYPE_CODE: ['ADMIN'],
     });
   }
 }
+
