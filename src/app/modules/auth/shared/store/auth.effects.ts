@@ -24,7 +24,7 @@ export class AuthEffects {
               throw new Error('Invalid login response');
             }
             const modifiedResponse: LogInSuccessProps = {
-              access_token: response.access_token,
+              accessToken: response.accessToken,
               user: response.user,
             };
             return modifiedResponse;
@@ -41,9 +41,9 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.loginSuccess),
-        tap(({ access_token, user }: LogInSuccessProps) => {
-          this.accessTokenService.decodeAccessToken(access_token);
-          this.accessTokenService.setAccessToken(access_token);
+        tap(({ accessToken, user }: LogInSuccessProps) => {
+          this.accessTokenService.decodeAccessToken(accessToken);
+          this.accessTokenService.setAccessToken(accessToken);
           this.accessTokenService.setUserInfo(user);
         }),
         tap(() => {

@@ -33,6 +33,7 @@ import { ProxyService } from 'src/app/shared/services/proxy.service';
 export class AddClientComponent implements OnInit {
   clientForm!: FormGroup;
   countries: any[] = [];
+  trainerId: any;
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -44,17 +45,19 @@ export class AddClientComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.trainerId = this.accessTokenService.accessTokenData?.sub;
     this.createClientForm();
 
   }
 
   createClientForm() {
+    console.log(this.trainerId);
     this.clientForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       phoneNumber: [null, Validators.required],
       // phone_ext: ['961', Validators.required],
-      trainerId: [this.accessTokenService.getUserIdCookie()],
+      trainerId: [this.trainerId],
     });
     
   }

@@ -5,6 +5,7 @@ export interface JwtData {
   firstName: string;
   lastName: string;
   id: number;
+  sub: number;
   expiryDate: Date;
   exp?: number;
 }
