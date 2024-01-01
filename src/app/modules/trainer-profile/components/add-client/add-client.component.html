@@ -4,21 +4,11 @@
       <h5>Add Client</h5>
       <div class="field">
         <label htmlFor="name4">First Name</label>
-        <input
-          pInputText
-          id="name4"
-          type="text"
-          formControlName="client_first_name"
-        />
+        <input pInputText id="name4" type="text" formControlName="firstName" />
       </div>
       <div class="field">
         <label htmlFor="name4">Last Name</label>
-        <input
-          pInputText
-          id="name4"
-          type="text"
-          formControlName="client_last_name"
-        />
+        <input pInputText id="name4" type="text" formControlName="lastName" />
       </div>
       <div class="field grid">
         <!-- <span class="col-12 md:col-3">
@@ -36,7 +26,7 @@
           <p-inputNumber
             id="name4"
             [useGrouping]="false"
-            formControlName="phone_number"
+            formControlName="phoneNumber"
           ></p-inputNumber>
         </span>
       </div>

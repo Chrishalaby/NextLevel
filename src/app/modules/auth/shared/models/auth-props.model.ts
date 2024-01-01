@@ -5,7 +5,7 @@ export interface LogInProps {
 }
 
 export interface LogInSuccessProps {
-  access_token: string;
+  accessToken: string;
   user: User;
 }
 interface User {
