@@ -6,12 +6,13 @@ export interface LogInProps {
 
 export interface LogInSuccessProps {
   access_token: string;
-  user: User;
+  user:User;
 }
-interface User {
-  id: number;
-  name: string;
-  email: string;
+
+interface User{
+  id:number;
+  username: string;
+  email:string;
 }
 export interface RequestResetPasswordProps {
   email: string;
