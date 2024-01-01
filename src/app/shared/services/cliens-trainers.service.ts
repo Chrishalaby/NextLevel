@@ -16,6 +16,6 @@ export class ClientsTrainersService {
   }
 
   createGhostClient(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/create-ghost-client`, data);
+    return this.http.post(`${this.baseUrl}/users/create-ghost-client`, data);
   }
 }
