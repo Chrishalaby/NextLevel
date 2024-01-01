@@ -45,9 +45,8 @@ export class AddClientComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.trainerId = this.accessTokenService.accessTokenData?.sub;
+    this.trainerId = this.accessTokenService.accessTokenData?.trainerId;
     this.createClientForm();
-
   }
 
   createClientForm() {
@@ -59,11 +58,10 @@ export class AddClientComponent implements OnInit {
       // phone_ext: ['961', Validators.required],
       trainerId: [this.trainerId],
     });
-    
   }
 
   addNewClient() {
-    console.log(this.clientForm)
+    console.log(this.clientForm);
     this.clientstrainersService
       .createGhostClient(this.clientForm.value)
       .subscribe((res) => {
@@ -78,6 +76,4 @@ export class AddClientComponent implements OnInit {
         }
       });
   }
-
-  
 }

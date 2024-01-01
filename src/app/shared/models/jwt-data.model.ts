@@ -4,8 +4,8 @@ export interface JwtData {
   avatar: string;
   firstName: string;
   lastName: string;
-  id: number;
-  sub: number;
+  userId: number;
+  trainerId: number;
   expiryDate: Date;
   exp?: number;
 }
