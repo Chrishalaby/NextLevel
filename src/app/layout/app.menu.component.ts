@@ -91,16 +91,16 @@ export class AppMenuComponent implements OnInit {
                 icon: 'pi pi-fw pi-user-plus',
                 routerLink: ['/auth/register'],
               },
-              // {
-              //   label: 'Forgot Password',
-              //   icon: 'pi pi-fw pi-question',
-              //   routerLink: ['/auth/forgot-password'],
-              // },
-              // {
-              //   label: 'New Password',
-              //   icon: 'pi pi-fw pi-cog',
-              //   routerLink: ['/auth/new-password'],
-              // },
+              {
+                label: 'Forgot Password',
+                icon: 'pi pi-fw pi-question',
+                routerLink: ['/auth/forgot-password'],
+              },
+              {
+                label: 'New Password',
+                icon: 'pi pi-fw pi-cog',
+                routerLink: ['/auth/new-password'],
+              },
               // {
               //   label: 'Verification',
               //   icon: 'pi pi-fw pi-envelope',
