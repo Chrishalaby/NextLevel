@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { environment } from 'src/environments/envonment.prod';
 
 @Injectable({
@@ -15,7 +15,16 @@ export class ClientsTrainersService {
     return this.http.get(`${this.baseUrl}/${id}/clients`);
   }
 
-  createGhostClient(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/users/create-ghost-client`, data);
+  getTrainerIdByUserId(userId: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/users/get-id-by-user/${userId}`);
+  }
+
+  createGhostClient(createClientDto: any): Observable<any> {
+    return this.getTrainerIdByUserId(createClientDto.trainerId).pipe(
+      switchMap((trainerId: number) => {
+        createClientDto.trainerId = trainerId;
+        return this.http.post(`${this.baseUrl}/users/create-ghost-client`, createClientDto);
+      })
+    );
   }
 }
