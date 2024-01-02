@@ -16,7 +16,6 @@ import { AppBreadcrumbComponent } from './app.breadcrumb.component';
 import { AppLayoutComponent } from './app.layout.component';
 import { AppMenuComponent } from './app.menu.component';
 import { AppMenuitemComponent } from './app.menuitem.component';
-import { AppProfileSidebarComponent } from './app.profilesidebar.component';
 import { AppSidebarComponent } from './app.sidebar.component';
 import { AppTopbarComponent } from './app.topbar.component';
 
@@ -26,7 +25,6 @@ import { AppTopbarComponent } from './app.topbar.component';
     AppBreadcrumbComponent,
     AppSidebarComponent,
     AppTopbarComponent,
-    AppProfileSidebarComponent,
     AppMenuComponent,
     AppMenuitemComponent,
   ],
