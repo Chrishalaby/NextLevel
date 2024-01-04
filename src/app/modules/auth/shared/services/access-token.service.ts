@@ -79,4 +79,8 @@ export class AccessTokenService {
   public getUserInfo(): any {
     return JSON.parse(this.cookieService.get(TokenKeys.UserCookie));
   }
+  public getUserType(): string | undefined {
+    const userInfo = this.getUserInfo();
+    return userInfo ? userInfo.userType : undefined;
+  }
 }

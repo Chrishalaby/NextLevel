@@ -13,9 +13,14 @@ import { AuthEffects } from './modules/auth/shared/store/auth.effects';
 import { AUTH_INTERCEPTOR_PROVIDER } from './shared/interceptors/auth.interceptor';
 import { USER_PROVIDER } from './shared/providers/user.provider';
 import { ProxyService } from './shared/services/proxy.service';
+import { LogoutConfirmationDialogComponent } from './logout-confirmation-dialog/logout-confirmation-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ButtonModule } from 'primeng/button';
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, LogoutConfirmationDialogComponent],
   imports: [
+    ButtonModule,
+    MatDialogModule,
     BrowserModule,
     AppRoutingModule,
     AppLayoutModule,
