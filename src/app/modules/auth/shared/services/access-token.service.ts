@@ -49,6 +49,7 @@ export class AccessTokenService {
     this.cookieService.delete(TokenKeys.UserCookie);
     this.accessTokenData = undefined;
     this.router.navigate([ModuleRoutes.Auth, AuthRoutes.Login]);
+    window.location.reload();
   }
 
   public getAccessToken(): string {

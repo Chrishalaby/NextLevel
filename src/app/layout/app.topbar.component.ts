@@ -10,7 +10,8 @@ import { AuthService } from '../modules/auth/shared/services/auth.service';
 })
 export class AppTopbarComponent implements OnInit {
   @ViewChild('menubutton') menuButton!: ElementRef;
-  isLoggedIn$!: Observable<boolean>;
+  isLoggedIn$: Observable<boolean> | undefined;
+
   constructor(
     public layoutService: LayoutService,
     private authService: AuthService,
@@ -20,6 +21,11 @@ export class AppTopbarComponent implements OnInit {
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
   }
+
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedInSync(); // Add a synchronous method to get the login status
+  }
+
   onMenuButtonClick() {
     this.layoutService.onMenuToggle();
   }
@@ -27,6 +33,7 @@ export class AppTopbarComponent implements OnInit {
   onProfileButtonClick() {
     this.layoutService.showProfileSidebar();
   }
+
   onConfigButtonClick() {
     this.layoutService.showConfigSidebar();
   }

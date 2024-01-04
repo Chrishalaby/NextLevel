@@ -63,7 +63,7 @@
         />
       </span>
       <div class="mb-4 flex flex-wrap gap-3">
-        <div>
+        <div style="display: flex; align-items: center">
           <p-checkbox
             name="checkbox"
             value="val"
@@ -74,12 +74,26 @@
             >Remember Me</label
           >
         </div>
+
         <a
           class="text-600 cursor-pointer hover:text-primary cursor-pointer ml-auto transition-colors transition-duration-300"
           [routerLink]="['/auth/forgot-password']"
           >Reset password</a
         >
       </div>
+      <div class="mb-4 flex flex-wrap gap-3">
+        <div style="display: flex; align-items: center">
+          <span class="font-medium text-600"
+            >Don't have an account?
+            <a
+              class="font-semibold cursor-pointer text-900 hover:text-primary transition-colors transition-duration-300"
+              [routerLink]="['/auth/register']"
+              >Register</a
+            ></span
+          >
+        </div>
+      </div>
+
       <button
         pButton
         pRipple

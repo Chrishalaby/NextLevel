@@ -65,6 +65,7 @@ const routes: Routes = [
           },
           {
             path: AuthRoutes.Verification,
+            canActivate:[!AuthGuard],
             loadComponent: () =>
               import(
                 './modules/auth/components/verification/verification.component'

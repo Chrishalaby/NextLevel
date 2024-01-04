@@ -48,6 +48,7 @@ export class AuthEffects {
         }),
         tap(() => {
           this.router.navigate(['/']);
+          window.location.reload()
         })
       ),
     { dispatch: false }
