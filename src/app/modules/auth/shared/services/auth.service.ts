@@ -1,3 +1,4 @@
+import { userType } from './../models/user-type.model';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AccessTokenService } from './access-token.service';
@@ -13,12 +14,15 @@ export class AuthService {
     this.isLoggedInSubject = new BehaviorSubject<boolean>(
       this.accessTokenService.isLoggedIn()
     );
-  }
+   }
 
   isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
-
-  // Update the login status
+   
   updateLoginStatus(): void {
     this.isLoggedInSubject.next(this.accessTokenService.isLoggedIn());
+  }
+
+  isLoggedInSync(): boolean {
+    return this.isLoggedInSubject.value;
   }
 }

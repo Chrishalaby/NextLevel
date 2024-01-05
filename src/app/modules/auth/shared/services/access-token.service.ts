@@ -49,6 +49,7 @@ export class AccessTokenService {
     this.cookieService.delete(TokenKeys.UserCookie);
     this.accessTokenData = undefined;
     this.router.navigate([ModuleRoutes.Auth, AuthRoutes.Login]);
+    window.location.reload();
   }
 
   public getAccessToken(): string {
@@ -76,6 +77,13 @@ export class AccessTokenService {
   }
 
   public getUserInfo(): any {
-    return JSON.parse(this.cookieService.get(TokenKeys.UserCookie));
+    const userInfoString = this.cookieService.get(TokenKeys.UserCookie);
+  
+    // Check if the string is not empty before parsing
+    return userInfoString ? JSON.parse(userInfoString) : null;
+  }
+  public getUserType(): string | undefined {
+    const userInfo = this.getUserInfo();
+    return userInfo ? userInfo.userType : undefined;
   }
 }

@@ -18,9 +18,12 @@ import { AppMenuComponent } from './app.menu.component';
 import { AppMenuitemComponent } from './app.menuitem.component';
 import { AppSidebarComponent } from './app.sidebar.component';
 import { AppTopbarComponent } from './app.topbar.component';
+import { LogoutConfirmationDialogComponent } from '../logout-confirmation-dialog/logout-confirmation-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
+    LogoutConfirmationDialogComponent,
     AppLayoutComponent,
     AppBreadcrumbComponent,
     AppSidebarComponent,
@@ -29,6 +32,8 @@ import { AppTopbarComponent } from './app.topbar.component';
     AppMenuitemComponent,
   ],
   imports: [
+    ButtonModule,
+    MatDialogModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,

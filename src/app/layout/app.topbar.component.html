@@ -14,15 +14,23 @@
 
   <div class="topbar-end">
     <ul class="topbar-menu">
+      <div *ngIf="!isLoggedIn">
+        <button
+          style="margin-right: 10px"
+          pButton
+          pRipple
+          label="Login"
+          [routerLink]="'/auth/login'"
+        ></button>
+        <button
+          pButton
+          pRipple
+          label="Register"
+          [routerLink]="'/auth/register'"
+        ></button>
+      </div>
       <button
-        *ngIf="isLoggedIn$ | async"
-        pButton
-        pRipple
-        label="Login"
-        [routerLink]="'/auth/login'"
-      ></button>
-      <button
-        *ngIf="!(isLoggedIn$ | async)"
+        *ngIf="isLoggedIn"
         pButton
         pRipple
         label="Logout"

@@ -3,10 +3,12 @@
     <h1>Connecting You With the Perfect Personal Trainer</h1>
     <div class="flex justify-content-center gap-3">
       <p-button
+        *ngIf="!isLoggedIn"
         label="Join as a Trainer"
         (click)="register('trainer')"
       ></p-button>
       <p-button
+        *ngIf="!isLoggedIn"
         label="Find Your Trainer"
         class="button-secondary"
         (click)="register('client')"

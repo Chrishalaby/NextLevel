@@ -45,12 +45,11 @@ export class AddClientComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.trainerId = this.accessTokenService.accessTokenData?.trainerId;
+    this.trainerId = this.accessTokenService.accessTokenData?.userId;
     this.createClientForm();
   }
 
   createClientForm() {
-    console.log(this.trainerId);
     this.clientForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -61,7 +60,6 @@ export class AddClientComponent implements OnInit {
   }
 
   addNewClient() {
-    console.log(this.clientForm);
     this.clientstrainersService
       .createGhostClient(this.clientForm.value)
       .subscribe((res) => {

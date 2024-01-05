@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { TimelineModule } from 'primeng/timeline';
+import { AuthService } from '../../auth/shared/services/auth.service';
 
 @Component({
   selector: 'app-home-page',
@@ -24,11 +25,16 @@ export class HomePageComponent {
     },
     { status: '4. Get Fit', info: 'Get fit and stay fit with your trainer.' },
   ];
-  constructor(private readonly router: Router) {}
+  constructor(private readonly router: Router, private authService:AuthService) {}
 
   register(userType: string) {
     this.router.navigate(['/auth/register'], {
       queryParams: { userType: userType },
     });
+  }
+
+
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedInSync(); // Add a synchronous method to get the login status
   }
 }

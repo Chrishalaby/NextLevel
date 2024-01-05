@@ -1,4 +1,6 @@
+import { userType } from './../modules/auth/shared/models/user-type.model';
 import { Component, OnInit } from '@angular/core';
+import { AccessTokenService } from '../modules/auth/shared/services/access-token.service';
 
 @Component({
   selector: 'app-menu',
@@ -6,8 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppMenuComponent implements OnInit {
   model: any[] = [];
-
+  isLoggedIn: boolean = false;
+  constructor(private accessTokenService: AccessTokenService) {}
   ngOnInit() {
+    console.log('Is logged in:', this.accessTokenService.isLoggedIn());
+    console.log('User type:', this.accessTokenService.getUserType());
+
     this.model = [
       {
         label: 'Pages',
@@ -16,6 +22,9 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'Profile',
             icon: 'pi pi-fw pi-user',
+            visible:
+              this.accessTokenService.isLoggedIn() &&
+              this.accessTokenService.getUserType() === 'trainer',
             items: [
               {
                 label: 'Create About',
@@ -75,6 +84,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Login',
                 icon: 'pi pi-fw pi-sign-in',
                 routerLink: ['/auth/login'],
+                visible: !this.isLoggedIn,
               },
               // {
               //   label: 'Error',
@@ -90,6 +100,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Register',
                 icon: 'pi pi-fw pi-user-plus',
                 routerLink: ['/auth/register'],
+                visible: !this.isLoggedIn,
               },
               {
                 label: 'Forgot Password',
@@ -107,6 +118,23 @@ export class AppMenuComponent implements OnInit {
               //   routerLink: ['/auth/verification'],
               // },
             ],
+          },
+        ],
+      },
+      {
+        label: 'Search',
+        icon: 'pi pi-fw pi-briefcase',
+        visible: this.accessTokenService.isLoggedIn(),
+        items: [
+          {
+            label: 'Search for Trainers',
+            icon: 'pi pi-fw pi-search',
+            visible: (this.accessTokenService.getUserType())===('client'),
+          },
+          {
+            label: 'Search My Clients',
+            icon: 'pi pi-fw pi-search',
+            visible: (this.accessTokenService.getUserType())===('trainer'),
           },
         ],
       },
