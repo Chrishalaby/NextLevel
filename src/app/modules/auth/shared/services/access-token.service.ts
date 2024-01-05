@@ -77,7 +77,10 @@ export class AccessTokenService {
   }
 
   public getUserInfo(): any {
-    return JSON.parse(this.cookieService.get(TokenKeys.UserCookie));
+    const userInfoString = this.cookieService.get(TokenKeys.UserCookie);
+  
+    // Check if the string is not empty before parsing
+    return userInfoString ? JSON.parse(userInfoString) : null;
   }
   public getUserType(): string | undefined {
     const userInfo = this.getUserInfo();

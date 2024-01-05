@@ -1,3 +1,4 @@
+import { userType } from './../modules/auth/shared/models/user-type.model';
 import { Component, OnInit } from '@angular/core';
 import { AccessTokenService } from '../modules/auth/shared/services/access-token.service';
 
@@ -8,10 +9,10 @@ import { AccessTokenService } from '../modules/auth/shared/services/access-token
 export class AppMenuComponent implements OnInit {
   model: any[] = [];
   isLoggedIn: boolean = false;
-
   constructor(private accessTokenService: AccessTokenService) {}
   ngOnInit() {
-    this.isLoggedIn = this.accessTokenService.isLoggedIn();
+    console.log('Is logged in:', this.accessTokenService.isLoggedIn());
+    console.log('User type:', this.accessTokenService.getUserType());
 
     this.model = [
       {
@@ -22,7 +23,7 @@ export class AppMenuComponent implements OnInit {
             label: 'Profile',
             icon: 'pi pi-fw pi-user',
             visible:
-              this.isLoggedIn &&
+              this.accessTokenService.isLoggedIn() &&
               this.accessTokenService.getUserType() === 'trainer',
             items: [
               {
@@ -123,17 +124,17 @@ export class AppMenuComponent implements OnInit {
       {
         label: 'Search',
         icon: 'pi pi-fw pi-briefcase',
-        visible:this.accessTokenService.isLoggedIn(),
+        visible: this.accessTokenService.isLoggedIn(),
         items: [
           {
-            visible: this.accessTokenService.getUserType()==='client',
             label: 'Search for Trainers',
             icon: 'pi pi-fw pi-search',
+            visible: (this.accessTokenService.getUserType())===('client'),
           },
           {
-            visible: this.accessTokenService.getUserType()==='trainer',
             label: 'Search My Clients',
             icon: 'pi pi-fw pi-search',
+            visible: (this.accessTokenService.getUserType())===('trainer'),
           },
         ],
       },
