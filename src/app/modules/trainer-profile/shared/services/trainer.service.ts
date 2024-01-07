@@ -20,7 +20,8 @@ export class TrainerService {
 
   updateTrainerProfile(trainer: Trainer): Observable<Trainer> {
     return this.http.put<Trainer>(
-      environment.apiBaseUrl + '/trainer-profile',
+      
+       `${environment.apiBaseUrl}/users/trainer-profile`,
       trainer
     );
   }
