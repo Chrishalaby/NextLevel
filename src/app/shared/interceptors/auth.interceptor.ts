@@ -21,7 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     const accessToken: string = this.accessTokenService.getAccessToken();
-    const isApiRequest: boolean = request.url.includes(environment.apiUrl);
+    const isApiRequest: boolean = request.url.includes(environment.apiBaseUrl);
     const isAuthRequest: boolean = request.url.includes(ModuleRoutes.Auth);
 
     if (!isApiRequest || isAuthRequest || !accessToken) {

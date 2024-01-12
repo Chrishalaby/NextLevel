@@ -118,7 +118,7 @@ export class CreateAboutusComponent implements OnInit {
 
   submitProfile() {
     const profile = this.profileForm.value;
-    this.trainerService.updateTrainerProfile(profile);
+    this.trainerService.updateTrainerProfile(profile).subscribe();
   }
 
   // ngOnDestroy(): void {
