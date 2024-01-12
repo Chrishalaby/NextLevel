@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../modules/auth/shared/services/auth.service';
+import { AccessTokenService } from '../modules/auth/shared/services/access-token.service';
+import { TokenKeys } from '../shared/enums/tokens.enum';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-menu',
@@ -6,27 +10,57 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppMenuComponent implements OnInit {
   model: any[] = [];
+  
+
+  constructor(private readonly accessTokenService: AccessTokenService, 
+    private readonly cookieService: CookieService){}
 
   ngOnInit() {
+
+    const isLoggedIn = this.accessTokenService.isLoggedIn();
+    const userCookie = this.cookieService.get(TokenKeys.UserCookie);
+    
+    let isTrainer: Boolean = false;
+    if(userCookie){
+      try {
+        const userData = JSON.parse(userCookie);
+        const userType = userData.userType;
+        if(userData && userType){
+          console.log(userType);
+          if(userType == "trainer"){
+              isTrainer = true;
+          }
+          
+        }
+        else console.error("NULL VALUE FOR COOKIE.")
+        
+      } catch (error) {
+        console.error('Error parsing JSON from the cookie:', error);
+      }
+    }
+    
+    console.log("Is logged in: " + isLoggedIn);
+    console.log("Is trainer: " + isTrainer);
+
+
+    // Initialize the menu structure when the component initializes
     this.model = [
       {
         label: 'Pages',
         icon: 'pi pi-fw pi-briefcase',
         items: [
+          // First top-level menu item: 'Profile'
           {
             label: 'Profile',
             icon: 'pi pi-fw pi-user',
             items: [
+              // Nested menu items for 'Profile'
               {
                 label: 'Create About',
                 icon: 'pi pi-fw pi-user-edit',
                 routerLink: ['/trainer-profile/create-aboutus'],
+                visible: isTrainer,
               },
-              // {
-              //   label: 'Show About',
-              //   icon: 'pi pi-fw pi-user-edit',
-              //   routerLink: ['/trainer-profile/show-aboutus'],
-              // },
               {
                 label: 'Calendar',
                 icon: 'pi pi-fw pi-user-edit',
@@ -36,18 +70,22 @@ export class AppMenuComponent implements OnInit {
                 label: 'Add Client',
                 icon: 'pi pi-fw pi-user-edit',
                 routerLink: ['/trainer-profile/add-client'],
+                visible: isTrainer,
               },
               {
                 label: 'Add Bundle',
                 icon: 'pi pi-fw pi-user-edit',
                 routerLink: ['/trainer-profile/add-bundle'],
+                visible: isTrainer,
               },
             ],
           },
+          // Second top-level menu item: 'Workout Plan'
           {
             label: 'Workout Plan',
             icon: 'pi pi-fw pi-user',
             items: [
+              // Nested menu items for 'Workout Plan'
               {
                 label: 'Create Workout Plan',
                 icon: 'pi pi-fw pi-user-edit',
@@ -55,10 +93,12 @@ export class AppMenuComponent implements OnInit {
               },
             ],
           },
+          // Third top-level menu item: 'Nutritional Guidance'
           {
             label: 'Nutritional Guidance',
             icon: 'pi pi-fw pi-user',
             items: [
+              // Nested menu items for 'Nutritional Guidance'
               {
                 label: 'Meal Plan',
                 icon: 'pi pi-fw pi-user-edit',
@@ -66,46 +106,35 @@ export class AppMenuComponent implements OnInit {
               },
             ],
           },
-
+          // Fourth top-level menu item: 'Auth'
           {
             label: 'Auth',
             icon: 'pi pi-fw pi-user',
             items: [
+              // Nested menu items for 'Auth'
               {
                 label: 'Login',
                 icon: 'pi pi-fw pi-sign-in',
                 routerLink: ['/auth/login'],
+                visible: !isLoggedIn,
               },
-              // {
-              //   label: 'Error',
-              //   icon: 'pi pi-fw pi-times-circle',
-              //   routerLink: ['/auth/error'],
-              // },
-              // {
-              //   label: 'Access Denied',
-              //   icon: 'pi pi-fw pi-lock',
-              //   routerLink: ['/auth/access-denied'],
-              // },
               {
                 label: 'Register',
                 icon: 'pi pi-fw pi-user-plus',
                 routerLink: ['/auth/register'],
+                visible: !isLoggedIn,
               },
               {
                 label: 'Forgot Password',
                 icon: 'pi pi-fw pi-question',
                 routerLink: ['/auth/forgot-password'],
+                visible: !isLoggedIn,
               },
               {
                 label: 'New Password',
                 icon: 'pi pi-fw pi-cog',
                 routerLink: ['/auth/new-password'],
               },
-              // {
-              //   label: 'Verification',
-              //   icon: 'pi pi-fw pi-envelope',
-              //   routerLink: ['/auth/verification'],
-              // },
             ],
           },
         ],

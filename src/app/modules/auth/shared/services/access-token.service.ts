@@ -18,10 +18,12 @@ export class AccessTokenService {
     private readonly router: Router
   ) {}
 
+  // Checks if the user is logged in by verifying the presence of the access token
   public isLoggedIn(): boolean {
     return !!this.getAccessToken();
   }
 
+  // Decodes the access token and sets the decoded data in accessTokenData property
   public decodeAccessToken(accessToken: string): void {
     const decodedAccessToken: JwtData = jwtDecode(accessToken);
 
@@ -33,6 +35,7 @@ export class AccessTokenService {
     };
   }
 
+  // Sets the access token in the browser's cookies
   public setAccessToken(accessToken: string): void {
     this.cookieService.set(
       TokenKeys.JwtCookie,
@@ -42,6 +45,7 @@ export class AccessTokenService {
     );
   }
 
+  // Deletes access token and other related cookies, resets accessTokenData, and navigates to login route
   public deleteAccessToken(): void {
     this.cookieService.delete(TokenKeys.JwtCookie);
     this.cookieService.delete(TokenKeys.MailCookie);
@@ -51,10 +55,12 @@ export class AccessTokenService {
     this.router.navigate([ModuleRoutes.Auth, AuthRoutes.Login]);
   }
 
+  // Retrieves the access token from the browser's cookies
   public getAccessToken(): string {
     return this.cookieService.get(TokenKeys.JwtCookie);
   }
 
+  // Sets and retrieves cookies for mail, user ID, and user info
   public setMailCookie(mail: string): void {
     this.cookieService.set(TokenKeys.MailCookie, mail);
   }
