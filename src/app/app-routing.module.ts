@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppLayoutComponent } from './layout/app.layout.component';
-import { AuthGuard } from './modules/auth/shared/services/auth-guard.service';
+import { LoginGuard, TrainerGuard } from './modules/auth/shared/services/auth-guard.service';
 import { HomePageComponent } from './modules/home-page/home-page/home-page.component';
 import {
   AuthRoutes,
@@ -25,7 +25,7 @@ const routes: Routes = [
           {
             // Route for the login page with AuthGuard protection
             path: AuthRoutes.Login,
-            canActivate: [AuthGuard], // Protect this route with AuthGuard
+            canActivate: [LoginGuard], // Protect this route with AuthGuard
             // Lazy-loaded component for the login page
             loadComponent: () =>
               import('./modules/auth/components/login/login.component').then(
@@ -80,7 +80,7 @@ const routes: Routes = [
       {
         // Routes for Trainer Profile module, all protected by AuthGuard
         path: ModuleRoutes.TrainerProfile,
-        canActivate: [AuthGuard],
+        canActivate: [LoginGuard, TrainerGuard],
         children: [
           {
             path: TrainerProfileRoutes.CreateAboutUs,

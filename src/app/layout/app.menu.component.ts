@@ -18,30 +18,10 @@ export class AppMenuComponent implements OnInit {
   ngOnInit() {
 
     const isLoggedIn = this.accessTokenService.isLoggedIn();
-    const userCookie = this.cookieService.get(TokenKeys.UserCookie);
-    
-    let isTrainer: Boolean = false;
-    if(userCookie){
-      try {
-        const userData = JSON.parse(userCookie);
-        const userType = userData.userType;
-        if(userData && userType){
-          console.log(userType);
-          if(userType == "trainer"){
-              isTrainer = true;
-          }
-          
-        }
-        else console.error("NULL VALUE FOR COOKIE.")
-        
-      } catch (error) {
-        console.error('Error parsing JSON from the cookie:', error);
-      }
-    }
-    
-    console.log("Is logged in: " + isLoggedIn);
-    console.log("Is trainer: " + isTrainer);
+    let isTrainer: boolean = this.handleMenuVisibility();
 
+    console.log('Is logged in: ' + isLoggedIn);
+    console.log('Is trainer: ' + isTrainer);
 
     // Initialize the menu structure when the component initializes
     this.model = [
@@ -53,13 +33,13 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'Profile',
             icon: 'pi pi-fw pi-user',
+            visible: isTrainer,
             items: [
               // Nested menu items for 'Profile'
               {
                 label: 'Create About',
                 icon: 'pi pi-fw pi-user-edit',
                 routerLink: ['/trainer-profile/create-aboutus'],
-                visible: isTrainer,
               },
               {
                 label: 'Calendar',
@@ -70,13 +50,11 @@ export class AppMenuComponent implements OnInit {
                 label: 'Add Client',
                 icon: 'pi pi-fw pi-user-edit',
                 routerLink: ['/trainer-profile/add-client'],
-                visible: isTrainer,
               },
               {
                 label: 'Add Bundle',
                 icon: 'pi pi-fw pi-user-edit',
                 routerLink: ['/trainer-profile/add-bundle'],
-                visible: isTrainer,
               },
             ],
           },
@@ -141,4 +119,30 @@ export class AppMenuComponent implements OnInit {
       },
     ];
   }
+
+  private handleMenuVisibility(): boolean {
+    const userCookie = this.cookieService.get(TokenKeys.UserCookie);
+
+    if (userCookie) {
+      try {
+        const userData = JSON.parse(userCookie);
+        const userType = userData.userType;
+        if (userData && userType) {
+          console.log(userType);
+          if (userType === 'trainer') {
+            return true;
+          }
+        } else {
+          console.error('NULL VALUE FOR COOKIE.');
+          return false;
+        }
+      } catch (error) {
+        console.error('Error parsing JSON from the cookie:', error);
+      }
+      
+    }
+    return false;
+
+}
+
 }
