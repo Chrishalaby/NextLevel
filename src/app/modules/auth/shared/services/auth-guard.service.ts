@@ -27,23 +27,31 @@ canActivate(
   state: RouterStateSnapshot
 ): boolean {
   const isLoggedIn = this.accessTokenService.isLoggedIn();
-  const isLoginRoute = route.routeConfig?.path === 'login';
+  const isLoginRoute = route.routeConfig?.path === 'register' || 
+                    route.routeConfig?.path === 'login' ||  
+                    route.routeConfig?.path === 'forgot-password';
 
-  if (isLoginRoute) {
-    if (isLoggedIn) {
-      this.router.navigate(['/']);
-      return false;
-    } else {
-      return true;
-    }
-  }
-
+if (isLoginRoute) {
   if (isLoggedIn) {
-    return true;
-  } else {
-    this.router.navigate([ModuleRoutes.Auth, AuthRoutes.Login]);
+    // User is logged in, redirect to home
+    this.router.navigate(['/']);
     return false;
+  } else {
+    // User is not logged in, allow access to login, register, and forgot-password routes
+    return true;
   }
+}
+
+// For other routes (not login, register, or forgot-password)
+if (isLoggedIn) {
+  // User is logged in, allow access to the route
+  return true;
+} else {
+  // User is not logged in, redirect to login
+  this.router.navigate([ModuleRoutes.Auth, AuthRoutes.Login]);
+  return false;
+}
+
 }
 
 }

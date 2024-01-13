@@ -49,6 +49,7 @@ const routes: Routes = [
           },
           {
             path: AuthRoutes.ForgotPassword,
+            canActivate: [LoginGuard], // Protect this route with AuthGuard
             loadComponent: () =>
               import(
                 './modules/auth/components/forgotpassword/forgotpassword.component'
@@ -63,6 +64,7 @@ const routes: Routes = [
           },
           {
             path: AuthRoutes.Register,
+            canActivate: [LoginGuard], // Protect this route with AuthGuard
             loadComponent: () =>
               import(
                 './modules/auth/components/register/register.component'
