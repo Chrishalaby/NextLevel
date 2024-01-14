@@ -1,8 +1,17 @@
 <nav class="layout-breadcrumb">
+    <!-- Start of Breadcrumb Navigation -->
     <ol>
-        <ng-template ngFor let-item let-last="last" [ngForOf]="breadcrumbs$ | async">
-            <li>{{item.label}}</li>
-            <li *ngIf="!last" class="layout-breadcrumb-chevron"> / </li>
-        </ng-template>
+      <!-- Angular ngFor Directive: Iterate over the breadcrumbs$ observable -->
+      <ng-template ngFor let-item let-last="last" [ngForOf]="breadcrumbs$ | async">
+        <!-- Loop through each breadcrumb item -->
+        <li>
+          <!-- Display the label of the current breadcrumb item -->
+          {{item.label}}
+        </li>
+        <!-- Separator between breadcrumb items, displayed if it's not the last item -->
+        <li *ngIf="!last" class="layout-breadcrumb-chevron"> / </li>
+      </ng-template>
     </ol>
-</nav>
+    <!-- End of Breadcrumb Navigation -->
+  </nav>
+  

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppLayoutComponent } from './layout/app.layout.component';
-import { AuthGuard } from './modules/auth/shared/services/auth-guard.service';
+import { LoginGuard, TrainerGuard } from './modules/auth/shared/services/auth-guard.service';
 import { HomePageComponent } from './modules/home-page/home-page/home-page.component';
 import {
   AuthRoutes,
@@ -12,23 +12,28 @@ import {
 } from './shared/enums/routes.enum';
 import { LoadedComponent } from './shared/types/general.types';
 
+// Define the application routes
 const routes: Routes = [
   {
     path: '',
     component: AppLayoutComponent,
     children: [
       {
+        // Routes for authentication-related features
         path: ModuleRoutes.Auth,
         children: [
           {
+            // Route for the login page with AuthGuard protection
             path: AuthRoutes.Login,
-            canActivate: [AuthGuard],
+            canActivate: [LoginGuard], // Protect this route with AuthGuard
+            // Lazy-loaded component for the login page
             loadComponent: () =>
               import('./modules/auth/components/login/login.component').then(
                 (x: LoadedComponent) => x.LoginComponent
               ),
           },
           {
+            // Other authentication-related routes using lazy loading (Access Denied, Error, etc.)
             path: AuthRoutes.AccessDenied,
             loadComponent: () =>
               import(
@@ -44,6 +49,7 @@ const routes: Routes = [
           },
           {
             path: AuthRoutes.ForgotPassword,
+            canActivate: [LoginGuard], // Protect this route with AuthGuard
             loadComponent: () =>
               import(
                 './modules/auth/components/forgotpassword/forgotpassword.component'
@@ -58,6 +64,7 @@ const routes: Routes = [
           },
           {
             path: AuthRoutes.Register,
+            canActivate: [LoginGuard], // Protect this route with AuthGuard
             loadComponent: () =>
               import(
                 './modules/auth/components/register/register.component'
@@ -73,8 +80,9 @@ const routes: Routes = [
         ],
       },
       {
+        // Routes for Trainer Profile module, all protected by AuthGuard
         path: ModuleRoutes.TrainerProfile,
-        canActivate: [AuthGuard],
+        canActivate: [LoginGuard, TrainerGuard],
         children: [
           {
             path: TrainerProfileRoutes.CreateAboutUs,
