@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppLayoutComponent } from './layout/app.layout.component';
-import { LoginGuard, TrainerGuard } from './modules/auth/shared/services/auth-guard.service';
+import { LoginGuard} from './modules/auth/shared/services/login-guard.service';
+import { TrainerGuard } from './modules/auth/shared/services/trainer-guard.service';
 import { HomePageComponent } from './modules/home-page/home-page/home-page.component';
 import {
   AuthRoutes,
