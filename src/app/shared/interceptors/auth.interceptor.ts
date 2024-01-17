@@ -9,41 +9,23 @@ import { Injectable, Provider } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
 import { environment } from 'src/environments/envonment.prod';
-import { HttpHeaders } from '../enums/http-headers.enum';
-import { ModuleRoutes } from '../enums/routes.enum';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   public constructor(private readonly accessTokenService: AccessTokenService) {}
 
   public intercept(
-    request: HttpRequest<typeof HttpHeaders>,
+    request: HttpRequest<any>,
     next: HttpHandler
-  ): Observable<HttpEvent<unknown>> {
-    const accessToken: string = this.accessTokenService.getAccessToken();
-    const isApiRequest: boolean = request.url.includes(environment.apiBaseUrl);
-    const isAuthRequest: boolean = request.url.includes(ModuleRoutes.Auth);
-
-    if (!isApiRequest || isAuthRequest || !accessToken) {
-      return next.handle(request);
+  ): Observable<HttpEvent<any>> {
+    const accessToken = this.accessTokenService.getAccessToken();
+    if (accessToken && request.url.includes(environment.apiBaseUrl)) {
+      const cloned = request.clone({
+        headers: request.headers.set('Authorization', `Bearer ${accessToken}`),
+      });
+      return next.handle(cloned);
     }
-
-    const authReq: HttpRequest<typeof HttpHeaders> = request.clone({
-      headers: request.headers.set(
-        HttpHeaders.Authorization,
-        `Bearer ${accessToken}`
-      ),
-    });
-    // const authReq: HttpRequest<any> = request.clone({
-    //   setParams: {
-    //     Ticket: accessToken,
-    //   },
-    //   headers: request.headers
-    //     .set('Content-Type', 'application/json')
-    //     .set('ticket', accessToken)
-    //     .set('rejectUnauthorized', 'false'),
-    // });
-    return next.handle(authReq);
+    return next.handle(request);
   }
 }
 

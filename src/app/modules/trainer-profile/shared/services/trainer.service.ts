@@ -15,13 +15,12 @@ export class TrainerService {
   }
 
   getTrainerProfile(): Observable<Trainer> {
-    return this.http.get<Trainer>(environment.apiBaseUrl + '/trainer-profile');
+    return this.http.get<Trainer>(`${environment.apiBaseUrl}/trainer-profile`);
   }
 
   updateTrainerProfile(trainer: Trainer): Observable<Trainer> {
-    return this.http.put<Trainer>(
-      
-       `${environment.apiBaseUrl}/users/trainer-profile`,
+    return this.http.post<Trainer>(
+      `${environment.apiBaseUrl}/users/trainer-profile`,
       trainer
     );
   }
