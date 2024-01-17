@@ -43,10 +43,10 @@ export class AccessTokenService {
   }
 
   public deleteAccessToken(): void {
-    this.cookieService.delete(TokenKeys.JwtCookie);
+    this.cookieService.delete(TokenKeys.JwtCookie, '/');
     this.cookieService.delete(TokenKeys.MailCookie);
-    this.cookieService.delete(TokenKeys.UserIdCookie);
-    this.cookieService.delete(TokenKeys.UserCookie);
+    this.cookieService.delete(TokenKeys.UserIdCookie, '/');
+    this.cookieService.delete(TokenKeys.UserCookie, '/');
     this.accessTokenData = undefined;
     this.router.navigate([ModuleRoutes.Auth, AuthRoutes.Login]);
   }
@@ -64,7 +64,12 @@ export class AccessTokenService {
   }
 
   public setUserIdCookie(userId: number): void {
-    this.cookieService.set(TokenKeys.UserIdCookie, userId.toString());
+    this.cookieService.set(
+      TokenKeys.UserIdCookie,
+      userId.toString(),
+      this.accessTokenData?.expiryDate,
+      '/'
+    );
   }
 
   public getUserIdCookie(): number {
@@ -72,7 +77,12 @@ export class AccessTokenService {
   }
 
   public setUserInfo(user: any): void {
-    this.cookieService.set(TokenKeys.UserCookie, JSON.stringify(user));
+    this.cookieService.set(
+      TokenKeys.UserCookie,
+      JSON.stringify(user),
+      this.accessTokenData?.expiryDate,
+      '/'
+    );
   }
 
   public getUserInfo(): any {
