@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import jwtDecode from 'jwt-decode';
 import { DateTime } from 'luxon';
 import { CookieService } from 'ngx-cookie-service';
+import { BehaviorSubject } from 'rxjs';
 import { AuthRoutes, ModuleRoutes } from 'src/app/shared/enums/routes.enum';
 import { TokenKeys } from 'src/app/shared/enums/tokens.enum';
 import { JwtData } from 'src/app/shared/models/jwt-data.model';
@@ -12,7 +13,7 @@ import { JwtData } from 'src/app/shared/models/jwt-data.model';
 })
 export class AccessTokenService {
   public accessTokenData: JwtData | undefined = undefined;
-
+  public isLoggedOut = new BehaviorSubject<boolean>(false);
   constructor(
     private readonly cookieService: CookieService,
     private readonly router: Router
@@ -40,6 +41,8 @@ export class AccessTokenService {
       this.accessTokenData?.expiryDate,
       '/'
     );
+
+    this.isLoggedOut.next(false);
   }
 
   public deleteAccessToken(): void {
@@ -49,6 +52,8 @@ export class AccessTokenService {
     this.cookieService.delete(TokenKeys.UserCookie, '/');
     this.accessTokenData = undefined;
     this.router.navigate([ModuleRoutes.Auth, AuthRoutes.Login]);
+
+    this.isLoggedOut.next(true);
   }
 
   public getAccessToken(): string {

@@ -1,25 +1,39 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { AccessTokenService } from '../modules/auth/shared/services/access-token.service';
-import { AuthService } from '../modules/auth/shared/services/auth.service';
 
 @Component({
   selector: 'app-topbar',
   templateUrl: './app.topbar.component.html',
 })
-export class AppTopbarComponent implements OnInit {
+export class AppTopbarComponent implements OnInit, OnDestroy {
   @ViewChild('menubutton') menuButton!: ElementRef;
-  isLoggedIn$!: Observable<boolean>;
+
+  isLoggedOut: boolean = false;
+
+  private subscription: Subscription = new Subscription();
+
   constructor(
     public layoutService: LayoutService,
-    private authService: AuthService,
     private accessTokenService: AccessTokenService
   ) {}
 
   ngOnInit(): void {
-    this.isLoggedIn$ = this.authService.isLoggedIn$;
+    const islogged = this.accessTokenService.isLoggedOut.subscribe(
+      (isLoggedOut) => {
+        this.isLoggedOut = isLoggedOut;
+      }
+    );
+    this.subscription.add(islogged);
   }
+
   onMenuButtonClick() {
     this.layoutService.onMenuToggle();
   }
@@ -33,5 +47,9 @@ export class AppTopbarComponent implements OnInit {
 
   logout() {
     this.accessTokenService.deleteAccessToken();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

@@ -2,38 +2,37 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { LayoutService } from './service/app.layout.service';
 
 @Component({
-    selector: 'app-sidebar',
-    templateUrl: './app.sidebar.component.html'
+  selector: 'app-sidebar',
+  templateUrl: './app.sidebar.component.html',
 })
 export class AppSidebarComponent {
-    timeout: any = null;
+  timeout: any = null;
 
-    @ViewChild('menuContainer') menuContainer!: ElementRef;
-    constructor(public layoutService: LayoutService, public el: ElementRef) {}
-    
+  @ViewChild('menuContainer') menuContainer!: ElementRef;
+  constructor(public layoutService: LayoutService, public el: ElementRef) {}
 
-    onMouseEnter() {
-        if (!this.layoutService.state.anchored) {
-            if (this.timeout) {
-                clearTimeout(this.timeout);
-                this.timeout = null;
-            }
-            this.layoutService.state.sidebarActive = true;
-           
-    
-        }
+  onMouseEnter() {
+    if (!this.layoutService.state.anchored) {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+        this.timeout = null;
+      }
+      this.layoutService.state.sidebarActive = true;
     }
+  }
 
-    onMouseLeave() {
-        if (!this.layoutService.state.anchored) {
-            if (!this.timeout) {
-                this.timeout = setTimeout(() => this.layoutService.state.sidebarActive = false, 300);
-            }
-        }
+  onMouseLeave() {
+    if (!this.layoutService.state.anchored) {
+      if (!this.timeout) {
+        this.timeout = setTimeout(
+          () => (this.layoutService.state.sidebarActive = false),
+          300
+        );
+      }
     }
+  }
 
-    anchor() {
-        this.layoutService.state.anchored = !this.layoutService.state.anchored;
-    }
-
+  anchor() {
+    this.layoutService.state.anchored = !this.layoutService.state.anchored;
+  }
 }

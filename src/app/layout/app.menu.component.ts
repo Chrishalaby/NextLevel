@@ -1,13 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { AccessTokenService } from '../modules/auth/shared/services/access-token.service';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './app.menu.component.html',
 })
-export class AppMenuComponent implements OnInit {
+export class AppMenuComponent implements OnInit, OnDestroy {
   model: any[] = [];
 
+  constructor(private readonly accessTokenService: AccessTokenService) {}
+
+  isLoggedOut = false;
+  private subscription: Subscription = new Subscription();
+
   ngOnInit() {
+    const isLogged = this.accessTokenService.isLoggedOut.subscribe(
+      (isLoggedOut) => {
+        this.isLoggedOut = isLoggedOut;
+        this.updateMenu();
+      }
+    );
+
+    this.subscription.add(isLogged);
+  }
+
+  updateMenu() {
     this.model = [
       {
         label: 'Pages',
@@ -75,6 +93,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Login',
                 icon: 'pi pi-fw pi-sign-in',
                 routerLink: ['/auth/login'],
+                visible: this.isLoggedOut,
               },
               // {
               //   label: 'Error',
@@ -90,6 +109,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Register',
                 icon: 'pi pi-fw pi-user-plus',
                 routerLink: ['/auth/register'],
+                visible: this.isLoggedOut,
               },
               {
                 label: 'Forgot Password',
@@ -111,5 +131,9 @@ export class AppMenuComponent implements OnInit {
         ],
       },
     ];
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
