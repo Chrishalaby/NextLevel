@@ -1,4 +1,9 @@
 <section class="card">
+  <button id="authorize_button" (click)="handleAuthClick()">Authorize</button>
+  <!-- <button id="signout_button" (click)="handleSignoutClick()">Sign Out</button> -->
+
+  <pre id="content" style="white-space: pre-wrap"></pre>
+
   <full-calendar [options]="calendarOptions"></full-calendar>
 
   <p-dialog

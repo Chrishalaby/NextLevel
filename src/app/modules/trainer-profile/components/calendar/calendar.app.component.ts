@@ -21,10 +21,12 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
 import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
+import { ClientsTrainersService } from 'src/app/shared/services/cliens-trainers.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
 import { Client } from '../../shared/models/client.model';
-import { EventService } from '../../shared/services/event.service';
-import { ClientsTrainersService } from 'src/app/shared/services/cliens-trainers.service';
+import { CalendarService } from '../../shared/services/calendar.service';
+
+declare const gapi: any;
 @Component({
   templateUrl: './calendar.app.component.html',
   styleUrls: ['./calendar.app.component.scss'],
@@ -45,7 +47,8 @@ import { ClientsTrainersService } from 'src/app/shared/services/cliens-trainers.
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [EventService, ProxyService],
+  // providers: [EventService, ProxyService],
+  providers: [ProxyService],
 })
 export class CalendarAppComponent implements OnInit {
   events: any[] = [];
@@ -55,28 +58,20 @@ export class CalendarAppComponent implements OnInit {
 
   sessionForm!: FormGroup;
 
-  today: string = '';
-
   calendarOptions: any = {
     initialView: 'timeGridDay',
   };
 
   showDialog: boolean = false;
-
   clickedEvent: any = null;
-
   dateClicked: boolean = false;
-
   edit: boolean = false;
-
   tags: any[] = [];
-
   view: string = '';
-
   changedEvent: any;
 
   constructor(
-    private eventService: EventService,
+    private calendarService: CalendarService,
     private formBuilder: FormBuilder,
     private readonly proxyService: ProxyService,
     private readonly clientstrainersService: ClientsTrainersService,
@@ -85,40 +80,59 @@ export class CalendarAppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.today = new Date().toISOString().split('T')[0];
-    this.getTrainerClients();
+    this.initializeComponent();
+    // this.handleOAuthRedirect();
+  }
+
+  initializeComponent(): void {
+    // this.getTrainerClients();
     this.createSessionForm();
+    this.createCalendarOptions();
 
-    this.proxyService
-      .GetSessionsByTrainerId({
-        TRAINER_ID: this.accessTokenService.getUserIdCookie(),
-      })
-      .subscribe((response: any) => {
-        this.events = response.Sessions.map((item: any) => {
-          return {
-            id: item.Sessions_Bundle_Session_Id,
-            sessionId: item.Sessions_Bundle_Id,
-            title: item.Client_Firstname + ' ' + item.Client_Lastname,
-            start: item.Start_Date_Time1,
-            end: item.End_Date_Time,
-            sessions_number: item.Sessions_Number,
-            description: item.Description,
-          };
-        });
+    this.calendarService.initializeGoogleApiClients();
+    this.calendarService.loadGisClient();
+    // this.loadAndDisplayEvents();
+  }
 
-        this.calendarOptions = {
-          ...this.calendarOptions,
-          events: this.events,
-        };
+  // handleOAuthRedirect(): void {
+  //   const authCode = this.getAuthorizationCodeFromUrl();
+  //   if (authCode) {
+  //     console.log('Received auth code:', authCode);
+  //     this.calendarService.exchangeCodeForTokens(authCode);
+  //   }
+  // }
 
-        this.tags = this.events.map((item) => item.tag);
-      });
+  // getGoogleCalendarEvents(): Observable<any[]> {
+  //   return this.calendarService.fetchGoogleCalendarToken().pipe(
+  //     switchMap((token) => this.calendarService.fetchCalendarEvents(token)),
+  //     map((response) =>
+  //       response.items.map((event: any) => ({
+  //         title: event.summary,
+  //         start: event.start.dateTime || event.start.date, // Use dateTime for specific times, or date for all-day events
+  //         end: event.end.dateTime || event.end.date,
+  //         description: event.description,
+  //         location: event.location,
+  //         // Adapt other properties as needed
+  //       }))
+  //     )
+  //   );
+  // }
 
+  // loadAndDisplayEvents(): void {
+  //   this.getGoogleCalendarEvents().subscribe((events) => {
+  //     this.calendarOptions = {
+  //       ...this.calendarOptions,
+  //       initialEvents: events, // Make sure your version of PrimeNG uses 'initialEvents' or equivalent
+  //     };
+  //   });
+  // }
+
+  createCalendarOptions() {
     this.calendarOptions = {
       ...this.calendarOptions,
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
       height: 720,
-      initialDate: this.today,
+      initialDate: new Date().toISOString().split('T')[0],
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
@@ -249,9 +263,11 @@ export class CalendarAppComponent implements OnInit {
   }
 
   getTrainerClients() {
-    this.clientstrainersService.getTrainersClients(this.accessTokenService.getUserIdCookie()).subscribe((res: any) => {
-      this.clients = res;
-    });
+    this.clientstrainersService
+      .getTrainersClients(this.accessTokenService.getUserIdCookie())
+      .subscribe((res: any) => {
+        this.clients = res;
+      });
     // this.proxyService
     //   .GetBundlesAndClientsByTrainerId({
     //     TRAINER_ID: this.accessTokenService.getUserIdCookie(),
@@ -319,5 +335,47 @@ export class CalendarAppComponent implements OnInit {
       description: 'Location: ' + location + description,
     };
     this.proxyService.Edit_Sessions_bundle_session(event).subscribe();
+  }
+  handleAuthClick() {
+    this.calendarService.handleAuthClick();
+  }
+
+  async listUpcomingEvents() {
+    let response;
+    try {
+      const request = {
+        calendarId: 'primary',
+        timeMin: new Date().toISOString(),
+        showDeleted: false,
+        singleEvents: true,
+        maxResults: 10,
+        orderBy: 'startTime',
+      };
+      response = await gapi.client.calendar.events.list(request);
+    } catch (err: any) {
+      document.getElementById('content')!.innerText = err.message;
+      return;
+    }
+
+    const events = response.result.items;
+    if (!events || events.length == 0) {
+      document.getElementById('content')!.innerText = 'No events found.';
+      return;
+    }
+    // Flatten to string to display
+    const output = events.reduce(
+      (str: string, event: any) =>
+        `${str}${event.summary} (${
+          event.start.dateTime || event.start.date
+        })\n`,
+      'Events:\n'
+    );
+    document.getElementById('content')!.innerText = output;
+  }
+
+  getAuthorizationCodeFromUrl(): string | null {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    return code;
   }
 }

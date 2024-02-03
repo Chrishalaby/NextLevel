@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppLayoutComponent } from './layout/app.layout.component';
 import { AuthGuard } from './modules/auth/shared/services/auth-guard.service';
 import { HomePageComponent } from './modules/home-page/home-page/home-page.component';
+import { TestCalendarComponent } from './modules/trainer-profile/components/test-calendar/test-calendar.component';
 import {
   AuthRoutes,
   ModuleRoutes,
@@ -137,6 +138,10 @@ const routes: Routes = [
               ).then((x: LoadedComponent) => x.AiCustomWorkoutComponent),
           },
         ],
+      },
+      {
+        path: 'app-test-calendar',
+        component: TestCalendarComponent,
       },
       {
         path: 'home-page',

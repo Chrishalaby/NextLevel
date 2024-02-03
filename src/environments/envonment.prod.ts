@@ -5,4 +5,8 @@ export const environment: Environment = {
   production: true,
   defaultLanguage: 'en',
   apiBaseUrl: 'http://localhost:3000',
+
+  googleClientId:
+    '188626381328-2kqsqqh2dqatt51ahggabvors2f55q1e.apps.googleusercontent.com',
+  googleApiKey: 'AIzaSyBabvdwzy5h9gVjBYOmEfSGl5VeBUCBbys',
 };
