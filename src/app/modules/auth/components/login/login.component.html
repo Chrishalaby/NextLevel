@@ -63,7 +63,7 @@
         />
       </span>
       <div class="mb-4 flex flex-wrap gap-3">
-        <div>
+        <div class="flex">
           <p-checkbox
             name="checkbox"
             value="val"
@@ -86,8 +86,16 @@
         [disabled]="!loginForm.valid"
         label="Log In"
         (click)="login()"
-        class="w-full"
+        class="w-full mb-3"
       ></button>
+      <span class="font-medium text-600"
+        >Don't have an account?
+        <a
+          class="font-semibold cursor-pointer text-900 hover:text-primary transition-colors transition-duration-300"
+          [routerLink]="['/auth/register']"
+          >Register</a
+        ></span
+      >
     </div>
   </div>
 </div>

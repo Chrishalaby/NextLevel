@@ -39,7 +39,6 @@ export class RegisterComponent implements OnInit {
     { label: 'Client', value: 'client' },
     { label: 'Trainer', value: 'trainer' },
   ];
-  defaultType!: string;
 
   registerForm!: FormGroup;
 
@@ -58,49 +57,28 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  
-    this.setDefaultType();
     this.createRegisterForm();
+    this.setUserTypeByParam();
   }
 
-  
-
   register() {
-    // this.proxyService
-    //   .Edit_User(this.registerForm.value)
-    //   .subscribe((data: any) => {
-    //     this.authService.setLocalUserId(data.User_Id);
-    //     this.authService.setLocalUserMail(data.Email);
-    //     this.router.navigate(['/auth/verification']);
-    //   });
-
     this.httpClient
       .post(environment.apiBaseUrl + '/users', this.registerForm.value)
       .subscribe((data: any) => {
-        console.log(data);
         this.accessTokenService.setMailCookie(this.registerForm.value.email);
         this.router.navigate(['/auth/verification']);
       });
   }
 
-  // getUserType() {
-  //   this.proxyService.Get_Role_By_OWNER_ID().subscribe((data) => {
-  //     this.userTypes = data;
-  //     this.setDefaultType();
-  //   }); 
-  // }
-
-  setDefaultType() {
+  setUserTypeByParam() {
     this.activatedRoute.queryParams.subscribe((params) => {
-      console.log("Query Params:", params);
-      this.defaultType = params['userType'] || '';
-
-      console.log("Default Type:", this.defaultType);
-
-      // Set default value directly in the form
-      this.registerForm.get('userType')?.setValue(this.defaultType || 'client');
+      console.log('Query Params:', params);
+      const paramUserType = params['userType'] || '';
+      this.registerForm.get('userType')?.setValue(paramUserType || 'client');
+      console.log(this.registerForm.value);
     });
   }
+
   createRegisterForm() {
     this.registerForm = this.formBuilder.group({
       username: ['', [Validators.required]],
@@ -110,4 +88,3 @@ export class RegisterComponent implements OnInit {
     });
   }
 }
-

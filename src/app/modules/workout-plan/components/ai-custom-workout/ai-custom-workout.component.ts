@@ -190,7 +190,6 @@ export class AiCustomWorkoutComponent implements OnInit {
     this.AIService.submitWorkoutPlanForm(
       this.workoutPlanTrainerIForm.value
     ).subscribe((res: any) => {
-      console.log(res);
       this.submitted = false;
       // this.trainer1Response = res.Simplegeneratedworkoutplanresponse.replace(
       //   /\n/g,
@@ -203,7 +202,6 @@ export class AiCustomWorkoutComponent implements OnInit {
     this.AIService.submitWorkoutPlanForm(
       this.workoutPlanTrainerIIForm.value
     ).subscribe((res: any) => {
-      console.log(res);
       this.submitted = false;
       // this.trainer2Response = res.Complexgeneratedworkoutplanresponse.replace(
       //   /\n/g,

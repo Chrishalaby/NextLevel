@@ -16,7 +16,7 @@ import { AccessTokenService } from '../modules/auth/shared/services/access-token
 export class AppTopbarComponent implements OnInit, OnDestroy {
   @ViewChild('menubutton') menuButton!: ElementRef;
 
-  isLoggedOut: boolean = false;
+  isLoggedOut: boolean = true;
 
   private subscription: Subscription = new Subscription();
 

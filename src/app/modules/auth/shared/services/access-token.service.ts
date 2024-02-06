@@ -13,7 +13,7 @@ import { JwtData } from 'src/app/shared/models/jwt-data.model';
 })
 export class AccessTokenService {
   public accessTokenData: JwtData | undefined = undefined;
-  public isLoggedOut = new BehaviorSubject<boolean>(false);
+  public isLoggedOut = new BehaviorSubject<boolean>(!this.isLoggedIn());
   constructor(
     private readonly cookieService: CookieService,
     private readonly router: Router
@@ -89,8 +89,13 @@ export class AccessTokenService {
       '/'
     );
   }
-
   public getUserInfo(): any {
-    return JSON.parse(this.cookieService.get(TokenKeys.UserCookie));
+    const userCookie = this.cookieService.get(TokenKeys.UserCookie);
+
+    if (!userCookie) {
+      return '';
+    }
+
+    return JSON.parse(userCookie);
   }
 }
