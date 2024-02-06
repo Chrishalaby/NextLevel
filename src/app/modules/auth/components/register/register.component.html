@@ -41,7 +41,6 @@
           optionValue="value"
           [options]="userTypes"
           formControlName="userType"
-          [(ngModel)]="defaultType"
         >
         </p-dropdown>
       </div>
@@ -100,7 +99,7 @@
         pButton
         pRipple
         label="Sign Up"
-        class="w-full mb-4"
+        class="w-full mb-3"
         (click)="register()"
         [disabled]="!registerForm.valid"
       ></button>

@@ -7,7 +7,6 @@ import { LayoutService } from './service/app.layout.service';
 })
 export class AppSidebarComponent {
   timeout: any = null;
-
   @ViewChild('menuContainer') menuContainer!: ElementRef;
   constructor(public layoutService: LayoutService, public el: ElementRef) {}
 
@@ -19,6 +18,10 @@ export class AppSidebarComponent {
       }
       this.layoutService.state.sidebarActive = true;
     }
+  }
+
+  isActive():boolean{
+    return this.layoutService.state.sidebarActive
   }
 
   onMouseLeave() {

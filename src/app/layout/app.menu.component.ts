@@ -11,14 +11,20 @@ export class AppMenuComponent implements OnInit, OnDestroy {
 
   constructor(private readonly accessTokenService: AccessTokenService) {}
 
-  isLoggedOut = false;
+  userType: string = '';
+  isLoggedOut: boolean = false;
   private subscription: Subscription = new Subscription();
 
   ngOnInit() {
     const isLogged = this.accessTokenService.isLoggedOut.subscribe(
       (isLoggedOut) => {
+        console.log('before:', this.userType, this.isLoggedOut);
+
         this.isLoggedOut = isLoggedOut;
+        this.userType = this.accessTokenService.getUserInfo().userType || '';
+        //to be fixed (async thing)
         this.updateMenu();
+        console.log('user typr:', this.userType, this.isLoggedOut);
       }
     );
 
@@ -33,6 +39,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         items: [
           {
             label: 'Profile',
+            visible: this.userType === 'trainer' && !this.isLoggedOut,
             icon: 'pi pi-fw pi-user',
             items: [
               {
@@ -40,11 +47,11 @@ export class AppMenuComponent implements OnInit, OnDestroy {
                 icon: 'pi pi-fw pi-user-edit',
                 routerLink: ['/trainer-profile/create-aboutus'],
               },
-              // {
-              //   label: 'Show About',
-              //   icon: 'pi pi-fw pi-user-edit',
-              //   routerLink: ['/trainer-profile/show-aboutus'],
-              // },
+              {
+                label: 'Show About',
+                icon: 'pi pi-fw pi-user-edit',
+                routerLink: ['/trainer-profile/show-aboutus'],
+              },
               {
                 label: 'Calendar',
                 icon: 'pi pi-fw pi-user-edit',

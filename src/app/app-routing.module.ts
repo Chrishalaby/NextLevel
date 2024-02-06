@@ -11,6 +11,7 @@ import {
   WorkoutPlanRoutes,
 } from './shared/enums/routes.enum';
 import { LoadedComponent } from './shared/types/general.types';
+import { VerificationRoutingGuard } from './modules/auth/shared/services/verification-routing-guard.service';
 
 const routes: Routes = [
   {
@@ -57,6 +58,7 @@ const routes: Routes = [
               ).then((x: LoadedComponent) => x.NewPasswordComponent),
           },
           {
+            canActivate: [AuthGuard],
             path: AuthRoutes.Register,
             loadComponent: () =>
               import(
@@ -64,6 +66,7 @@ const routes: Routes = [
               ).then((x: LoadedComponent) => x.RegisterComponent),
           },
           {
+            canActivate: [VerificationRoutingGuard],
             path: AuthRoutes.Verification,
             loadComponent: () =>
               import(

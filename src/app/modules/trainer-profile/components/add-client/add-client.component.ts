@@ -50,7 +50,6 @@ export class AddClientComponent implements OnInit {
   }
 
   createClientForm() {
-    console.log(this.trainerId);
     this.clientForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -61,7 +60,6 @@ export class AddClientComponent implements OnInit {
   }
 
   addNewClient() {
-    console.log(this.clientForm);
     this.clientstrainersService
       .createGhostClient(this.clientForm.value)
       .subscribe((res) => {

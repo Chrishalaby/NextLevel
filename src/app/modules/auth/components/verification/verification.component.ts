@@ -43,8 +43,7 @@ export class VerificationComponent implements OnInit {
   ngOnInit(): void {
     this.createVerificationForm();
 
-    this.userMail = this.accessTokenService.getMailCookie() || 'batata';
-    // this.userId = this.authService.getUserId() || 2;
+    this.userMail = this.accessTokenService.getMailCookie();
   }
 
   get dark(): boolean {

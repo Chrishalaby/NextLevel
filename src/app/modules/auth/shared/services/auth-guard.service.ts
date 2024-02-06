@@ -25,7 +25,8 @@ export class AuthGuard implements CanActivate {
   ): Observable<boolean> | Promise<boolean> | boolean {
     const isLoggedIn = this.accessTokenService.isLoggedIn();
 
-    if (state.url.includes('/login')) {
+
+    if (state.url.includes('/login') || state.url.includes('/register')) {
       if (isLoggedIn) {
         this.router.navigate(['/']);
         return false;
@@ -33,11 +34,10 @@ export class AuthGuard implements CanActivate {
         return true;
       }
     }
-    if (isLoggedIn) {
-      return true;
-    } else {
+    if (!isLoggedIn) {
       this.router.navigate([ModuleRoutes.Auth, AuthRoutes.Login]);
       return false;
     }
+    return true;
   }
 }
