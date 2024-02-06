@@ -1,7 +1,8 @@
+import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
+import { TrainerService } from './../../../shared/services/trainer.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Trainer } from '../../../shared/models/trainer.model';
-import { TrainerService } from '../../../shared/services/trainer.service';
 
 @Component({
   templateUrl: './aboutus.component.html',
@@ -14,27 +15,34 @@ export class AboutUsComponent implements OnInit {
   visibleMember: number = -1;
   trainerProfile: Trainer = {
     id: 0,
-    firstName: 'chris ',
-    lastName: 'chris ',
-    briefBio: 'this is a brief bio',
-    profilePicture: 'https://picsum.photos/200',
-
-    email: 'thisemail@gmail.com',
-    phoneNumber: '123456789',
-    specialities: ['body building', 'weight loss'],
-    educationalBackground: 'this is the educational background',
-    certifications: ['certification 1', 'certification 2'],
-    tiktok: 'tiktok',
-    instagram: 'instagram',
-    linkedin: 'linkedin',
+    firstName: '',
+    lastName: '',
+    briefBio: '',
+    profilePicture: '',
+    specialities: [],
+    educationalBackground: '',
+    certifications: [],
+    phoneNumber: '',
+    email: '',
+    tiktok: '',
+    instagram: '',
+    linkedin: '',
   };
 
-  constructor(private readonly trainerService: TrainerService) {}
+  constructor(
+    private readonly trainerService: TrainerService,
+    private readonly accessTokenService: AccessTokenService
+  ) {}
 
   ngOnInit(): void {
-    this.trainerService.getTrainerProfile().subscribe((trainerProfile) => {
-      this.trainerProfile = trainerProfile;
-    });
+    ////////////////////////////////////////////////////////////////
+    const userId = this.accessTokenService.getUserInfo().id;
+    this.trainerService
+      .getTrainerProfile()
+      .subscribe((trainerProfile) => {
+        this.trainerProfile = trainerProfile;
+        console.log(trainerProfile)
+      });
   }
 
   // ngOnDestroy(): void {

@@ -24,7 +24,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         this.userType = this.accessTokenService.getUserInfo().userType || '';
         //to be fixed (async thing)
         this.updateMenu();
-        console.log('user typr:', this.userType, this.isLoggedOut);
       }
     );
 

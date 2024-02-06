@@ -1,6 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
+import {
+  BackendControllerRoute,
+  TrainerParams,
+} from 'src/app/shared/enums/backend.enum';
 import { environment } from 'src/environments/envonment.prod';
 import { Trainer } from '../models/trainer.model';
 
@@ -14,22 +18,18 @@ export class TrainerService {
     return this.http.get<any[]>('http://universities.hipolabs.com/search');
   }
 
-  getTrainerProfile(userId: number): Observable<Trainer> {
-    const url = `${environment.apiBaseUrl}/users/trainer-profile/${userId}`;
-    
-    return this.http.get<Trainer>(url).pipe(
-      catchError((error) => {
-        console.error('Error fetching trainer profile:', error);
-        return throwError('Unable to fetch trainer profile');
-      })
+  getTrainerProfile(): Observable<Trainer> {
+    return this.http.get<Trainer>(
+      `${environment.apiBaseUrl}${BackendControllerRoute.Trainer}${TrainerParams.Show}`
     );
   }
-  
+
 
   updateTrainerProfile(trainer: Trainer): Observable<Trainer> {
     return this.http.post<Trainer>(
-      `${environment.apiBaseUrl}/users/trainer-profile`,
+      `${environment.apiBaseUrl}${BackendControllerRoute.Trainer}${TrainerParams.Update}`,
       trainer
     );
   }
+
 }

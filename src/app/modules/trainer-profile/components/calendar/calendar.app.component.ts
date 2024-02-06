@@ -23,7 +23,7 @@ import { ToastModule } from 'primeng/toast';
 import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
 import { Client } from '../../shared/models/client.model';
-import { EventService } from '../../shared/services/event.service';
+// import { EventService } from '../../shared/services/event.service';
 import { ClientsTrainersService } from 'src/app/shared/services/cliens-trainers.service';
 @Component({
   templateUrl: './calendar.app.component.html',
@@ -45,7 +45,7 @@ import { ClientsTrainersService } from 'src/app/shared/services/cliens-trainers.
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [EventService, ProxyService],
+  // providers: [EventService, ProxyService],
 })
 export class CalendarAppComponent implements OnInit {
   events: any[] = [];
@@ -76,7 +76,7 @@ export class CalendarAppComponent implements OnInit {
   changedEvent: any;
 
   constructor(
-    private eventService: EventService,
+    // private eventService: EventService,
     private formBuilder: FormBuilder,
     private readonly proxyService: ProxyService,
     private readonly clientstrainersService: ClientsTrainersService,
