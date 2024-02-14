@@ -12,13 +12,13 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
+import { clientBundle } from '../../shared/models/client.model';
+import { TrainerService } from '../../shared/services/trainer.service';
 
 @Component({
   selector: 'app-add-bundle',
   templateUrl: './add-bundle.component.html',
-  styleUrls: ['./add-bundle.component.scss'],
   standalone: true,
   imports: [
     FormsModule,
@@ -32,14 +32,12 @@ import { ProxyService } from 'src/app/shared/services/proxy.service';
   providers: [ProxyService],
 })
 export class AddBundleComponent implements OnInit {
-  clients: any;
+  clients: clientBundle[] = [];
   bundleForm!: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
-    private readonly proxyService: ProxyService,
-    private readonly accessTokenService: AccessTokenService,
-
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly trainerService: TrainerService
   ) {}
 
   ngOnInit(): void {
@@ -49,33 +47,32 @@ export class AddBundleComponent implements OnInit {
 
   createBundleForm() {
     this.bundleForm = this.formBuilder.group({
-      sessions_bundle_id: [-1],
-      client_id: [null, Validators.required],
-      trainer_id: [this.accessTokenService.getUserIdCookie()],
-      sessions_number: [null, Validators.required],
-      total_price: [null, Validators.required],
-      currency_id: [1],
+      clientId: [null, Validators.required],
+      sessionsNumber: [null, Validators.required],
+      totalPrice: [null, Validators.required],
       description: [''],
+      isGhost: [null],
     });
   }
   addNewBundle() {
-    this.proxyService
-      .Edit_Sessions_bundle(this.bundleForm.value)
-      .subscribe(() => {
-        this.router.navigate(['/trainer-profile/calendar']);
-      });
+    const client = this.clients.find(
+      (client) => client.id === this.bundleForm.value.clientId
+    );
+
+    if (client?.isGhost) {
+      this.bundleForm.value.isGhost = true;
+    } else {
+      this.bundleForm.value.isGhost = false;
+    }
+
+    this.trainerService.addNewBundle(this.bundleForm.value).subscribe(() => {
+      this.router.navigate(['/trainer-profile/calendar']);
+    });
   }
 
   getTrainerClients() {
-    this.proxyService
-      .GetClientsByTrainerId({
-        TRAINER_ID: this.accessTokenService.getUserIdCookie(),
-      })
-      .subscribe((res: any) => {
-        this.clients = res.Trainer_Clients.map((client: any) => ({
-          fullName: client.First_Name + ' ' + client.Last_Name,
-          user_id: client.User_Id,
-        }));
-      });
+    this.trainerService.getTrainerClients().subscribe((res: clientBundle[]) => {
+      this.clients = res;
+    });
   }
 }
