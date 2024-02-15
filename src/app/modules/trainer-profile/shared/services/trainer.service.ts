@@ -6,6 +6,7 @@ import {
   TrainerParams,
 } from 'src/app/shared/enums/backend.enum';
 import { environment } from 'src/environments/envonment.prod';
+import { CreateBundleDto, clientBundle } from '../models/client.model';
 import { Trainer } from '../models/trainer.model';
 
 @Injectable({

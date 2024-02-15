@@ -66,7 +66,7 @@ const routes: Routes = [
               ).then((x: LoadedComponent) => x.RegisterComponent),
           },
           {
-            canActivate: [VerificationRoutingGuard],
+            // canActivate: [VerificationRoutingGuard],
             path: AuthRoutes.Verification,
             loadComponent: () =>
               import(
