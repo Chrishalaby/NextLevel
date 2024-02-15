@@ -22,8 +22,13 @@
           />
         </div>
         <div class="field col-12 md:col-6">
-          <label htmlFor="name1">Last Name</label>
-          <input pInputText id="name1" type="text" formControlName="lastName" />
+          <label htmlFor="lastname1">Last Name</label>
+          <input
+            pInputText
+            id="lastname1"
+            type="text"
+            formControlName="lastName"
+          />
         </div>
       </div>
       <div class="field">
@@ -39,6 +44,7 @@
       </div>
       <h5>Profile Picture</h5>
       <p-fileUpload
+        [style]="{ padding: '0.75rem' }"
         mode="basic"
         name="demo[]"
         accept="image/*"
@@ -61,20 +67,45 @@
     <div class="card p-fluid">
       <h5>Qualifications</h5>
       <div class="field">
-        <label htmlFor="name2">Educational Background</label>
+        <label htmlFor="name2">Highest Level of Education</label>
+        <p-dropdown
+          formControlName="educationalLevel"
+          field="label"
+          optionDisabled="none"
+          [options]="educationalLevelOptions"
+          optionValue="value"
+        >
+        </p-dropdown>
+      </div>
+      <div class="field">
+        <label htmlFor="eduName1">Educational Background</label>
         <p-autoComplete
-          formControlName="educationalBackground"
+          id="eduName1"
           [suggestions]="filterdUniversities"
           (completeMethod)="filterUniversities($event)"
           field="name"
           [dropdown]="true"
+          formControlName="educationalBackground"
         >
         </p-autoComplete>
       </div>
 
       <div class="field">
+        <label htmlFor="eduName2">Name of Qualifications or Degree</label>
+        <textarea
+          rows="1"
+          id="eduName2"
+          cols="30"
+          pInputTextarea
+          [autoResize]="true"
+          formControlName="nameOfQualification"
+        ></textarea>
+      </div>
+
+      <div class="field">
         <label htmlFor="name3">Certifications</label>
         <p-fileUpload
+          [showUploadButton]="false"
           name="demo[]"
           url="./upload.php"
           (onUpload)="onUploadCertifications($event)"
@@ -85,7 +116,7 @@
           <ng-template pTemplate="content">
             <ul *ngIf="uploadedCertifications.length">
               <li *ngFor="let file of uploadedCertifications">
-                {{ file.name }} - {{ file.size }} bytes
+                {{ file.name }} - {{ file.size }}
               </li>
             </ul>
           </ng-template>
@@ -96,10 +127,10 @@
     <div class="card p-fluid">
       <h5>Contact Information</h5>
       <div class="field">
-        <label htmlFor="name4">Phone Number</label>
+        <label htmlFor="name3">Phone Number</label>
         <input
           pInputText
-          id="name4"
+          id="name3"
           type="text"
           formControlName="phoneNumber"
         />

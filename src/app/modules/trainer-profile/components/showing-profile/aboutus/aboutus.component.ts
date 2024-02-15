@@ -20,7 +20,9 @@ export class AboutUsComponent implements OnInit {
     briefBio: '',
     profilePicture: '',
     specialities: [],
-    educationalBackground: '',
+    educationalBackground: {},
+    educationalLevel: '',
+    nameOfQualification: '',
     certifications: [],
     phoneNumber: '',
     email: '',
@@ -37,13 +39,18 @@ export class AboutUsComponent implements OnInit {
   ngOnInit(): void {
     ////////////////////////////////////////////////////////////////
     const userId = this.accessTokenService.getUserInfo().id;
-    this.trainerService
-      .getTrainerProfile()
-      .subscribe((trainerProfile) => {
-        this.trainerProfile = trainerProfile;
-        console.log(trainerProfile)
-      });
+    this.trainerService.getTrainerProfile().subscribe((trainerProfile) => {
+      const parsedEducationalBackground = JSON.parse(
+         trainerProfile.educationalBackground
+      );
+      this.trainerProfile = {
+        ...trainerProfile,
+        educationalBackground: parsedEducationalBackground,
+      };
+    });
+
   }
+
 
   // ngOnDestroy(): void {
   //   this.subscription.unsubscribe();

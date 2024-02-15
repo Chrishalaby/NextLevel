@@ -5,7 +5,9 @@ export interface Trainer {
   briefBio: string;
   profilePicture: string;
   specialities: string[];
-  educationalBackground: string;
+  educationalBackground: any;
+  educationalLevel: string;
+  nameOfQualification: string;
   certifications: string[];
   phoneNumber: string;
   email: string;
