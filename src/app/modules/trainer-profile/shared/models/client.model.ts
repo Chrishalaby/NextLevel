@@ -1,15 +1,3 @@
-export interface Client {
-  id: number;
-  firstName: string;
-  lastName: string;
-  fullName?: string;
-  phoneNumber: string;
-  user_id: number;
-  bundle_id: number;
-  sessionsLeft: number;
-  description: string;
-}
-
 export interface clientBundle {
   id: number;
   firstName: string;
@@ -23,4 +11,13 @@ export interface CreateBundleDto {
   sessionsNumber: number;
   totalPrice: number;
   description: string;
+}
+
+export interface CreateSessionEventDto {
+  sessionsBundleSessionId?: number;
+  sessionsBundleId: number;
+  startDateTime: Date;
+  endDateTime: Date;
+  description: string;
+  location: string;
 }

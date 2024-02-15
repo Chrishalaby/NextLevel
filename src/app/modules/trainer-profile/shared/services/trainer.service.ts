@@ -1,8 +1,12 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/envonment.prod';
-import { CreateBundleDto, clientBundle } from '../models/client.model';
+import {
+  CreateBundleDto,
+  CreateSessionEventDto,
+  clientBundle,
+} from '../models/client.model';
 import { Trainer } from '../models/trainer.model';
 
 @Injectable({
@@ -39,5 +43,31 @@ export class TrainerService {
       `${environment.apiBaseUrl}/trainer/create-bundle`,
       bundle
     );
+  }
+
+  getClientBundle(
+    clientId: string,
+    isGhost: boolean
+  ): Observable<clientBundle> {
+    // Initialize HttpParams
+    let params = new HttpParams();
+    // Append the isGhost parameter
+    params = params.append('isGhost', isGhost.toString());
+
+    return this.http.get<clientBundle>(
+      `${environment.apiBaseUrl}/trainer/client-bundle/${clientId}`,
+      { params } // Include the parameters in the request
+    );
+  }
+
+  createSessionEvent(event: CreateSessionEventDto): Observable<any> {
+    return this.http.post<any>(
+      `${environment.apiBaseUrl}/trainer/create-event`,
+      event
+    );
+  }
+
+  getTrainerEvents(): Observable<any> {
+    return this.http.get<any>(`${environment.apiBaseUrl}/trainer/events`);
   }
 }

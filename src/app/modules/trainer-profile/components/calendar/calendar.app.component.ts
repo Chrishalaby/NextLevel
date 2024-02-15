@@ -5,6 +5,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -20,11 +21,14 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
-import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
-import { ProxyService } from 'src/app/shared/services/proxy.service';
-import { Client } from '../../shared/models/client.model';
-import { EventService } from '../../shared/services/event.service';
-import { ClientsTrainersService } from 'src/app/shared/services/cliens-trainers.service';
+import {
+  CreateSessionEventDto,
+  clientBundle,
+} from '../../shared/models/client.model';
+// import { EventService } from '../../shared/services/event.service';
+import { MessageService } from 'primeng/api';
+import { MessagesModule } from 'primeng/messages';
+import { TrainerService } from '../../shared/services/trainer.service';
 @Component({
   templateUrl: './calendar.app.component.html',
   styleUrls: ['./calendar.app.component.scss'],
@@ -44,18 +48,19 @@ import { ClientsTrainersService } from 'src/app/shared/services/cliens-trainers.
     InputNumberModule,
     FormsModule,
     ReactiveFormsModule,
+    MessagesModule,
   ],
-  providers: [EventService, ProxyService],
+  providers: [MessageService],
 })
 export class CalendarAppComponent implements OnInit {
   events: any[] = [];
 
-  clients!: Client[];
+  clients!: clientBundle[];
   chosenClient: any = null;
 
   sessionForm!: FormGroup;
 
-  today: string = '';
+  today: string = new Date().toISOString().split('T')[0];
 
   calendarOptions: any = {
     initialView: 'timeGridDay',
@@ -76,43 +81,16 @@ export class CalendarAppComponent implements OnInit {
   changedEvent: any;
 
   constructor(
-    private eventService: EventService,
     private formBuilder: FormBuilder,
-    private readonly proxyService: ProxyService,
-    private readonly clientstrainersService: ClientsTrainersService,
-    private readonly accessTokenService: AccessTokenService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly trainerService: TrainerService,
+    private readonly messageService: MessageService
   ) {}
 
   ngOnInit(): void {
-    this.today = new Date().toISOString().split('T')[0];
+    this.getSessionEvents();
     this.getTrainerClients();
     this.createSessionForm();
-
-    this.proxyService
-      .GetSessionsByTrainerId({
-        TRAINER_ID: this.accessTokenService.getUserIdCookie(),
-      })
-      .subscribe((response: any) => {
-        this.events = response.Sessions.map((item: any) => {
-          return {
-            id: item.Sessions_Bundle_Session_Id,
-            sessionId: item.Sessions_Bundle_Id,
-            title: item.Client_Firstname + ' ' + item.Client_Lastname,
-            start: item.Start_Date_Time1,
-            end: item.End_Date_Time,
-            sessions_number: item.Sessions_Number,
-            description: item.Description,
-          };
-        });
-
-        this.calendarOptions = {
-          ...this.calendarOptions,
-          events: this.events,
-        };
-
-        this.tags = this.events.map((item) => item.tag);
-      });
 
     this.calendarOptions = {
       ...this.calendarOptions,
@@ -192,37 +170,37 @@ export class CalendarAppComponent implements OnInit {
     };
   }
 
-  // handleSave() {
-  //   if (!this.validate()) {
-  //     return;
-  //   } else {
-  //     this.showDialog = false;
-  //     this.clickedEvent = {
-  //       ...this.changedEvent,
-  //       backgroundColor: this.changedEvent.tag.color,
-  //       borderColor: this.changedEvent.tag.color,
-  //       textColor: '#212121',
-  //     };
+  handleSave() {
+    if (!this.validate()) {
+      return;
+    } else {
+      this.showDialog = false;
+      this.clickedEvent = {
+        ...this.changedEvent,
+        backgroundColor: this.changedEvent.tag.color,
+        borderColor: this.changedEvent.tag.color,
+        textColor: '#212121',
+      };
 
-  //     if (this.clickedEvent.hasOwnProperty('id')) {
-  //       this.events = this.events.map((i) =>
-  //         i.id.toString() === this.clickedEvent.id.toString()
-  //           ? (i = this.clickedEvent)
-  //           : i
-  //       );
-  //     } else {
-  //       this.events = [
-  //         ...this.events,
-  //         { ...this.clickedEvent, id: Math.floor(Math.random() * 10000) },
-  //       ];
-  //     }
-  //     this.calendarOptions = {
-  //       ...this.calendarOptions,
-  //       ...{ events: this.events },
-  //     };
-  //     this.clickedEvent = null;
-  //   }
-  // }
+      if (this.clickedEvent.hasOwnProperty('id')) {
+        this.events = this.events.map((i) =>
+          i.id.toString() === this.clickedEvent.id.toString()
+            ? (i = this.clickedEvent)
+            : i
+        );
+      } else {
+        this.events = [
+          ...this.events,
+          { ...this.clickedEvent, id: Math.floor(Math.random() * 10000) },
+        ];
+      }
+      this.calendarOptions = {
+        ...this.calendarOptions,
+        ...{ events: this.events },
+      };
+      this.clickedEvent = null;
+    }
+  }
 
   onEditClick() {
     this.view = 'edit';
@@ -249,58 +227,57 @@ export class CalendarAppComponent implements OnInit {
   }
 
   getTrainerClients() {
-    this.clientstrainersService.getTrainersClients(this.accessTokenService.getUserIdCookie()).subscribe((res: any) => {
+    this.trainerService.getTrainerClients().subscribe((res: clientBundle[]) => {
       this.clients = res;
     });
-    // this.proxyService
-    //   .GetBundlesAndClientsByTrainerId({
-    //     TRAINER_ID: this.accessTokenService.getUserIdCookie(),
-    //   })
-    //   .subscribe((res: any) => {
-    //     this.clients = res.Bundlesandclients.map((client: any) => ({
-    //       fullName: client.Client_Firstname + ' ' + client.Client_Lastname,
-    //       user_id: client.Client_Id,
-    //       bundle_id: client.Sessions_Bundle_Id,
-    //       sessionsLeft: client.Sessions_Number,
-    //       description: client.Description,
-    //     }));
-    //   });
   }
 
   createSessionForm() {
     this.sessionForm = this.formBuilder.group({
-      sessions_bundle_session_id: [-1],
-      done: [-1],
-      sessions_bundle_id: [null],
-      // start_date_time1: [null, Validators.required],
-      // end_date_time: [null, Validators.required],
+      sessionsBundleSessionId: [null],
+      done: false,
+      sessionsBundleId: [null],
+      startDateTime: [null, Validators.required],
+      endDateTime: [null, Validators.required],
       description: ' ',
       location: ' ',
     });
   }
 
   submitEvent() {
-    const event = {
-      sessions_bundle_session_id:
-        this.sessionForm.value.sessions_bundle_session_id,
-      done: this.sessionForm.value.done,
-      sessions_bundle_id: this.sessionForm.value.sessions_bundle_id,
-      start_date_time1: this.changedEvent.start,
-      end_date_time: this.changedEvent.end,
-      description:
-        'Location: ' +
-        this.changedEvent.location +
-        this.changedEvent.description,
+    const event: CreateSessionEventDto = {
+      sessionsBundleSessionId: this.sessionForm.value.sessionsBundleSessionId,
+      sessionsBundleId: this.sessionForm.get('sessionsBundleId')?.value,
+      startDateTime: this.changedEvent.start,
+      endDateTime: this.changedEvent.end,
+      description: this.changedEvent.description,
+      location: this.changedEvent.location,
     };
-    this.proxyService.Edit_Sessions_bundle_session(event).subscribe();
+
+    this.trainerService.createSessionEvent(event).subscribe(() => {
+      this.messageService.add({
+        severity: 'success',
+        detail: 'Event Created',
+      });
+      this.handleSave();
+    });
   }
 
   onClientChange(event: any) {
-    this.chosenClient = event.value;
-    this.sessionForm.patchValue({
-      sessions_bundle_id: this.chosenClient.bundle_id,
-      description: this.chosenClient.description,
-    });
+    // this.chosenClient = event.value;
+    // this.sessionForm.patchValue({
+    //   sessions_bundle_id: this.chosenClient.bundle_id,
+    //   description: this.chosenClient.description,
+    // });
+
+    const clientId = event.value.id;
+    const isGhost = event.value.isGhost;
+    this.trainerService
+      .getClientBundle(clientId, isGhost)
+      .subscribe((res: any) => {
+        this.sessionForm.get('sessionsBundleId')?.patchValue(res[0].id);
+        this.sessionForm.get('description')?.patchValue(res[0].description);
+      });
   }
   submitEventWhenDragged(
     startDateTime: string,
@@ -318,6 +295,27 @@ export class CalendarAppComponent implements OnInit {
       end_date_time: endDateTime,
       description: 'Location: ' + location + description,
     };
-    this.proxyService.Edit_Sessions_bundle_session(event).subscribe();
+    // this.proxyService.Edit_Sessions_bundle_session(event).subscribe();
+  }
+
+  getSessionEvents() {
+    this.trainerService.getTrainerEvents().subscribe((res) => {
+      this.events = res.map((item: any) => {
+        return {
+          id: item.id,
+          title: `${item.firstname} ${item.lastname}`,
+          start: item.startdatetime,
+          end: item.enddatetime,
+          description: item.description,
+          location: item.location,
+          sessionsBundleSessionId: item.id,
+        };
+      });
+      console.log(this.events);
+      this.calendarOptions = {
+        ...this.calendarOptions,
+        events: this.events,
+      };
+    });
   }
 }
