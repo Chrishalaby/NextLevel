@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/envonment.prod';
 import {
+  Bundle,
+  Client,
   CreateBundleDto,
   CreateSessionEventDto,
-  clientBundle,
 } from '../models/client.model';
 import { Trainer } from '../models/trainer.model';
 
@@ -32,10 +33,8 @@ export class TrainerService {
     );
   }
 
-  getTrainerClients(): Observable<clientBundle[]> {
-    return this.http.get<clientBundle[]>(
-      `${environment.apiBaseUrl}/trainer/clients`
-    );
+  getTrainerClients(): Observable<Client[]> {
+    return this.http.get<Client[]>(`${environment.apiBaseUrl}/trainer/clients`);
   }
 
   addNewBundle(bundle: CreateBundleDto): Observable<any> {
@@ -45,16 +44,13 @@ export class TrainerService {
     );
   }
 
-  getClientBundle(
-    clientId: string,
-    isGhost: boolean
-  ): Observable<clientBundle> {
+  getClientBundle(clientId: string, isGhost: boolean): Observable<Bundle[]> {
     // Initialize HttpParams
     let params = new HttpParams();
     // Append the isGhost parameter
     params = params.append('isGhost', isGhost.toString());
 
-    return this.http.get<clientBundle>(
+    return this.http.get<Bundle[]>(
       `${environment.apiBaseUrl}/trainer/client-bundle/${clientId}`,
       { params } // Include the parameters in the request
     );

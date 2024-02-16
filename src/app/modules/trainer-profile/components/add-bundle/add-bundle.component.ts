@@ -13,7 +13,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
-import { clientBundle } from '../../shared/models/client.model';
+import { Client } from '../../shared/models/client.model';
 import { TrainerService } from '../../shared/services/trainer.service';
 
 @Component({
@@ -32,7 +32,7 @@ import { TrainerService } from '../../shared/services/trainer.service';
   providers: [ProxyService],
 })
 export class AddBundleComponent implements OnInit {
-  clients: clientBundle[] = [];
+  clients: Client[] = [];
   bundleForm!: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
@@ -71,7 +71,7 @@ export class AddBundleComponent implements OnInit {
   }
 
   getTrainerClients() {
-    this.trainerService.getTrainerClients().subscribe((res: clientBundle[]) => {
+    this.trainerService.getTrainerClients().subscribe((res: Client[]) => {
       this.clients = res;
     });
   }

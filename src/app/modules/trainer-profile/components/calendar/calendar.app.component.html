@@ -87,11 +87,30 @@
               />
             </span>
           </div>
-          <div class="col-12 field" *ngIf="chosenClient">
+
+          <div class="col-12 field">
+            <div class="flex align-items-center" *ngIf="clientSelected">
+              <span class="p-input-icon-left flex-grow">
+                <p-dropdown
+                  [options]="clientBundles"
+                  optionLabel="description"
+                  placeholder="Bundle Name"
+                  (onChange)="onBundleChange($event)"
+                >
+                </p-dropdown>
+              </span>
+              <div>
+                <p-button icon="pi pi-plus" (click)="addNewBundle()"></p-button>
+              </div>
+            </div>
+
             <input
+              *ngIf="selectedBundle.id !== 0"
               type="text"
               pInputText
-              placeholder="Sessions Left: {{ chosenClient.sessionsLeft }}"
+              placeholder="Sessions Left: {{
+                selectedBundle.remainingSessions
+              }}"
               disabled="true"
             />
           </div>
@@ -152,7 +171,13 @@
         label="Save"
         icon="pi pi-check"
         (click)="submitEvent()"
-        [disabled]="!changedEvent.start || !changedEvent.end"
+        [disabled]="
+          !changedEvent.start ||
+          !changedEvent.end ||
+          !changedEvent.location ||
+          !changedEvent.description ||
+          selectedBundle.remainingSessions === 0
+        "
       ></button>
     </ng-template>
   </p-dialog>
