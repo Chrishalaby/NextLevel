@@ -1,6 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
+import {
+  BackendControllerRoute,
+  TrainerParams,
+} from 'src/app/shared/enums/backend.enum';
+
 import { environment } from 'src/environments/envonment.prod';
 import {
   Bundle,
@@ -22,16 +28,20 @@ export class TrainerService {
 
   getTrainerProfile(): Observable<Trainer> {
     return this.http.get<Trainer>(
-      `${environment.apiBaseUrl}/users/trainer-profile`
+
+      `${environment.apiBaseUrl}${BackendControllerRoute.Trainer}${TrainerParams.Show}`
     );
   }
 
+
+
   updateTrainerProfile(trainer: Trainer): Observable<Trainer> {
     return this.http.post<Trainer>(
-      `${environment.apiBaseUrl}/users/trainer-profile`,
+      `${environment.apiBaseUrl}${BackendControllerRoute.Trainer}${TrainerParams.Update}`,
       trainer
     );
   }
+
 
   getTrainerClients(): Observable<Client[]> {
     return this.http.get<Client[]>(`${environment.apiBaseUrl}/trainer/clients`);
@@ -66,4 +76,5 @@ export class TrainerService {
   getTrainerEvents(): Observable<any> {
     return this.http.get<any>(`${environment.apiBaseUrl}/trainer/events`);
   }
+
 }

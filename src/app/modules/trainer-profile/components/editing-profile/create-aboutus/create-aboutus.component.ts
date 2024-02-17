@@ -15,6 +15,8 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TrainerService } from '../../../shared/services/trainer.service';
+import { Trainer } from '../../../shared/models/trainer.model';
+import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
 
 @Component({
   selector: 'app-create-aboutus',
@@ -41,19 +43,42 @@ export class CreateAboutusComponent implements OnInit {
   filterdUniversities: any[] = [];
 
   uploadedCertifications: any[] = [];
-  specialityChipValues: string[] = ['Body Building'];
+  specialityChipValues: string[] = [];
 
   profileForm!: FormGroup;
+  prevInfo: Trainer = {
+    id: 0,
+    firstName: '',
+    lastName: '',
+    briefBio: '',
+    profilePicture: '',
+    specialities: [],
+    educationalBackground: '',
+    certifications: [],
+    phoneNumber: '',
+    email: '',
+    tiktok: '',
+    instagram: '',
+    linkedin: '',
+  };
 
   constructor(
     private messageService: MessageService,
     private readonly trainerService: TrainerService,
-    private readonly formBuilder: FormBuilder
+    private readonly formBuilder: FormBuilder,
+    private readonly accessTokenService: AccessTokenService
   ) {}
 
   ngOnInit(): void {
     this.getuniversities();
     this.createForm();
+    const userId = this.accessTokenService.getUserInfo().id;
+    this.trainerService
+      .getTrainerProfile()
+      .subscribe((trainerProfile) => {
+        this.profileForm.patchValue(trainerProfile)
+      });
+
   }
 
   // onSelectProfilePicture(event: any) {
