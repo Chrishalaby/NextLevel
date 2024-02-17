@@ -2,7 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/envonment.prod';
-import { clientBundle, CreateBundleDto } from '../../shared/models/client.model';
+import {
+  clientBundle,
+  CreateBundleDto,
+} from '../../shared/models/client.model';
 import { Trainer } from '../../shared/models/trainer.model';
 
 @Injectable({
