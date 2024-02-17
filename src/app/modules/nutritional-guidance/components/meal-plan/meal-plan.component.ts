@@ -1,11 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TabViewModule } from 'primeng/tabview';
-import { NutritionService } from '../../shared/services/nutrition.service';
+import { AIService } from 'src/app/shared/services/AI.service';
 
 @Component({
   selector: 'app-meal-plan',
@@ -16,7 +18,9 @@ import { NutritionService } from '../../shared/services/nutrition.service';
     ReactiveFormsModule,
     DropdownModule,
     MultiSelectModule,
+    CommonModule,
     ButtonModule,
+    ProgressSpinnerModule,
     InputNumberModule,
   ],
 })
@@ -25,6 +29,8 @@ export class MealPlanComponent implements OnInit {
   mealPlanFormChefII!: FormGroup;
 
   mealPlanResponse: any;
+
+  submitted: boolean = false;
 
   mealPeriodOptions: any[] = [
     { label: 'Daily', value: 'daily' },
@@ -93,7 +99,7 @@ export class MealPlanComponent implements OnInit {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly nutritionService: NutritionService
+    private readonly AIService: AIService
   ) {}
 
   ngOnInit(): void {
@@ -104,53 +110,58 @@ export class MealPlanComponent implements OnInit {
     // {
     //   "action": "meal_plan",
     //     "data": {
-    //  "meal_period": "weekly",
-    //        "dietary_preference": "vegetarian",
+    //  "mealPeriod": "weekly",
+    //        "dietaryPreference": "vegetarian",
     //        "restrictions": ["gluten-free"]
     //     }
     //  }
     this.mealPlanFormChefI = this.formBuilder.group({
-      meal_period: [''],
-      dietary_preference: [''],
+      mealPeriod: [''],
+      dietaryPreference: [''],
       restrictions: [''],
     });
 
     this.mealPlanFormChefII = this.formBuilder.group({
-      meal_period: [''],
+      mealPeriod: [''],
       intolerances: [''],
       diet: [''],
-      exclude_ingredients: [''],
-      protein_min: [''],
-      protein_max: [''],
-      fat_min: [''],
-      fat_max: [''],
-      carbs_min: [''],
-      carbs_max: [''],
-      min_calories: [''],
-      max_calories: [''],
+      // excludeIngredients: [''],
+      proteinMin: [''],
+      proteinMax: [''],
+      fatMin: [''],
+      fatMax: [''],
+      carbsMin: [''],
+      carbsMax: [''],
+      caloriesMin: [''],
+      caloriesMax: [''],
     });
   }
 
   submitMealPlan() {
-    this.nutritionService.submitChefIMealPlan(this.mealPlanFormChefI.value);
-    // response from this call should look like this based on chatGPT:
-    //   {
-    //     "status": "success",
-    //     "action": "meal_plan",
-    //     "data": {
-    //        "meal_plan": "Sample weekly meal plan",
-    //        "recipes": "List of custom recipes",
-    //        "nutritional_information": "Nutritional breakdown",
-    //     }
-    //  }
-    this.mealPlanResponse = {
-      status: 'success',
-      action: 'meal_plan',
-      data: {
-        meal_plan: 'Sample weekly meal plan',
-        recipes: 'List of custom recipes',
-        nutritional_information: 'Nutritional breakdown',
+    this.submitted = true;
+
+    this.AIService.submitMealPlanForm(this.mealPlanFormChefI.value).subscribe({
+      next: (response: string) => {
+        this.submitted = false;
+        this.mealPlanResponse = response;
       },
-    };
+      error: (error) => {
+        console.error('There was an error!', error);
+      },
+    });
+  }
+
+  submitMealPlan2() {
+    this.submitted = true;
+
+    this.AIService.submitMealPlanForm(this.mealPlanFormChefII.value).subscribe({
+      next: (response: string) => {
+        this.submitted = false;
+        this.mealPlanResponse = response;
+      },
+      error: (error) => {
+        console.error('There was an error!', error);
+      },
+    });
   }
 }

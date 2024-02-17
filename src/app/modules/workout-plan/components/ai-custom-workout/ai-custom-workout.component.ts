@@ -20,7 +20,6 @@ import { ProxyService } from 'src/app/shared/services/proxy.service';
 @Component({
   selector: 'app-ai-custom-workout',
   templateUrl: './ai-custom-workout.component.html',
-  styleUrls: ['./ai-custom-workout.component.scss'],
   standalone: true,
   imports: [
     TabViewModule,
@@ -190,11 +189,9 @@ export class AiCustomWorkoutComponent implements OnInit {
     this.AIService.submitWorkoutPlanForm(
       this.workoutPlanTrainerIForm.value
     ).subscribe({
-      next: (res) => {
+      next: (res: string) => {
         this.submitted = false;
         this.trainer1Response = res;
-        console.log(res);
-        console.log(this.submitted);
       },
       error: (error) => {
         console.error('Error:', error);
@@ -206,11 +203,9 @@ export class AiCustomWorkoutComponent implements OnInit {
     this.submitted = true;
     this.AIService.submitWorkoutPlanForm(
       this.workoutPlanTrainerIIForm.value
-    ).subscribe((res: any) => {
+    ).subscribe((res: string) => {
       this.submitted = false;
       this.trainer2Response = res;
-      console.log(res);
-      console.log(this.submitted);
     });
   }
 }
