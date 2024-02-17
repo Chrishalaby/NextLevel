@@ -51,7 +51,9 @@ import { TrainerService } from '../../shared/services/trainer.service';
     ReactiveFormsModule,
     MessagesModule,
   ],
+
   providers: [MessageService],
+
 })
 export class CalendarAppComponent implements OnInit {
   events: any[] = [];
