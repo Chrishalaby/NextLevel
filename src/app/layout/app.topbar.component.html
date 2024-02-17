@@ -21,13 +21,37 @@
         label="Login"
         [routerLink]="'/auth/login'"
       ></button>
-      <button
-        *ngIf="!isLoggedOut"
-        pButton
-        pRipple
-        label="Logout"
-        (click)="logout()"
-      ></button>
+      <li class="topbar-search" *ngIf="!isLoggedOut">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            type="text"
+            pInputText
+            placeholder="Search"
+            class="w-12rem sm:w-full"
+            [formControl]="searchBarControl"
+            (click)="op.toggle($event)"
+          />
+        </span>
+
+        <button
+          pButton
+          pRipple
+          label="Logout"
+          (click)="logout()"
+          class="ml-3"
+        ></button>
+      </li>
     </ul>
   </div>
 </div>
+
+<p-overlayPanel #op>
+  <div class="custom-overlay-content">
+    <p *ngFor="let user of users">
+      <a [routerLink]="['/user', user.id]" class="custom-link">
+        {{ user.username }}
+      </a>
+    </p>
+  </div>
+</p-overlayPanel>

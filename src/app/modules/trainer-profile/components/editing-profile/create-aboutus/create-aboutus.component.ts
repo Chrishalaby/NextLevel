@@ -81,19 +81,33 @@ export class CreateAboutusComponent implements OnInit {
 
   }
 
+  // onSelectProfilePicture(event: any) {
+  //   if (event.files.length > 0) {
+  //     const file: File = event.files[0];
+  //     const reader = new FileReader();
+
+  //     reader.onloadend = () => {
+  //       this.profileForm.patchValue({
+  //         profilePicture: reader.result,
+  //       });
+  //     };
+
+  //     reader.readAsDataURL(file);
+  //   }
+  // }
+
   onSelectProfilePicture(event: any) {
     if (event.files.length > 0) {
       const file: File = event.files[0];
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        this.profileForm.patchValue({
-          profilePicture: reader.result,
-        });
-      };
-
-      reader.readAsDataURL(file);
+      const formData = new FormData();
+      formData.append('profilePicture', file, file.name);
+      this.profileForm.patchValue({
+        profilePicture: formData,
+      });
     }
+
+    // Now you can send formData to your backend
+    // Example: this.http.post('YOUR_BACKEND_ENDPOINT', formData).subscribe(...);
   }
 
   onUploadCertifications(event: any) {

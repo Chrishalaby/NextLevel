@@ -6,9 +6,9 @@
         <label htmlFor="name1" class="text-900 font-semibold">Client</label>
         <p-dropdown
           id="name1"
-          formControlName="client_id"
-          optionLabel="fullName"
-          optionValue="user_id"
+          formControlName="clientId"
+          optionLabel="firstName"
+          optionValue="id"
           [options]="clients"
         ></p-dropdown>
       </div>
@@ -21,7 +21,7 @@
           [min]="0"
           [max]="100"
           [useGrouping]="false"
-          formControlName="sessions_number"
+          formControlName="sessionsNumber"
         ></p-inputNumber>
       </div>
       <div class="field">
@@ -35,12 +35,12 @@
           currency="USD"
           [max]="1000"
           [useGrouping]="false"
-          formControlName="total_price"
+          formControlName="totalPrice"
         ></p-inputNumber>
       </div>
       <div class="field">
         <label for="description" class="text-900 font-semibold"
-          >Bundle Description (if any)</label
+          >Bundle Name</label
         >
         <textarea
           id="description"
