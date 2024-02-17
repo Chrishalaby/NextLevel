@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { NgxImageCompressService } from 'ngx-image-compress';
+import { Observable, map, switchMap } from 'rxjs';
 import {
   BackendControllerRoute,
   TrainerParams,
@@ -20,8 +20,10 @@ import { Trainer } from '../models/trainer.model';
   providedIn: 'root',
 })
 export class TrainerService {
-  constructor(private http: HttpClient) {}
-
+  constructor(
+    private http: HttpClient,
+    private imageCompress: NgxImageCompressService
+  ) {}
   getUniversities(): Observable<any[]> {
     return this.http.get<any[]>('http://universities.hipolabs.com/search');
   }
@@ -33,48 +35,36 @@ export class TrainerService {
     );
   }
 
-
-
   updateTrainerProfile(trainer: Trainer): Observable<Trainer> {
-    return this.http.post<Trainer>(
-      `${environment.apiBaseUrl}${BackendControllerRoute.Trainer}${TrainerParams.Update}`,
-      trainer
+    console.log(trainer);
+    return this.compressImage(trainer.profilePicture).pipe(
+      map((compressedImage) => {
+        const trainerProfile = {
+          ...trainer,
+          profilePicture: compressedImage,
+        };
+        return trainerProfile;
+      }),
+      switchMap((trainerProfile) =>
+        this.http.post<Trainer>(
+          `${environment.apiBaseUrl}${BackendControllerRoute.Trainer}${TrainerParams.Update}`,
+          trainerProfile
+        )
+      )
     );
   }
 
-
-  getTrainerClients(): Observable<Client[]> {
-    return this.http.get<Client[]>(`${environment.apiBaseUrl}/trainer/clients`);
+  compressImage(imageData: string): Observable<string> {
+    return new Observable<string>((observer) => {
+      this.imageCompress.compressFile(imageData, 1, 50, 50).then(
+        (result) => {
+          observer.next(result);
+          observer.complete();
+        },
+        (error) => {
+          observer.error(error);
+        }
+      );
+    });
   }
-
-  addNewBundle(bundle: CreateBundleDto): Observable<any> {
-    return this.http.post<any>(
-      `${environment.apiBaseUrl}/trainer/create-bundle`,
-      bundle
-    );
-  }
-
-  getClientBundle(clientId: string, isGhost: boolean): Observable<Bundle[]> {
-    // Initialize HttpParams
-    let params = new HttpParams();
-    // Append the isGhost parameter
-    params = params.append('isGhost', isGhost.toString());
-
-    return this.http.get<Bundle[]>(
-      `${environment.apiBaseUrl}/trainer/client-bundle/${clientId}`,
-      { params } // Include the parameters in the request
-    );
-  }
-
-  createSessionEvent(event: CreateSessionEventDto): Observable<any> {
-    return this.http.post<any>(
-      `${environment.apiBaseUrl}/trainer/create-event`,
-      event
-    );
-  }
-
-  getTrainerEvents(): Observable<any> {
-    return this.http.get<any>(`${environment.apiBaseUrl}/trainer/events`);
-  }
-
 }

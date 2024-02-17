@@ -1,78 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/envonment.prod';
 import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { Router } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { DropdownModule } from 'primeng/dropdown';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { ProxyService } from 'src/app/shared/services/proxy.service';
-import { Client } from '../../shared/models/client.model';
-import { TrainerService } from '../../shared/services/trainer.service';
+  clientBundle,
+  CreateBundleDto,
+} from '../../shared/models/client.model';
+import { Trainer } from '../../shared/models/trainer.model';
 
-@Component({
-  selector: 'app-add-bundle',
-  templateUrl: './add-bundle.component.html',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    InputTextModule,
-    ButtonModule,
-    InputNumberModule,
-    DropdownModule,
-    InputTextareaModule,
-  ],
-  providers: [ProxyService],
+@Injectable({
+  providedIn: 'root',
 })
-export class AddBundleComponent implements OnInit {
-  clients: Client[] = [];
-  bundleForm!: FormGroup;
-  constructor(
-    private formBuilder: FormBuilder,
-    private readonly router: Router,
-    private readonly trainerService: TrainerService
-  ) {}
+export class TrainerService {
+  constructor(private http: HttpClient) {}
 
-  ngOnInit(): void {
-    this.getTrainerClients();
-    this.createBundleForm();
+  getUniversities(): Observable<any[]> {
+    return this.http.get<any[]>('http://universities.hipolabs.com/search');
   }
 
-  createBundleForm() {
-    this.bundleForm = this.formBuilder.group({
-      clientId: [null, Validators.required],
-      sessionsNumber: [null, Validators.required],
-      totalPrice: [null, Validators.required],
-      description: [''],
-      isGhost: [null],
-    });
-  }
-  addNewBundle() {
-    const client = this.clients.find(
-      (client) => client.id === this.bundleForm.value.clientId
+  getTrainerProfile(): Observable<Trainer> {
+    return this.http.get<Trainer>(
+      `${environment.apiBaseUrl}/users/trainer-profile`
     );
-
-    if (client?.isGhost) {
-      this.bundleForm.value.isGhost = true;
-    } else {
-      this.bundleForm.value.isGhost = false;
-    }
-
-    this.trainerService.addNewBundle(this.bundleForm.value).subscribe(() => {
-      this.router.navigate(['/trainer-profile/calendar']);
-    });
   }
 
-  getTrainerClients() {
-    this.trainerService.getTrainerClients().subscribe((res: Client[]) => {
-      this.clients = res;
-    });
+  updateTrainerProfile(trainer: Trainer): Observable<Trainer> {
+    return this.http.post<Trainer>(
+      `${environment.apiBaseUrl}/users/trainer-profile`,
+      trainer
+    );
+  }
+
+  getTrainerClients(): Observable<clientBundle[]> {
+    return this.http.get<clientBundle[]>(
+      `${environment.apiBaseUrl}/trainer/clients`
+    );
+  }
+
+  addNewBundle(bundle: CreateBundleDto): Observable<any> {
+    return this.http.post<any>(
+      `${environment.apiBaseUrl}/trainer/create-bundle`,
+      bundle
+    );
   }
 }
