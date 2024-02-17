@@ -12,6 +12,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
@@ -19,6 +20,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { MessagesModule } from 'primeng/messages';
 import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
 import {
@@ -26,9 +28,6 @@ import {
   Client,
   CreateSessionEventDto,
 } from '../../shared/models/client.model';
-// import { EventService } from '../../shared/services/event.service';
-import { MessageService } from 'primeng/api';
-import { MessagesModule } from 'primeng/messages';
 import { TrainerService } from '../../shared/services/trainer.service';
 @Component({
   templateUrl: './calendar.app.component.html',
@@ -58,6 +57,8 @@ export class CalendarAppComponent implements OnInit {
 
   clients!: Client[];
   clientBundles!: Bundle[];
+
+  allowEditWhenDone: boolean = false;
 
   clientSelected: boolean = false;
   selectedBundle: Bundle = {

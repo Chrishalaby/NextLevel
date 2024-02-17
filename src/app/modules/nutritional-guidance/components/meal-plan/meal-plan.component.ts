@@ -10,7 +10,6 @@ import { NutritionService } from '../../shared/services/nutrition.service';
 @Component({
   selector: 'app-meal-plan',
   templateUrl: './meal-plan.component.html',
-  styleUrls: ['./meal-plan.component.scss'],
   standalone: true,
   imports: [
     TabViewModule,

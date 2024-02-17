@@ -189,12 +189,17 @@ export class AiCustomWorkoutComponent implements OnInit {
     this.submitted = true;
     this.AIService.submitWorkoutPlanForm(
       this.workoutPlanTrainerIForm.value
-    ).subscribe((res: any) => {
-      this.submitted = false;
-      // this.trainer1Response = res.Simplegeneratedworkoutplanresponse.replace(
-      //   /\n/g,
-      //   '<br>'
-      // );
+    ).subscribe({
+      next: (res) => {
+        this.submitted = false;
+        this.trainer1Response = res;
+        console.log(res);
+        console.log(this.submitted);
+      },
+      error: (error) => {
+        console.error('Error:', error);
+        this.submitted = false;
+      },
     });
   }
   submitTrainer2() {
@@ -203,10 +208,9 @@ export class AiCustomWorkoutComponent implements OnInit {
       this.workoutPlanTrainerIIForm.value
     ).subscribe((res: any) => {
       this.submitted = false;
-      // this.trainer2Response = res.Complexgeneratedworkoutplanresponse.replace(
-      //   /\n/g,
-      //   '<br>'
-      // );
+      this.trainer2Response = res;
+      console.log(res);
+      console.log(this.submitted);
     });
   }
 }

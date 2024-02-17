@@ -16,6 +16,8 @@ export class AIService {
   }
 
   submitWorkoutPlanForm(formData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/workout-plan`, formData);
+    return this.http.post(`${this.apiUrl}/workout-plan`, formData, {
+      responseType: 'text',
+    });
   }
 }
