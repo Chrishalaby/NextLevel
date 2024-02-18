@@ -7,6 +7,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TabViewModule } from 'primeng/tabview';
+import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
 import { AIService } from 'src/app/shared/services/AI.service';
 
 @Component({
@@ -31,6 +32,7 @@ export class MealPlanComponent implements OnInit {
   mealPlanResponse: any;
 
   submitted: boolean = false;
+  tokensLeft: number = 0;
 
   mealPeriodOptions: any[] = [
     { label: 'Daily', value: 'daily' },
@@ -99,11 +101,13 @@ export class MealPlanComponent implements OnInit {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly AIService: AIService
+    private readonly AIService: AIService,
+    private readonly accessTokenService: AccessTokenService
   ) {}
 
   ngOnInit(): void {
     this.createForm();
+    this.tokensLeft = this.accessTokenService.getUserInfo().aiRequestToken;
   }
 
   createForm(): void {

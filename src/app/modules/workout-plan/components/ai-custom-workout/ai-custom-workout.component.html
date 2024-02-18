@@ -4,7 +4,10 @@
       <div class="grid">
         <div class="col-12 md:col-6">
           <div class="card p-fluid" formGroupName="fitnessGoals">
-            <h5>Fitness Goals</h5>
+            <span class="w-full flex flex-row justify-content-between">
+              <h5>Fitness Goals</h5>
+              <p class="font-semibold">Tokens Left: {{ tokensLeft }}</p>
+            </span>
             <div class="field">
               <label>Primary Goal</label>
 
@@ -85,6 +88,7 @@
                 label="Submit"
                 class="flex-auto"
                 (click)="submitTrainer1()"
+                [disabled]="tokensLeft == 0"
               ></button>
             </div>
           </div>
@@ -108,7 +112,10 @@
       <div class="grid">
         <div class="col-12 md:col-6">
           <div class="card p-fluid" formGroupName="fitnessGoals">
-            <h5>Fitness Goals</h5>
+            <span class="w-full flex flex-row justify-content-between">
+              <h5>Fitness Goals</h5>
+              <p class="font-semibold">Tokens Left: {{ tokensLeft }}</p>
+            </span>
             <div class="field">
               <label>Primary Goal</label>
 
@@ -313,6 +320,7 @@
                 label="Submit"
                 class="flex-auto"
                 (click)="submitTrainer2()"
+                [disabled]="tokensLeft == 0"
               ></button>
             </div>
           </div>
