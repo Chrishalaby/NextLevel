@@ -7,13 +7,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
-import { ToastModule } from 'primeng/toast';
 import { ClientsTrainersService } from 'src/app/shared/services/cliens-trainers.service';
-import { ProxyService } from 'src/app/shared/services/proxy.service';
+import { NotificationsService } from 'src/app/shared/services/notifications.service';
 @Component({
   selector: 'app-add-client',
   templateUrl: './add-client.component.html',
@@ -23,10 +21,8 @@ import { ProxyService } from 'src/app/shared/services/proxy.service';
     ReactiveFormsModule,
     InputTextModule,
     ButtonModule,
-    ToastModule,
     InputNumberModule,
   ],
-  providers: [ProxyService, MessageService],
 })
 export class AddClientComponent implements OnInit {
   clientForm!: FormGroup;
@@ -36,8 +32,8 @@ export class AddClientComponent implements OnInit {
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly router: Router,
-    private readonly messageService: MessageService,
-    private readonly clientstrainersService: ClientsTrainersService
+    private readonly clientstrainersService: ClientsTrainersService,
+    private readonly notificationsService: NotificationsService
   ) {}
 
   ngOnInit(): void {
@@ -57,13 +53,12 @@ export class AddClientComponent implements OnInit {
       .createGhostClient(this.clientForm.value)
       .subscribe((res) => {
         if (res) {
+          this.notificationsService.showSuccessMessage(
+            'Client added successfully'
+          );
           this.router.navigate(['/trainer-profile/add-bundle']);
         } else {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Client already exists',
-          });
+          this.notificationsService.showErrorMessage('Error adding client');
         }
       });
   }

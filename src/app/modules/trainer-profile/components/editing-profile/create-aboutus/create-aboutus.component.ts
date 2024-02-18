@@ -6,7 +6,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MessageService } from 'primeng/api';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { AvatarModule } from 'primeng/avatar';
 import { ChipModule } from 'primeng/chip';
@@ -14,9 +13,10 @@ import { ChipsModule } from 'primeng/chips';
 import { FileUploadModule } from 'primeng/fileupload';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { TrainerService } from '../../../shared/services/trainer.service';
-import { Trainer } from '../../../shared/models/trainer.model';
 import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
+import { NotificationsService } from 'src/app/shared/services/notifications.service';
+import { Trainer } from '../../../shared/models/trainer.model';
+import { TrainerService } from '../../../shared/services/trainer.service';
 
 @Component({
   selector: 'app-create-aboutus',
@@ -34,7 +34,6 @@ import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-
     ReactiveFormsModule,
     AvatarModule,
   ],
-  providers: [MessageService],
 })
 export class CreateAboutusComponent implements OnInit {
   // private subscription!: Subscription;
@@ -63,22 +62,19 @@ export class CreateAboutusComponent implements OnInit {
   };
 
   constructor(
-    private messageService: MessageService,
     private readonly trainerService: TrainerService,
     private readonly formBuilder: FormBuilder,
-    private readonly accessTokenService: AccessTokenService
+    private readonly accessTokenService: AccessTokenService,
+    private readonly notificationsService: NotificationsService
   ) {}
 
   ngOnInit(): void {
     this.getuniversities();
     this.createForm();
     const userId = this.accessTokenService.getUserInfo().id;
-    this.trainerService
-      .getTrainerProfile()
-      .subscribe((trainerProfile) => {
-        this.profileForm.patchValue(trainerProfile)
-      });
-
+    this.trainerService.getTrainerProfile().subscribe((trainerProfile) => {
+      this.profileForm.patchValue(trainerProfile);
+    });
   }
 
   // onSelectProfilePicture(event: any) {
@@ -111,11 +107,9 @@ export class CreateAboutusComponent implements OnInit {
   }
 
   onUploadCertifications(event: any) {
-    this.messageService.add({
-      severity: 'info',
-      summary: 'Success',
-      detail: 'File Uploaded with Basic Mode',
-    });
+    this.notificationsService.showSuccessMessage(
+      'File Uploaded with Basic Mode'
+    );
   }
 
   getuniversities() {

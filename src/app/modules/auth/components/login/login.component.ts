@@ -7,14 +7,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
-import { ToastModule } from 'primeng/toast';
 import { Observable } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { ProxyService } from 'src/app/shared/services/proxy.service';
 import { AuthFacade } from '../../shared/store/auth.facade';
 @Component({
   templateUrl: './login.component.html',
@@ -26,9 +23,7 @@ import { AuthFacade } from '../../shared/store/auth.facade';
     InputTextModule,
     FormsModule,
     ReactiveFormsModule,
-    ToastModule,
   ],
-  providers: [ProxyService, MessageService],
 })
 export class LoginComponent implements OnInit {
   rememberMe: boolean = false;
