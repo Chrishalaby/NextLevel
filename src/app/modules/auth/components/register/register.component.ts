@@ -65,7 +65,9 @@ export class RegisterComponent implements OnInit {
     this.httpClient
       .post(environment.apiBaseUrl + '/users', this.registerForm.value)
       .subscribe((data: any) => {
-        this.accessTokenService.setMailCookie(this.registerForm.value.email);
+        this.accessTokenService.setMailCookie(
+          this.registerForm.get('email')?.value
+        );
         this.router.navigate(['/auth/verification']);
       });
   }
