@@ -18,7 +18,7 @@ export class AuthRepository {
 
   newPassword(newPasswordDetails: any): Observable<any> {
     return this.httpClient.post(
-      environment.apiBaseUrl + '/auth/newpassword',
+      environment.apiBaseUrl + '/auth/change-password',
       newPasswordDetails
     );
   }
