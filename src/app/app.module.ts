@@ -5,6 +5,7 @@ import { EffectsModule, provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { REDUCER_PROVIDER, getInitialState, reducerToken } from './app.store';
@@ -20,6 +21,7 @@ import { ProxyService } from './shared/services/proxy.service';
     AppRoutingModule,
     AppLayoutModule,
     EffectsModule.forRoot([AuthEffects]),
+    ToastModule,
   ],
   providers: [
     AUTH_INTERCEPTOR_PROVIDER,
