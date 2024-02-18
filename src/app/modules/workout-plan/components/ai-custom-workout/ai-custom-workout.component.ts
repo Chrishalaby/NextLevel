@@ -15,6 +15,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TabViewModule } from 'primeng/tabview';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { TooltipModule } from 'primeng/tooltip';
+import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
 import { AIService } from 'src/app/shared/services/AI.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
 @Component({
@@ -75,6 +76,8 @@ export class AiCustomWorkoutComponent implements OnInit {
     { label: 'Other', value: 'other' },
   ];
 
+  tokensLeft: number = 0;
+
   options: any = {
     fitnessGoals: [],
     daysPerWeek: [],
@@ -85,12 +88,15 @@ export class AiCustomWorkoutComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private readonly AIService: AIService
+    private readonly AIService: AIService,
+    private readonly accessTokenService: AccessTokenService
   ) {}
 
   ngOnInit(): void {
     this.createform();
     this.callOptions();
+
+    this.tokensLeft = this.accessTokenService.getUserInfo().aiRequestToken;
   }
 
   createform() {
