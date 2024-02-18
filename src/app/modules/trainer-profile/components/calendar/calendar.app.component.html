@@ -176,7 +176,7 @@
           !changedEvent.end ||
           !changedEvent.location ||
           !changedEvent.description ||
-          selectedBundle.remainingSessions === 0
+          (selectedBundle.remainingSessions === 0 && !allowEditWhenDone)
         "
       ></button>
     </ng-template>

@@ -12,10 +12,18 @@ export class AIService {
   constructor(private http: HttpClient) {}
 
   getAllOptions(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/options`);
+    return this.http.get(`${this.apiUrl}/open-ai/workout-options`);
   }
 
   submitWorkoutPlanForm(formData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/workout-plan`, formData);
+    return this.http.post(`${this.apiUrl}/open-ai/workout-plan`, formData, {
+      responseType: 'text',
+    });
+  }
+
+  submitMealPlanForm(formData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/open-ai/meal-plan`, formData, {
+      responseType: 'text',
+    });
   }
 }
