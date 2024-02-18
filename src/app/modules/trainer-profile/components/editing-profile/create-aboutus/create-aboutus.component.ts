@@ -93,9 +93,9 @@ export class CreateAboutusComponent implements OnInit {
     this.trainerService.getTrainerProfile().subscribe((trainerProfile) => {
       const parsedTrainer = {
         ...trainerProfile,
-        educationalBackground: JSON.parse(
+        educationalBackground:
           JSON.parse(trainerProfile.educationalBackground)
-        ),
+        ,
       };
       this.profileForm.patchValue(parsedTrainer);
       console.log(parsedTrainer);
