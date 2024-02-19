@@ -18,8 +18,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const isLogged = this.accessTokenService.isLoggedOut.subscribe(
       (isLoggedOut) => {
-        console.log('before:', this.userType, this.isLoggedOut);
-
         this.isLoggedOut = isLoggedOut;
         this.userType = this.accessTokenService.getUserInfo().userType || '';
         //to be fixed (async thing)
@@ -48,22 +46,22 @@ export class AppMenuComponent implements OnInit, OnDestroy {
               },
               {
                 label: 'Show About',
-                icon: 'pi pi-fw pi-user-edit',
+                icon: 'pi pi-fw pi-info-circle',
                 routerLink: ['/trainer-profile/show-aboutus'],
               },
               {
                 label: 'Calendar',
-                icon: 'pi pi-fw pi-user-edit',
+                icon: 'pi pi-fw pi-calendar',
                 routerLink: ['/trainer-profile/calendar'],
               },
               {
                 label: 'Add Client',
-                icon: 'pi pi-fw pi-user-edit',
+                icon: 'pi pi-fw pi-user-plus',
                 routerLink: ['/trainer-profile/add-client'],
               },
               {
                 label: 'Add Bundle',
-                icon: 'pi pi-fw pi-user-edit',
+                icon: 'pi pi-fw pi-plus-circle',
                 routerLink: ['/trainer-profile/add-bundle'],
               },
             ],
