@@ -6,7 +6,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MessageService } from 'primeng/api';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { AvatarModule } from 'primeng/avatar';
 import { ChipModule } from 'primeng/chip';
@@ -15,8 +14,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-// import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
-import { ButtonModule } from 'primeng/button';
+import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
+import { NotificationsService } from 'src/app/shared/services/notifications.service';
 import { Trainer } from '../../../shared/models/trainer.model';
 import { TrainerService } from '../../../shared/services/trainer.service';
 
@@ -38,7 +37,6 @@ import { TrainerService } from '../../../shared/services/trainer.service';
     AvatarModule,
     DropdownModule,
   ],
-  providers: [MessageService],
 })
 export class CreateAboutusComponent implements OnInit {
   // private subscription!: Subscription;
@@ -82,14 +80,16 @@ export class CreateAboutusComponent implements OnInit {
   };
 
   constructor(
-    private messageService: MessageService,
     private readonly trainerService: TrainerService,
-    private readonly formBuilder: FormBuilder // private readonly accessTokenService: AccessTokenService
+    private readonly formBuilder: FormBuilder,
+    private readonly accessTokenService: AccessTokenService,
+    private readonly notificationsService: NotificationsService
   ) {}
 
   ngOnInit(): void {
     this.getuniversities();
     this.createForm();
+
     this.trainerService.getTrainerProfile().subscribe((trainerProfile) => {
       const parsedTrainer = {
         ...trainerProfile,
@@ -132,11 +132,9 @@ export class CreateAboutusComponent implements OnInit {
   }
 
   onUploadCertifications(event: any) {
-    this.messageService.add({
-      severity: 'info',
-      summary: 'Success',
-      detail: 'File Uploaded with Basic Mode',
-    });
+    this.notificationsService.showSuccessMessage(
+      'File Uploaded with Basic Mode'
+    );
   }
 
   getuniversities() {

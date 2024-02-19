@@ -12,7 +12,6 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
@@ -22,7 +21,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MessagesModule } from 'primeng/messages';
 import { RippleModule } from 'primeng/ripple';
-import { ToastModule } from 'primeng/toast';
+import { NotificationsService } from 'src/app/shared/services/notifications.service';
 import {
   Bundle,
   Client,
@@ -43,16 +42,12 @@ import { TrainerService } from '../../shared/services/trainer.service';
     CalendarModule,
     InputTextModule,
     DropdownModule,
-    ToastModule,
     RippleModule,
     InputNumberModule,
     FormsModule,
     ReactiveFormsModule,
     MessagesModule,
   ],
-
-  providers: [MessageService],
-
 })
 export class CalendarAppComponent implements OnInit {
   events: any[] = [];
@@ -91,10 +86,10 @@ export class CalendarAppComponent implements OnInit {
   changedEvent: any;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private readonly formBuilder: FormBuilder,
     private readonly router: Router,
     private readonly trainerService: TrainerService,
-    private readonly messageService: MessageService
+    private readonly notificationsService: NotificationsService
   ) {}
 
   ngOnInit(): void {
@@ -246,18 +241,13 @@ export class CalendarAppComponent implements OnInit {
     };
 
     if (!this.validate()) {
-      this.messageService.add({
-        severity: 'error',
-        detail: 'Please fill in all fields.',
-      });
+      this.notificationsService.showErrorMessage('Please fill in all fields.');
       return;
     }
 
     this.trainerService.createSessionEvent(event).subscribe(() => {
-      this.messageService.add({
-        severity: 'success',
-        detail: 'Event Created',
-      });
+      this.notificationsService.showSuccessMessage('Event Created');
+
       this.handleSave();
     });
   }
@@ -295,10 +285,7 @@ export class CalendarAppComponent implements OnInit {
     };
 
     this.trainerService.createSessionEvent(event).subscribe(() => {
-      this.messageService.add({
-        severity: 'success',
-        detail: 'Event Updated',
-      });
+      this.notificationsService.showSuccessMessage('Event Updated');
     });
   }
 

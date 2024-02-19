@@ -11,7 +11,6 @@ import {
   WorkoutPlanRoutes,
 } from './shared/enums/routes.enum';
 import { LoadedComponent } from './shared/types/general.types';
-import { VerificationRoutingGuard } from './modules/auth/shared/services/verification-routing-guard.service';
 
 const routes: Routes = [
   {
