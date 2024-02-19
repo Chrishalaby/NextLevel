@@ -25,7 +25,7 @@ import { TrainerService } from '../../../shared/services/trainer.service';
   styleUrls: ['./create-aboutus.component.scss'],
   standalone: true,
   imports: [
-    ButtonModule,
+
     InputTextModule,
     FileUploadModule,
     InputTextareaModule,
