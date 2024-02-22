@@ -79,7 +79,18 @@
           [inputStyle]="{ paddingLeft: '2.5rem' }"
           inputStyleClass="w-full md:w-25rem"
           [toggleMask]="true"
-        ></p-password>
+        >
+          <ng-template pTemplate="footer">
+            <p class="mt-2">Required</p>
+            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+              <li>At least one lowercase</li>
+              <li>At least one uppercase</li>
+              <li>At least one numeric</li>
+              <li>Minimum 8 characters</li>
+              <li>At least one special character (like !@#$%^&*)</li>
+            </ul>
+          </ng-template>
+        </p-password>
       </span>
       <div class="mb-4 flex flex-wrap">
         <p-checkbox
@@ -101,7 +112,7 @@
         label="Sign Up"
         class="w-full mb-3"
         (click)="register()"
-        [disabled]="!registerForm.valid"
+        [disabled]="!registerForm.valid || registerClicked"
       ></button>
       <span class="font-medium text-600"
         >Already have an account?

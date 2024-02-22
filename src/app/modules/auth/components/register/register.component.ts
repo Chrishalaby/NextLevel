@@ -41,6 +41,7 @@ export class RegisterComponent implements OnInit {
   ];
 
   registerForm!: FormGroup;
+  registerClicked: boolean = false;
 
   constructor(
     private layoutService: LayoutService,
@@ -62,6 +63,7 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
+    this.registerClicked = true;
     this.httpClient
       .post(environment.apiBaseUrl + '/users', this.registerForm.value)
       .subscribe((data: any) => {
@@ -83,9 +85,18 @@ export class RegisterComponent implements OnInit {
 
   createRegisterForm() {
     this.registerForm = this.formBuilder.group({
-      username: ['', [Validators.required]],
+      username: [
+        '',
+        [Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/)],
+      ],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
+      password: [
+        '',
+        [Validators.required],
+        Validators.pattern(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+        ),
+      ],
       userType: ['', [Validators.required]],
     });
   }
