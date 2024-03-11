@@ -1,17 +1,16 @@
-import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
-import { TrainerService } from './../../../shared/services/trainer.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { AvatarModule } from 'primeng/avatar';
+import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
 import { Trainer } from '../../../shared/models/trainer.model';
-
+import { TrainerService } from './../../../shared/services/trainer.service';
 @Component({
   templateUrl: './aboutus.component.html',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AvatarModule],
 })
 export class AboutUsComponent implements OnInit {
-  // private subscription!: Subscription;
-
   visibleMember: number = -1;
   trainerProfile: Trainer = {
     id: 0,
@@ -20,7 +19,9 @@ export class AboutUsComponent implements OnInit {
     briefBio: '',
     profilePicture: '',
     specialities: [],
-    educationalBackground: '',
+    educationalBackground: {},
+    educationalLevel: '',
+    nameOfQualification: '',
     certifications: [],
     phoneNumber: '',
     email: '',
@@ -31,18 +32,21 @@ export class AboutUsComponent implements OnInit {
 
   constructor(
     private readonly trainerService: TrainerService,
-    private readonly accessTokenService: AccessTokenService
+    private readonly accessTokenService: AccessTokenService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
-    ////////////////////////////////////////////////////////////////
     const userId = this.accessTokenService.getUserInfo().id;
-    this.trainerService
-      .getTrainerProfile()
-      .subscribe((trainerProfile) => {
-        this.trainerProfile = trainerProfile;
-        console.log(trainerProfile)
-      });
+    this.trainerService.getTrainerProfile().subscribe((trainerProfile) => {
+      const parsedEducationalBackground = JSON.parse(
+        trainerProfile.educationalBackground
+      );
+      this.trainerProfile = {
+        ...trainerProfile,
+        educationalBackground: parsedEducationalBackground,
+      };
+    });
   }
 
   // ngOnDestroy(): void {

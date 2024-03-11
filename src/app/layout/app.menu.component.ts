@@ -18,8 +18,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const isLogged = this.accessTokenService.isLoggedOut.subscribe(
       (isLoggedOut) => {
-        console.log('before:', this.userType, this.isLoggedOut);
-
         this.isLoggedOut = isLoggedOut;
         this.userType = this.accessTokenService.getUserInfo().userType || '';
         //to be fixed (async thing)
