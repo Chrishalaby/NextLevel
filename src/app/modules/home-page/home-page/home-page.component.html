@@ -5,10 +5,12 @@
       <p-button
         label="Join as a Trainer"
         (click)="register('trainer')"
+        *ngIf="!isloggedIn()"
       ></p-button>
       <p-button
         label="Find Your Trainer"
         class="button-secondary"
+        *ngIf="!isloggedIn()"
         (click)="register('client')"
       ></p-button>
     </div>

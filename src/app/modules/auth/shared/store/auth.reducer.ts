@@ -6,6 +6,7 @@ import { AuthState } from './auth.state';
 export const authInitialState: AuthState = {
   user: null,
   authPending: false,
+  error: ""
 };
 
 export const authFeature = createFeature({
@@ -25,9 +26,17 @@ export const authFeature = createFeature({
         ...state,
         authPending: false,
       })
+    ),
+    on(
+      AuthActions.loginFailure,
+      (state, { error }): AuthState => ({
+        ...state,
+        authPending: false,
+        error, // Update state with error message
+      })
     )
   ),
 });
 
-export const { name, reducer, selectAuthState, selectUser, selectAuthPending } =
+export const { name, reducer, selectAuthState, selectUser, selectAuthPending  } =
   authFeature;

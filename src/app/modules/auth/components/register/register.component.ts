@@ -39,7 +39,7 @@ export class RegisterComponent implements OnInit {
     { label: 'Client', value: 'client' },
     { label: 'Trainer', value: 'trainer' },
   ];
-
+  termsAndConditionCheckbox: boolean = false
   registerForm!: FormGroup;
   registerClicked: boolean = false;
 
@@ -62,6 +62,9 @@ export class RegisterComponent implements OnInit {
     this.setUserTypeByParam();
   }
 
+  toggleTermsAndConditions() {
+   this.termsAndConditionCheckbox = !this.termsAndConditionCheckbox
+ }
   register() {
     this.registerClicked = true;
     this.httpClient
@@ -79,7 +82,6 @@ export class RegisterComponent implements OnInit {
       console.log('Query Params:', params);
       const paramUserType = params['userType'] || '';
       this.registerForm.get('userType')?.setValue(paramUserType || 'client');
-      console.log(this.registerForm.value);
     });
   }
 
@@ -92,12 +94,13 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: [
         '',
-        [Validators.required],
-        Validators.pattern(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-        ),
+        [
+          Validators.required,
+          Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z]).+$/)
+        ]
       ],
       userType: ['', [Validators.required]],
+      termsandconditions: [null,[Validators.required]]
     });
   }
 }

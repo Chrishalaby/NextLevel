@@ -9,6 +9,11 @@ export interface LogInSuccessProps {
   user: User;
 }
 
+export interface AuthErrorProps {
+  error: string;
+  statusCode?: number;
+}
+
 interface User {
   id: number;
   username: string;
