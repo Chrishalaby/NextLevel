@@ -9,7 +9,7 @@ export class NotificationsService {
 
   showMessage(message: Message): void {
     this.messageService.add({
-      summary: message.summary,
+      summary: message.summary ||'error',
       severity: message.severity || 'error',
       detail: message.detail,
       key: message.key || 'global-toast',

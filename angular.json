@@ -58,12 +58,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-
               "browserTarget": "FitHub:build:production"
             },
             "development": {
               "browserTarget": "FitHub:build:development"
-
             }
           },
           "defaultConfiguration": "development"
@@ -71,9 +69,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-
             "browserTarget": "FitHub:build"
-
           }
         },
         "test": {

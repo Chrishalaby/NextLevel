@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { TimelineModule } from 'primeng/timeline';
+import { AccessTokenService } from '../../auth/shared/services/access-token.service';
 
 @Component({
   selector: 'app-home-page',
@@ -24,8 +25,11 @@ export class HomePageComponent {
     },
     { status: '4. Get Fit', info: 'Get fit and stay fit with your trainer.' },
   ];
-  constructor(private readonly router: Router) {}
+  constructor(private readonly router: Router, private accessTokenService: AccessTokenService) {}
 
+  isloggedIn():boolean {
+    return this.accessTokenService.isLoggedIn()
+  }
   register(userType: string) {
     this.router.navigate(['/auth/register'], {
       queryParams: { userType: userType },
