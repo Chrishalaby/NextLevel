@@ -5,7 +5,6 @@
         <h5>Personal Information</h5>
 
         <p-avatar
-          *ngIf="profileForm.controls['profilePicture'].value"
           [image]="profileForm.controls['profilePicture'].value"
           size="large"
           shape="circle"
@@ -51,9 +50,6 @@
         [maxFileSize]="10000000"
         (onSelect)="onSelectProfilePicture($event)"
       ></p-fileUpload>
-
-      <!-- FILE UPLOAD NEEDS TO BE FIXED THE WAY WE ARE UPLOADING THE PIC -->
-      <!-- ADD AN IMG TO SHOW THE PROFILE PIC ONCE UPLOADED -->
     </div>
     <div class="card p-fluid">
       <h5>Specialties</h5>
@@ -68,14 +64,14 @@
       <h5>Qualifications</h5>
       <div class="field">
         <label htmlFor="name2">Highest Level of Education</label>
-        <p-dropdown
+        <!-- <p-dropdown
           formControlName="educationalLevel"
           field="label"
           optionDisabled="none"
           [options]="educationalLevelOptions"
           optionValue="value"
         >
-        </p-dropdown>
+        </p-dropdown> -->
       </div>
       <div class="field">
         <label htmlFor="eduName1">Educational Background</label>

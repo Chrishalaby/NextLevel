@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { AvatarModule } from 'primeng/avatar';
 import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
 import { Trainer } from '../../../shared/models/trainer.model';
@@ -20,7 +20,7 @@ export class AboutUsComponent implements OnInit {
     profilePicture: '',
     specialities: [],
     educationalBackground: {},
-    educationalLevel: '',
+    // educationalLevel: '',
     nameOfQualification: '',
     certifications: [],
     phoneNumber: '',

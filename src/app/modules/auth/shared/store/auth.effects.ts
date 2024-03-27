@@ -45,6 +45,7 @@ export class AuthEffects {
           this.accessTokenService.decodeAccessToken(accessToken);
           this.accessTokenService.setAccessToken(accessToken);
           this.accessTokenService.setUserInfo(user);
+          this.authRepository.setLoggedIn(true);
         }),
         tap(() => {
           this.router.navigate(['/']);

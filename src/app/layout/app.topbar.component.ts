@@ -12,6 +12,7 @@ import { debounceTime, switchMap } from 'rxjs/operators';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { environment } from 'src/environments/envonment.prod';
 import { AccessTokenService } from '../modules/auth/shared/services/access-token.service';
+import { AuthRepository } from '../modules/auth/shared/services/auth.repository';
 interface User {
   id: number;
   username: string;
@@ -37,7 +38,8 @@ export class AppTopbarComponent implements OnInit, OnDestroy {
   constructor(
     public layoutService: LayoutService,
     private accessTokenService: AccessTokenService,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient,
+    private authRepository: AuthRepository
   ) {}
 
   ngOnInit(): void {
@@ -68,6 +70,7 @@ export class AppTopbarComponent implements OnInit, OnDestroy {
 
   logout() {
     this.accessTokenService.deleteAccessToken();
+    this.authRepository.setLoggedIn(false);
   }
 
   ngOnDestroy() {

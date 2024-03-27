@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AccessTokenService } from '../modules/auth/shared/services/access-token.service';
+import { AuthRepository } from '../modules/auth/shared/services/auth.repository';
 
 @Component({
   selector: 'app-menu',
@@ -9,26 +10,28 @@ import { AccessTokenService } from '../modules/auth/shared/services/access-token
 export class AppMenuComponent implements OnInit, OnDestroy {
   model: any[] = [];
 
-  constructor(private readonly accessTokenService: AccessTokenService) {}
+  constructor(
+    private readonly accessTokenService: AccessTokenService,
+    private readonly authRepository: AuthRepository
+  ) {}
 
   userType: string = '';
   isLoggedOut: boolean = false;
   private subscription: Subscription = new Subscription();
 
   ngOnInit() {
-    const isLogged = this.accessTokenService.isLoggedOut.subscribe(
-      (isLoggedOut) => {
-        this.isLoggedOut = isLoggedOut;
-        this.userType = this.accessTokenService.getUserInfo().userType || '';
-        //to be fixed (async thing)
+    const loggedInSub = this.authRepository
+      .getLoggedIn()
+      .subscribe((isLoggedIn: any) => {
+        this.isLoggedOut = !isLoggedIn;
         this.updateMenu();
-      }
-    );
-
-    this.subscription.add(isLogged);
+      });
+    this.subscription.add(loggedInSub);
   }
 
   updateMenu() {
+    this.userType = this.accessTokenService.getUserInfo().userType || '';
+
     this.model = [
       {
         label: 'Pages',

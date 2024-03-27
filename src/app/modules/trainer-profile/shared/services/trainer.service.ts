@@ -28,12 +28,9 @@ export class TrainerService {
 
   getTrainerProfile(): Observable<Trainer> {
     return this.http.get<Trainer>(
-
       `${environment.apiBaseUrl}${BackendControllerRoute.Trainer}${TrainerParams.Show}`
     );
   }
-
-
 
   updateTrainerProfile(trainer: Trainer): Observable<Trainer> {
     return this.http.post<Trainer>(
@@ -41,7 +38,6 @@ export class TrainerService {
       trainer
     );
   }
-
 
   getTrainerClients(): Observable<Client[]> {
     return this.http.get<Client[]>(`${environment.apiBaseUrl}/trainer/clients`);
@@ -77,4 +73,10 @@ export class TrainerService {
     return this.http.get<any>(`${environment.apiBaseUrl}/trainer/events`);
   }
 
+  uploadProfilePicture(formData: FormData): Observable<any> {
+    return this.http.post<any>(
+      `${environment.apiBaseUrl}/trainer/upload-profile-picture`,
+      formData
+    );
+  }
 }

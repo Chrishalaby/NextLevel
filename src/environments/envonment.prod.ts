@@ -5,5 +5,6 @@ export const environment: Environment = {
   production: true,
   defaultLanguage: 'en',
   apiBaseUrl: 'http://localhost:3000',
+  imageBaseUrl: 'http://localhost:3000/uploads/',
   // apiBaseUrl: 'https://fithubc.azurewebsites.net',
 };
