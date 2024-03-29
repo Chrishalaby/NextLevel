@@ -6,7 +6,7 @@ export interface Trainer {
   profilePicture: string;
   specialities: string[];
   educationalBackground: any;
-  // educationalLevel: string;
+  educationalLevel: string;
   nameOfQualification?: string;
   certifications: string[];
   phoneNumber: string;

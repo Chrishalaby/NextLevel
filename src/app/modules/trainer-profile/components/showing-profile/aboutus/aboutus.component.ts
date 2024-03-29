@@ -20,7 +20,7 @@ export class AboutUsComponent implements OnInit {
     profilePicture: '',
     specialities: [],
     educationalBackground: {},
-    // educationalLevel: '',
+    educationalLevel: '',
     nameOfQualification: '',
     certifications: [],
     phoneNumber: '',

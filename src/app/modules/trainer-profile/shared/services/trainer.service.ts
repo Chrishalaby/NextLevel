@@ -79,4 +79,10 @@ export class TrainerService {
       formData
     );
   }
+  uploadCertification(formData: FormData): Observable<any> {
+    return this.http.post<any>(
+      `${environment.apiBaseUrl}/trainer/upload-certifications`,
+      formData
+    );
+  }
 }

@@ -43,19 +43,19 @@ export class CreateAboutusComponent implements OnInit {
   filterdUniversities: any[] = [];
   uploadedCertifications: any[] = [];
   specialityChipValues: string[] = [];
-  // educationalLevelOptions: any[] = [
-  //   { value: 'none', label: 'No formal education' },
-  //   { value: 'Primary', label: 'Primary education' },
-  //   {
-  //     value: 'Secondary',
-  //     label: 'Secondary education or high school',
-  //   },
-  //   { value: 'GED', label: 'GED' },
-  //   { value: 'Vocational', label: 'Vocational qualification' },
-  //   { value: 'B.S', label: "Bachelor's degree" },
-  //   { value: 'M.S', label: "Master's degree" },
-  //   { value: 'P.H.D', label: 'Doctorate or higher' },
-  // ];
+  educationalLevelOptions: any[] = [
+    { value: 'none', label: 'No formal education' },
+    { value: 'Primary', label: 'Primary education' },
+    {
+      value: 'Secondary',
+      label: 'Secondary education or high school',
+    },
+    { value: 'GED', label: 'GED' },
+    { value: 'Vocational', label: 'Vocational qualification' },
+    { value: 'B.S', label: "Bachelor's degree" },
+    { value: 'M.S', label: "Master's degree" },
+    { value: 'P.H.D', label: 'Doctorate or higher' },
+  ];
   profileForm!: FormGroup;
   prevInfo: Trainer = {
     id: 0,
@@ -65,7 +65,7 @@ export class CreateAboutusComponent implements OnInit {
     profilePicture: '',
     specialities: [],
     educationalBackground: '',
-    // educationalLevel: '',
+    educationalLevel: '',
     // nameOfQualification: '',
     certifications: [],
     phoneNumber: '',
@@ -111,53 +111,21 @@ export class CreateAboutusComponent implements OnInit {
     }
   }
 
+  uploadedFiles: File[] = []; // Array to keep track of uploaded files
+
   onUploadCertifications(event: any) {
-    if (event.files.length > 0) {
-      const uploadedFiles: File[] = event.files;
-
-      for (const file of uploadedFiles) {
-        const reader = new FileReader();
-
-        reader.onloadend = () => {
-          this.uploadedCertifications.push(reader.result as string);
-          // All files have been processed, update the form
-          console.log('patching');
-          this.profileForm.patchValue({
-            certifications: this.uploadedCertifications,
-          });
-          console.log(this.profileForm.value);
-          console.log(this.uploadedCertifications);
-        };
-
-        reader.readAsDataURL(file);
-      }
+    if (event && event.files && event.files.length > 0) {
+      this.uploadedFiles = [...this.uploadedFiles, ...event.files];
     }
   }
 
   onRemoveCertification(event: any) {
-    console.log('on remove is triggered');
-    const removedFile: File = event.file;
-    console.log('removed file:', removedFile);
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const removedFileBase64: string = reader.result as string;
-
-      const removedFileIndex: number =
-        this.uploadedCertifications.indexOf(removedFileBase64);
-      console.log('index of file', removedFileIndex);
-      if (removedFileIndex !== -1) {
-        this.uploadedCertifications.splice(removedFileIndex, 1);
-        this.profileForm.patchValue({
-          certifications: this.uploadedCertifications,
-        }); // Update the form value
-      }
-      console.log(this.uploadedCertifications);
-    };
-
-    reader.readAsDataURL(removedFile);
+    if (event && event.file) {
+      this.uploadedFiles = this.uploadedFiles.filter(
+        (file) => file.name !== event.file.name
+      );
+    }
   }
-
   getuniversities() {
     this.trainerService.getUniversities().subscribe((universities) => {
       this.universities = universities;
@@ -183,11 +151,10 @@ export class CreateAboutusComponent implements OnInit {
       profilePicture: [''],
       // specialities array of strings
       specialities: [''],
-      // educationalLevel: [null, Validators.required],
+      educationalLevel: [null, Validators.required],
       educationalBackground: [''],
       // nameOfQualification: [''],
-      // certifications array of objects (images)
-      certifications: [''],
+      certifications: [[]],
       phoneNumber: [''],
       email: ['', Validators.email],
       tiktok: [''],
@@ -196,12 +163,26 @@ export class CreateAboutusComponent implements OnInit {
     });
   }
 
-  submitProfile() {
-    const profile = this.profileForm.value;
-    this.trainerService.updateTrainerProfile(profile).subscribe();
-  }
+  async submitProfile() {
+    const certificationFormData = new FormData();
+    for (const file of this.uploadedFiles) {
+      certificationFormData.append('certifications', file);
+    }
 
-  // ngOnDestroy(): void {
-  //   this.subscription.unsubscribe();
-  // }
+    try {
+      const response = await this.trainerService
+        .uploadCertification(certificationFormData)
+        .toPromise();
+      this.uploadedCertifications.push(...response.imageUrl); // Assuming response.imageUrl is an array of URLs
+      this.profileForm.patchValue({
+        certifications: this.uploadedCertifications,
+      });
+
+      // Now we proceed to update the trainer profile after certifications are uploaded
+      const profile = this.profileForm.value;
+      await this.trainerService.updateTrainerProfile(profile).toPromise();
+    } catch (error) {
+      console.error('Error uploading file or updating profile: ', error);
+    }
+  }
 }

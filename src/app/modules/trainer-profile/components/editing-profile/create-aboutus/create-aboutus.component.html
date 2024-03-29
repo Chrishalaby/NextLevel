@@ -64,14 +64,14 @@
       <h5>Qualifications</h5>
       <div class="field">
         <label htmlFor="name2">Highest Level of Education</label>
-        <!-- <p-dropdown
+        <p-dropdown
           formControlName="educationalLevel"
           field="label"
           optionDisabled="none"
           [options]="educationalLevelOptions"
           optionValue="value"
         >
-        </p-dropdown> -->
+        </p-dropdown>
       </div>
       <div class="field">
         <label htmlFor="eduName1">Educational Background</label>
@@ -115,14 +115,19 @@
             <ul *ngIf="uploadedCertifications.length"></ul>
           </ng-template>
         </p-fileUpload>
-        <!-- FILE UPLOAD NEEDS TO BE FIXED THE WAY WE ARE UPLOADING THE CERTIFICATIONS -->
       </div>
 
       <div class="field">
         <label htmlFor="name4">Uploaded Certifications</label>
-        <div class="flex flex-row justify-content-between">
-          <p-image src="" alt="Image" width="250" [preview]="true"></p-image>
-        </div>
+        <!-- <div
+          *ngFor="let certification of profileForm.get('certification')?.value"
+        >
+          <img
+            src="{{ certification }}"
+            alt="Certification"
+            style="width: 100px; height: auto; margin: 10px"
+          />
+        </div> -->
       </div>
     </div>
     <div class="card p-fluid">
