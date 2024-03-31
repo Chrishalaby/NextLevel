@@ -7,7 +7,7 @@ import {
   TrainerParams,
 } from 'src/app/shared/enums/backend.enum';
 
-import { environment } from 'src/environments/envonment.prod';
+import { environment } from 'src/environments/environment.prod';
 import {
   Bundle,
   Client,

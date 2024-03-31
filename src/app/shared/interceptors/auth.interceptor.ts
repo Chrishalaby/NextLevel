@@ -8,7 +8,7 @@ import {
 import { Injectable, Provider } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
-import { environment } from 'src/environments/envonment.prod';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

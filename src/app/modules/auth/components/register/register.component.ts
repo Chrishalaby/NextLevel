@@ -15,7 +15,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
-import { environment } from 'src/environments/envonment.prod';
+import { environment } from 'src/environments/environment.prod';
 import { AccessTokenService } from '../../shared/services/access-token.service';
 
 @Component({
