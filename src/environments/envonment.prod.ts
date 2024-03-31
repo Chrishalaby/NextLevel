@@ -8,9 +8,11 @@ import { Environment } from 'src/app/shared/models/environment.model';
 //   imageBaseUrl: 'http://localhost:3000/uploads/',
 // };
 export const environment: Environment = {
-  apiUrl: 'https://my-app-label-unique.eastus.azurecontainer.io:3000',
+  apiUrl: 'https://fithub-endpoint-dsc8enhqf5bsgpe2.z02.azurefd.net',
   production: true,
   defaultLanguage: 'en',
-  apiBaseUrl: 'https://my-app-label-unique.eastus.azurecontainer.io:3000',
-  imageBaseUrl: 'https://my-app-label-unique.eastus.azurecontainer.io/uploads/',
+  apiBaseUrl: 'https://fithub-endpoint-dsc8enhqf5bsgpe2.z02.azurefd.net',
+  imageBaseUrl:
+    'https://fithub-endpoint-dsc8enhqf5bsgpe2.z02.azurefd.net/uploads/',
 };
+// https://fithub-endpoint-dsc8enhqf5bsgpe2.z02.azurefd.net
