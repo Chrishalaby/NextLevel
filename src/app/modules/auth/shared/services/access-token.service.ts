@@ -14,6 +14,8 @@ import { JwtData } from 'src/app/shared/models/jwt-data.model';
 export class AccessTokenService {
   public accessTokenData: JwtData | undefined = undefined;
   public isLoggedOut = new BehaviorSubject<boolean>(!this.isLoggedIn());
+  private expiryDate: Date = DateTime.now().plus({ days: 1 }).toJSDate();
+
   constructor(
     private readonly cookieService: CookieService,
     private readonly router: Router
@@ -28,9 +30,7 @@ export class AccessTokenService {
 
     this.accessTokenData = {
       ...decodedAccessToken,
-      expiryDate: DateTime.fromSeconds(
-        <number>decodedAccessToken.exp
-      ).toJSDate(),
+      expiryDate: this.expiryDate,
     };
   }
 
@@ -38,7 +38,7 @@ export class AccessTokenService {
     this.cookieService.set(
       TokenKeys.JwtCookie,
       accessToken,
-      this.accessTokenData?.expiryDate,
+      this.expiryDate,
       '/'
     );
 
@@ -72,7 +72,7 @@ export class AccessTokenService {
     this.cookieService.set(
       TokenKeys.UserIdCookie,
       userId.toString(),
-      this.accessTokenData?.expiryDate,
+      this.expiryDate,
       '/'
     );
   }
@@ -85,7 +85,7 @@ export class AccessTokenService {
     this.cookieService.set(
       TokenKeys.UserCookie,
       JSON.stringify(user),
-      this.accessTokenData?.expiryDate,
+      this.expiryDate,
       '/'
     );
   }
