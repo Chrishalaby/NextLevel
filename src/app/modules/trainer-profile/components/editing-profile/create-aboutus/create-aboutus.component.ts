@@ -15,7 +15,6 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ImageModule } from 'primeng/image';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { environment } from 'src/environments/envonment.prod';
 import { Trainer } from '../../../shared/models/trainer.model';
 import { TrainerService } from '../../../shared/services/trainer.service';
 
@@ -74,7 +73,6 @@ export class CreateAboutusComponent implements OnInit {
     instagram: '',
     linkedin: '',
   };
-  imageBaseUrl = environment.imageBaseUrl;
 
   constructor(
     private readonly trainerService: TrainerService,
