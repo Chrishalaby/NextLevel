@@ -1,21 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment.prod';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClientsTrainersService {
-  private baseUrl = environment.apiBaseUrl;
+  private userSelectedSubject = new BehaviorSubject<number | null>(null);
+  userSelectedAction$ = this.userSelectedSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
   getTrainersClients(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}/clients`);
+    return this.http.get(`/${id}/clients`);
   }
 
   createGhostClient(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/users/create-ghost-client`, data);
+    return this.http.post(`/users/create-ghost-client`, data);
+  }
+
+  userSelected(userId: number): void {
+    this.userSelectedSubject.next(userId);
   }
 }

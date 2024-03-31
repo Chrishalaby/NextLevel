@@ -12,20 +12,26 @@ import { environment } from 'src/environments/environment.prod';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  public constructor(private readonly accessTokenService: AccessTokenService) {}
+  constructor(private readonly accessTokenService: AccessTokenService) {}
 
-  public intercept(
+  intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const accessToken = this.accessTokenService.getAccessToken();
-    if (accessToken && request.url.includes(environment.apiBaseUrl)) {
-      const cloned = request.clone({
-        headers: request.headers.set('Authorization', `Bearer ${accessToken}`),
+
+    const apiReq = request.clone({
+      url: `${environment.apiBaseUrl}${request.url}`,
+    });
+
+    if (accessToken) {
+      const authReq = apiReq.clone({
+        headers: apiReq.headers.set('Authorization', `Bearer ${accessToken}`),
       });
-      return next.handle(cloned);
+      return next.handle(authReq);
     }
-    return next.handle(request);
+
+    return next.handle(apiReq);
   }
 }
 

@@ -93,6 +93,13 @@ const routes: Routes = [
               ).then((x: LoadedComponent) => x.AboutUsComponent),
           },
           {
+            path: `${TrainerProfileRoutes.ShowAboutUs}/:id`,
+            loadComponent: () =>
+              import(
+                './modules/trainer-profile/components/showing-profile/aboutus/aboutus.component'
+              ).then((x: LoadedComponent) => x.AboutUsComponent),
+          },
+          {
             path: TrainerProfileRoutes.Calendar,
             loadComponent: () =>
               import(

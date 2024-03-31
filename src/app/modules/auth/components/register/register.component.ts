@@ -15,7 +15,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { ProxyService } from 'src/app/shared/services/proxy.service';
-import { environment } from 'src/environments/environment.prod';
 import { AccessTokenService } from '../../shared/services/access-token.service';
 
 @Component({
@@ -65,7 +64,7 @@ export class RegisterComponent implements OnInit {
   register() {
     this.registerClicked = true;
     this.httpClient
-      .post(environment.apiBaseUrl + '/users', this.registerForm.value)
+      .post('/users', this.registerForm.value)
       .subscribe((data: any) => {
         this.accessTokenService.setMailCookie(
           this.registerForm.get('email')?.value

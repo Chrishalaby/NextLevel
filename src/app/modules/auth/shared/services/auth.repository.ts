@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
@@ -20,16 +19,10 @@ export class AuthRepository {
   }
 
   logIn(logInDetails: any): Observable<any> {
-    return this.httpClient.post(
-      environment.apiBaseUrl + '/auth/login',
-      logInDetails
-    );
+    return this.httpClient.post('/auth/login', logInDetails);
   }
 
   newPassword(newPasswordDetails: any): Observable<any> {
-    return this.httpClient.post(
-      environment.apiBaseUrl + '/auth/change-password',
-      newPasswordDetails
-    );
+    return this.httpClient.post('/auth/change-password', newPasswordDetails);
   }
 }

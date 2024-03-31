@@ -10,9 +10,9 @@ import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { environment } from 'src/environments/environment.prod';
 import { AccessTokenService } from '../modules/auth/shared/services/access-token.service';
 import { AuthRepository } from '../modules/auth/shared/services/auth.repository';
+import { ClientsTrainersService } from '../shared/services/cliens-trainers.service';
 interface User {
   id: number;
   username: string;
@@ -39,7 +39,8 @@ export class AppTopbarComponent implements OnInit, OnDestroy {
     public layoutService: LayoutService,
     private accessTokenService: AccessTokenService,
     private readonly httpClient: HttpClient,
-    private authRepository: AuthRepository
+    private authRepository: AuthRepository,
+    private readonly clientsTrainersService: ClientsTrainersService
   ) {}
 
   ngOnInit(): void {
@@ -54,9 +55,7 @@ export class AppTopbarComponent implements OnInit, OnDestroy {
       .pipe(
         debounceTime(300), // Wait for 300ms pause in events
         switchMap((value) =>
-          this.httpClient.get(
-            `${environment.apiBaseUrl}/users/search?query=${value}`
-          )
+          this.httpClient.get(`/users/search?query=${value}`)
         )
       )
       .subscribe((response) => {
@@ -75,5 +74,9 @@ export class AppTopbarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  onUserSearch(userId: number): void {
+    this.clientsTrainersService.userSelected(userId);
   }
 }

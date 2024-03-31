@@ -49,7 +49,11 @@
 <p-overlayPanel #op>
   <div class="custom-overlay-content">
     <p *ngFor="let user of users">
-      <a [routerLink]="['/user', user.id]" class="custom-link">
+      <a
+        [routerLink]="['/trainer-profile/show-aboutus/', user.id]"
+        class="custom-link"
+        (click)="onUserSearch(user.id)"
+      >
         {{ user.username }}
       </a>
     </p>

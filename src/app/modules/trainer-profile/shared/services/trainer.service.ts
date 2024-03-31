@@ -7,7 +7,6 @@ import {
   TrainerParams,
 } from 'src/app/shared/enums/backend.enum';
 
-import { environment } from 'src/environments/environment.prod';
 import {
   Bundle,
   Client,
@@ -28,26 +27,23 @@ export class TrainerService {
 
   getTrainerProfile(): Observable<Trainer> {
     return this.http.get<Trainer>(
-      `${environment.apiBaseUrl}${BackendControllerRoute.Trainer}${TrainerParams.Show}`
+      `${BackendControllerRoute.Trainer}${TrainerParams.Show}`
     );
   }
 
   updateTrainerProfile(trainer: Trainer): Observable<Trainer> {
     return this.http.post<Trainer>(
-      `${environment.apiBaseUrl}${BackendControllerRoute.Trainer}${TrainerParams.Update}`,
+      `${BackendControllerRoute.Trainer}${TrainerParams.Update}`,
       trainer
     );
   }
 
   getTrainerClients(): Observable<Client[]> {
-    return this.http.get<Client[]>(`${environment.apiBaseUrl}/trainer/clients`);
+    return this.http.get<Client[]>(`/trainer/clients`);
   }
 
   addNewBundle(bundle: CreateBundleDto): Observable<any> {
-    return this.http.post<any>(
-      `${environment.apiBaseUrl}/trainer/create-bundle`,
-      bundle
-    );
+    return this.http.post<any>(`/trainer/create-bundle`, bundle);
   }
 
   getClientBundle(clientId: string, isGhost: boolean): Observable<Bundle[]> {
@@ -57,32 +53,27 @@ export class TrainerService {
     params = params.append('isGhost', isGhost.toString());
 
     return this.http.get<Bundle[]>(
-      `${environment.apiBaseUrl}/trainer/client-bundle/${clientId}`,
+      `/trainer/client-bundle/${clientId}`,
       { params } // Include the parameters in the request
     );
   }
 
   createSessionEvent(event: CreateSessionEventDto): Observable<any> {
-    return this.http.post<any>(
-      `${environment.apiBaseUrl}/trainer/create-event`,
-      event
-    );
+    return this.http.post<any>(`/trainer/create-event`, event);
   }
 
   getTrainerEvents(): Observable<any> {
-    return this.http.get<any>(`${environment.apiBaseUrl}/trainer/events`);
+    return this.http.get<any>(`/trainer/events`);
   }
 
   uploadProfilePicture(formData: FormData): Observable<any> {
-    return this.http.post<any>(
-      `${environment.apiBaseUrl}/trainer/upload-profile-picture`,
-      formData
-    );
+    return this.http.post<any>(`/trainer/upload-profile-picture`, formData);
   }
   uploadCertification(formData: FormData): Observable<any> {
-    return this.http.post<any>(
-      `${environment.apiBaseUrl}/trainer/upload-certifications`,
-      formData
-    );
+    return this.http.post<any>(`/trainer/upload-certifications`, formData);
+  }
+
+  getUserProfileId(id: number): Observable<any> {
+    return this.http.get<any>(`${BackendControllerRoute.User}/${id}`);
   }
 }

@@ -162,25 +162,29 @@ export class CreateAboutusComponent implements OnInit {
   }
 
   async submitProfile() {
-    const certificationFormData = new FormData();
-    for (const file of this.uploadedFiles) {
-      certificationFormData.append('certifications', file);
-    }
+    if (this.uploadedFiles.length > 0) {
+      const certificationFormData = new FormData();
+      for (const file of this.uploadedFiles) {
+        certificationFormData.append('certifications', file);
+      }
 
-    try {
-      const response = await this.trainerService
-        .uploadCertification(certificationFormData)
-        .toPromise();
-      this.uploadedCertifications.push(...response.imageUrl); // Assuming response.imageUrl is an array of URLs
-      this.profileForm.patchValue({
-        certifications: this.uploadedCertifications,
-      });
+      try {
+        const response = await this.trainerService
+          .uploadCertification(certificationFormData)
+          .toPromise();
+        this.uploadedCertifications.push(...response.imageUrl);
+        this.profileForm.patchValue({
+          certifications: this.uploadedCertifications,
+        });
 
-      // Now we proceed to update the trainer profile after certifications are uploaded
+        const profile = this.profileForm.value;
+        await this.trainerService.updateTrainerProfile(profile).toPromise();
+      } catch (error) {
+        console.error('Error uploading file or updating profile: ', error);
+      }
+    } else {
       const profile = this.profileForm.value;
       await this.trainerService.updateTrainerProfile(profile).toPromise();
-    } catch (error) {
-      console.error('Error uploading file or updating profile: ', error);
     }
   }
 }
