@@ -1,6 +1,6 @@
-import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { NgModule, isDevMode } from '@angular/core';
 import { EffectsModule, provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
@@ -31,6 +31,7 @@ import { ProxyService } from './shared/services/proxy.service';
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),
+      connectInZone: true,
     }),
     provideEffects([]),
     MessageService,
