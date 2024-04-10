@@ -148,6 +148,20 @@ const routes: Routes = [
         ],
       },
       {
+        path: 'payment',
+        loadComponent: () =>
+          import('./modules/payment/checkout/checkout.component').then(
+            (m) => m.CheckoutComponent
+          ),
+      },
+      {
+        path: 'success',
+        loadComponent: () =>
+          import('./modules/payment/success/success.component').then(
+            (m) => m.SuccessComponent
+          ),
+      },
+      {
         path: 'home-page',
         component: HomePageComponent,
       },
