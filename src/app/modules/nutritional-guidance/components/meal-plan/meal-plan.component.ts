@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -23,6 +24,7 @@ import { AIService } from 'src/app/shared/services/AI.service';
     ButtonModule,
     ProgressSpinnerModule,
     InputNumberModule,
+    RouterModule,
   ],
 })
 export class MealPlanComponent implements OnInit {

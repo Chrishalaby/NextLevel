@@ -148,7 +148,7 @@ const routes: Routes = [
         ],
       },
       {
-        path: 'payment',
+        path: 'payment/:subscriptionType/:paymentId',
         loadComponent: () =>
           import('./modules/payment/checkout/checkout.component').then(
             (m) => m.CheckoutComponent

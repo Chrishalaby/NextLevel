@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -48,6 +48,7 @@ import { TrainerService } from '../../shared/services/trainer.service';
     FormsModule,
     ReactiveFormsModule,
     MessagesModule,
+    RouterModule,
   ],
 })
 export class CalendarAppComponent implements OnInit {

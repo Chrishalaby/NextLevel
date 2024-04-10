@@ -6,6 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -35,6 +36,7 @@ import { ProxyService } from 'src/app/shared/services/proxy.service';
     InputNumberModule,
     InputTextModule,
     ProgressSpinnerModule,
+    RouterModule,
   ],
   providers: [ProxyService],
 })

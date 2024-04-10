@@ -187,8 +187,14 @@
       <p class="text-700">
         You need to have an active subscription to view this page.
       </p>
-      <p>checkout out</p>
-      <a routerLink="/payment"></a>
+      <a
+        [routerLink]="[
+          '/payment',
+          'subscription',
+          'price_1P1uS3CgNLrByVR9168vb0js'
+        ]"
+        >checkout out this page</a
+      >
     </div>
   </div>
   }
