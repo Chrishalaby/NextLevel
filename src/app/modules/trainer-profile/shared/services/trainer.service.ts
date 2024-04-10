@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map, of } from 'rxjs';
 
 import {
   BackendControllerRoute,
@@ -75,5 +75,17 @@ export class TrainerService {
 
   getUserProfileId(id: number): Observable<any> {
     return this.http.get<any>(`${BackendControllerRoute.User}/${id}`);
+  }
+
+  checkValidSubscription(subscriptionId: string): Observable<boolean> {
+    console.log(subscriptionId, 'checking subscription');
+    return this.http
+      .get<any>(`/open-ai/subscription-status?subscriptionId=${subscriptionId}`)
+      .pipe(
+        map((response) => {
+          return response.status === 'active';
+        }),
+        catchError(() => of(false))
+      );
   }
 }

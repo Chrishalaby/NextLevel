@@ -15,7 +15,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     private readonly authRepository: AuthRepository
   ) {}
 
-  userType: string = '';
+  user: any;
   isLoggedOut: boolean = false;
   private subscription: Subscription = new Subscription();
 
@@ -30,8 +30,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   }
 
   updateMenu() {
-    this.userType = this.accessTokenService.getUserInfo().userType || '';
-
+    this.user = this.accessTokenService.getUserInfo() || '';
     this.model = [
       {
         label: 'Pages',
@@ -39,7 +38,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         items: [
           {
             label: 'Profile',
-            visible: this.userType === 'trainer' && !this.isLoggedOut,
+            visible: this.user.userType === 'trainer',
             icon: 'pi pi-fw pi-user',
             items: [
               {
@@ -49,44 +48,47 @@ export class AppMenuComponent implements OnInit, OnDestroy {
               },
               {
                 label: 'Show About',
-                icon: 'pi pi-fw pi-user-edit',
+                icon: 'pi pi-fw pi-user',
                 routerLink: ['/trainer-profile/show-aboutus'],
               },
+            ],
+          },
+          {
+            label: 'Work',
+            visible: this.user.userType === 'trainer',
+            icon: 'pi pi-fw pi-briefcase',
+            items: [
               {
                 label: 'Calendar',
-                icon: 'pi pi-fw pi-user-edit',
+                icon: 'pi pi-fw pi-calendar',
                 routerLink: ['/trainer-profile/calendar'],
               },
               {
                 label: 'Add Client',
-                icon: 'pi pi-fw pi-user-edit',
+                icon: 'pi pi-fw pi-user-plus',
                 routerLink: ['/trainer-profile/add-client'],
               },
               {
                 label: 'Add Bundle',
-                icon: 'pi pi-fw pi-user-edit',
+                icon: 'pi pi-fw pi-book',
                 routerLink: ['/trainer-profile/add-bundle'],
               },
             ],
           },
           {
             label: 'Workout Plan',
-            icon: 'pi pi-fw pi-user',
             items: [
               {
                 label: 'Create Workout Plan',
-                icon: 'pi pi-fw pi-user-edit',
                 routerLink: ['/workout-plan/ai-custom-workout'],
               },
             ],
           },
           {
             label: 'Nutritional Guidance',
-            icon: 'pi pi-fw pi-user',
             items: [
               {
                 label: 'Meal Plan',
-                icon: 'pi pi-fw pi-user-edit',
                 routerLink: ['/nutritional-guidance/meal-plan'],
               },
             ],
@@ -94,7 +96,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
 
           {
             label: 'Auth',
-            icon: 'pi pi-fw pi-user',
             items: [
               {
                 label: 'Login',

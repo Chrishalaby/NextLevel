@@ -21,6 +21,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MessagesModule } from 'primeng/messages';
 import { RippleModule } from 'primeng/ripple';
+import { AccessTokenService } from 'src/app/modules/auth/shared/services/access-token.service';
 import { NotificationsService } from 'src/app/shared/services/notifications.service';
 import {
   Bundle,
@@ -51,6 +52,8 @@ import { TrainerService } from '../../shared/services/trainer.service';
 })
 export class CalendarAppComponent implements OnInit {
   events: any[] = [];
+  user: any;
+  validSubscription: boolean = false;
 
   clients!: Client[];
   clientBundles!: Bundle[];
@@ -89,10 +92,12 @@ export class CalendarAppComponent implements OnInit {
     private readonly formBuilder: FormBuilder,
     private readonly router: Router,
     private readonly trainerService: TrainerService,
-    private readonly notificationsService: NotificationsService
+    private readonly notificationsService: NotificationsService,
+    private readonly accessTokenService: AccessTokenService
   ) {}
 
   ngOnInit(): void {
+    this.checkSubscription();
     this.getSessionEvents();
     this.getTrainerClients();
     this.createSessionForm();
@@ -368,5 +373,30 @@ export class CalendarAppComponent implements OnInit {
 
   addNewBundle() {
     this.router.navigate(['/trainer-profile/add-bundle']);
+  }
+
+  checkSubscription() {
+    this.user = this.accessTokenService.getUserInfo() || '';
+    console.log(this.user);
+    if (this.user.subscriptionId) {
+      this.trainerService
+        .checkValidSubscription(this.user.subscriptionId)
+        .subscribe({
+          next: (isValid: boolean) => {
+            if (!isValid) {
+              this.notificationsService.showErrorMessage(
+                'Your subscription is invalid. Please contact support.'
+              );
+            } else {
+              this.validSubscription = true;
+            }
+          },
+          error: (err: any) => {},
+        });
+    } else {
+      this.notificationsService.showErrorMessage(
+        'Your subscription is invalid. Please contact support.'
+      );
+    }
   }
 }

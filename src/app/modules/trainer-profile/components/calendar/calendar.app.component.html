@@ -1,4 +1,5 @@
 <section class="card">
+  @if (validSubscription) {
   <full-calendar [options]="calendarOptions"></full-calendar>
 
   <p-dialog
@@ -178,6 +179,17 @@
           (selectedBundle.remainingSessions === 0 && !allowEditWhenDone)
         "
       ></button>
-    </ng-template>
-  </p-dialog>
+    </ng-template> </p-dialog
+  >} @else {
+  <div class="flex justify-center items-center h-full">
+    <div class="text-center">
+      <h1 class="text-900 font-semibold text-3xl">No Subscription</h1>
+      <p class="text-700">
+        You need to have an active subscription to view this page.
+      </p>
+      <p>checkout out</p>
+      <a routerLink="/payment"></a>
+    </div>
+  </div>
+  }
 </section>
