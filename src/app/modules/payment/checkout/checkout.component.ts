@@ -47,6 +47,7 @@ export class CheckoutComponent implements OnInit {
         const checkout = await this.stripe.initEmbeddedCheckout({
           clientSecret: clientSecret,
         });
+
         checkout.mount('#checkout');
         console.log('Stripe checkout initialized:', checkout);
       } else {
