@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-success',
@@ -9,8 +15,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   template: `<section id="success">
     <p>
       We appreciate your business! A confirmation email will be sent to
-      {{ customerEmail }}. If you have any questions, please email
-      <a href="mailto:orders@example.com">growtopiay7gmail.com</a>.
+      {{ customerEmail }}. If you have any questions, please
+      <a href="mailto:growtopiay7@gmail.com">email us</a>.
     </p>
   </section>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,7 +24,10 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 export class SuccessComponent implements OnInit {
   customerEmail: string = '';
 
-  constructor(private readonly httpClient: HttpClient) {}
+  constructor(
+    private readonly httpClient: HttpClient,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
 
   async ngOnInit() {
     this.initializeSessionStatus();
@@ -29,14 +38,14 @@ export class SuccessComponent implements OnInit {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const sessionId = urlParams.get('session_id');
-    const response = await this.httpClient
-      .get<{ status: string; customer_email: string }>(
-        `open-ai/session-status?session_id=${sessionId}`
+    const response = await lastValueFrom(
+      this.httpClient.get<{ status: string; customer_email: string }>(
+        `/open-ai/session-status?session_id=${sessionId}`
       )
-      .toPromise();
-
+    );
     if (response?.status == 'complete') {
       this.customerEmail = response.customer_email;
+      this.cdr.detectChanges(); // Trigger change detection manually
     }
   }
 }
