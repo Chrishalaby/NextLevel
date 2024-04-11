@@ -52,6 +52,10 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.loginForm.patchValue({
+      username: this.loginForm.value.username.toLowerCase(),
+    });
+
     this.authFacade.logIn(this.loginForm.value);
   }
 }

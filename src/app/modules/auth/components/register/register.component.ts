@@ -63,6 +63,10 @@ export class RegisterComponent implements OnInit {
 
   register() {
     this.registerClicked = true;
+    this.registerForm
+      .get('username')
+      ?.setValue(this.registerForm.get('username')?.value.toLowerCase());
+
     this.httpClient
       .post('/users', this.registerForm.value)
       .subscribe((data: any) => {
